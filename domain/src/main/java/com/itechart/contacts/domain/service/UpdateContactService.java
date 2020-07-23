@@ -11,7 +11,6 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.time.LocalDate;
 
 /**
@@ -64,6 +63,22 @@ public class UpdateContactService {
             return dao.create(contact);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot create contact. Error has occurred. ", e);
+            throw new ServiceException(e);
+        } finally {
+            if (dao != null) {
+                dao.exit();
+            }
+        }
+    }
+
+    //update = soft delete (set timestamp value in field deleted)
+    public boolean service(boolean flag, long id) throws ServiceException {
+        ContactDao dao = null;
+        try {
+            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+            return dao.softDelete(id);
+        } catch (ClassNotFoundException | DaoException e) {
+            LOGGER.log(Level.ERROR, "Cannot update contact. Error has occurred. ", e);
             throw new ServiceException(e);
         } finally {
             if (dao != null) {

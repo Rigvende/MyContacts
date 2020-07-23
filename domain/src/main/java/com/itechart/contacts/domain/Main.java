@@ -10,17 +10,24 @@ import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.entity.EntityType;
 import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.domain.exception.DaoException;
+import com.itechart.contacts.domain.exception.ServiceException;
+import com.itechart.contacts.domain.service.MailService;
 import com.itechart.contacts.domain.util.DbcpManager;
+import com.itechart.contacts.domain.util.PathParser;
+import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Properties;
 
 public class Main {
-    public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException {
 //        Connection connection = DbcpManager.getConnection();
 //        System.out.println(connection);
 //        connection.close();
@@ -134,7 +141,14 @@ public class Main {
 //        photoDao.exit();
 //        phoneDao.exit();
 //        attachmentDao.exit();
+///////////////////////////////////////////////////////////
+//        System.out.println(PathParser.parse(""));
+//        System.out.println(PathParser.parse("df_1546294984"));
+//////////////////////////////////////////
 
+//        MailService service = new MailService();
+//        System.out.println(service.service("zvezdo4ka13@yandex.by", "Привет сервлет", "Привет, Мэри. Ещё не сдохла?"));
 
     }
+
 }

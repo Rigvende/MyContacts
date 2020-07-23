@@ -38,13 +38,13 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
     private static final String SQL_FIND_ALL_CONTACTS =
             "SELECT id_contact, contact_name, surname, patronymic, " +
             "birthday, gender, citizenship, family_status, website, email, work_place, " +
-            "country, city, address, zipcode, id_photo, deleted " +
-            "FROM contacts;";
+            "country, city, address, zipcode, id_photo " +
+            "FROM contacts WHERE deleted IS NOT NULL;";
     private final static String SQL_FIND_CONTACT_BY_ID =
             "SELECT id_contact, contact_name, surname, patronymic, " +
             "birthday, gender, citizenship, family_status, website, email, work_place, " +
             "country, city, address, zipcode, id_photo, deleted " +
-            "FROM contacts WHERE id_contact = ?;";
+            "FROM contacts WHERE id_contact = ? AND deleted IS NOT NULL;";
 
     public ContactDao() throws DaoException, ClassNotFoundException {
         super();
@@ -95,34 +95,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
     }
 
     @Override
-    public boolean delete(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
-        Contact contact = (Contact) entity;
-        boolean isDeleted = false;
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DELETED)) {
-            preparedStatement.setTimestamp(1, timestamp);
-            preparedStatement.setLong(2, contact.getContactId());
-            int update = preparedStatement.executeUpdate();
-            if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
-                isDeleted = true;
-            }
-            connection.commit();
-        } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao delete method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot delete contact. Request to table failed. ", e);
-            throw new DaoException(e);
-        }
-        return isDeleted;
+    public boolean delete(AbstractEntity entity) {
+        return false;
     }
 
     @Override
@@ -224,6 +198,35 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             throw new DaoException(e);
         }
         return contact;
+    }
+
+    public boolean softDelete(long id) throws DaoException {
+        AutoCommitDisable();
+        boolean isDeleted = false;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DELETED)) {
+            preparedStatement.setTimestamp(1, timestamp);
+            preparedStatement.setLong(2, id);
+            int update = preparedStatement.executeUpdate();
+            if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
+                isDeleted = true;
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();                  //rollback whole transaction if smth goes wrong
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.ERROR,
+                            "Cannot do rollback in ContactDao softDelete method. ", e);
+                    throw new DaoException(e);
+                }
+            }
+            LOGGER.log(Level.ERROR,
+                    "Cannot soft delete contact. Request to table failed. ", e);
+            throw new DaoException(e);
+        }
+        return isDeleted;
     }
 
 }

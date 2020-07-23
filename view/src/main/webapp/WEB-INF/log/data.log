@@ -969,3 +969,59 @@ java.sql.SQLSyntaxErrorException: Table 'contacts_patrusova.phines' doesn't exis
 	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:122) ~[commons-dbcp2-2.7.0.jar:2.7.0]
 	at com.itechart.contacts.domain.dao.impl.PhoneDao.findByContactId(PhoneDao.java:212) [classes/:?]
 	at com.itechart.contacts.domain.Main.main(Main.java:90) [classes/:?]
+23-07 22:17 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials y20sm4204188wmi.8 - gsmtp
+
+	at com.sun.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:965) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:876) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:780) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:388) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:246) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:195) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send0(Transport.java:254) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send(Transport.java:124) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:50) [classes/:?]
+	at com.itechart.contacts.domain.Main.main(Main.java:145) [classes/:?]
+23-07 22:20 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials t2sm4262013wma.43 - gsmtp
+
+	at com.sun.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:965) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:876) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:780) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:388) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:246) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:195) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send0(Transport.java:254) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send(Transport.java:124) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:50) [classes/:?]
+	at com.itechart.contacts.domain.Main.main(Main.java:145) [classes/:?]
+23-07 22:29 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d26sm2589718ejw.89 - gsmtp
+
+	at com.sun.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:965) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:876) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:780) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:388) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:246) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:195) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send0(Transport.java:254) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send(Transport.java:124) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:50) [classes/:?]
+	at com.itechart.contacts.domain.Main.main(Main.java:150) [classes/:?]
+23-07 22:32 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials cc9sm2738665edb.14 - gsmtp
+
+	at com.sun.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:965) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:876) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:780) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:388) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:246) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Service.connect(Service.java:195) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send0(Transport.java:254) ~[javax.mail-1.6.2.jar:1.6.2]
+	at javax.mail.Transport.send(Transport.java:124) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:50) [classes/:?]
+	at com.itechart.contacts.domain.Main.main(Main.java:150) [classes/:?]

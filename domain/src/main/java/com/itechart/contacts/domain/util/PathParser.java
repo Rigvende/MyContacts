@@ -10,8 +10,10 @@ public class PathParser {
     private PathParser() {}
 
     public static String parse(String path) {
-        String timestamp = path.substring(path.lastIndexOf("_"));
-        path = path.replace(timestamp, "");
+        if(!path.isEmpty()) {
+            String timestamp = path.substring(path.lastIndexOf("_"));
+            path = path.replace(timestamp, "");
+        }
         return path;
     }
 

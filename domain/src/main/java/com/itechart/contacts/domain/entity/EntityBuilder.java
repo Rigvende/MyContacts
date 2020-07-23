@@ -67,10 +67,9 @@ public class EntityBuilder {
             String location = resultSet.getString("address");
             String zipcode = resultSet.getString("zipcode");
             long photoId = resultSet.getLong("id_photo");
-            Timestamp deleted = resultSet.getTimestamp("deleted");
             contact = new Contact(id, name, surname, patronymic, birthday, gender,
                     citizenship, familyStatus, website, email, work,
-                    country, city, location, zipcode, photoId, deleted);
+                    country, city, location, zipcode, photoId, null);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build contact. Error has occurred. ", e);
             throw new DaoException(e);
