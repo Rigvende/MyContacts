@@ -22,14 +22,17 @@ public class ContactsController extends HttpServlet {
 
     private static final long serialVersionUID = 8362021663142387750L;
     private final static Logger LOGGER = LogManager.getLogger();
+    private final static String CONTEXT = "/view_war/contacts/"; //artifact war, context /view_war
     private final GetContactsService getContactsService = new GetContactsService();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUrl = request.getRequestURI();
-        String parameter = requestUrl.substring("/contacts/".length());
+        String parameter = requestUrl.substring(CONTEXT.length());
         try {
             String json = getContactsService.service(parameter);
+            response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1
+            response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println(json);
         } catch (IOException e) {

@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class GetContactsService {
@@ -72,6 +71,17 @@ public class GetContactsService {
         }
     }
 
+    private void createFullContactJson(Contact contact, Photo photo, StringBuilder json) {
+        json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue() + "")).append(",\n");
+        json.append("\"citizenship\": ").append(JSONObject.quote(contact.getCitizenship())).append(",\n");
+        json.append("\"status\": ").append(JSONObject.quote(contact.getFamilyStatus())).append(",\n");
+        json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append("\n");
+        json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
+        json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append("\n");
+        json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append("\n");
+        json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append("\n");
+    }
+
     private void createCoreJson(Contact contact, StringBuilder json) {
         json.append("\"id\": ").append(JSONObject.numberToString(contact.getContactId())).append(",\n");
         json.append("\"name\": ").append(JSONObject.quote(contact.getName())).append(",\n");
@@ -97,17 +107,6 @@ public class GetContactsService {
                 json.append("\"p_comments\": ").append(JSONObject.quote(phone.getComments())).append("\n");
             }
         }
-    }
-
-    private void createFullContactJson(Contact contact, Photo photo, StringBuilder json) {
-        json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue() + "")).append(",\n");
-        json.append("\"citizenship\": ").append(JSONObject.quote(contact.getCitizenship())).append(",\n");
-        json.append("\"status\": ").append(JSONObject.quote(contact.getFamilyStatus())).append(",\n");
-        json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append("\n");
-        json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
-        json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append("\n");
-        json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append("\n");
-        json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append("\n");
     }
 
     private void createAttachmentsJson(List<AbstractEntity> list, StringBuilder json) {

@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -47,19 +46,5 @@ public class DbcpManager {
         }
         return connection;
     }
-
-//    public static Connection getConnection() throws DaoException, ClassNotFoundException {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//        Connection connection;
-//        try {
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost/contacts_patrusova?" +
-//                    "serverTimezone=Europe/Minsk&useSSL=false&allowPublicKeyRetrieval=true" +
-//                    "&autoReconnect=true&useUnicode=true&characterEncoding=utf8", "root", "root");
-//        } catch (SQLException e) {
-//            LOGGER.log(Level.ERROR, "Connection's creation failed. ", e);
-//            throw new DaoException(e);
-//        }
-//        return connection;
-//    }
 
 }
