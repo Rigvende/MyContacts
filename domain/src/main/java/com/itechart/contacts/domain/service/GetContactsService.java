@@ -19,7 +19,13 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import java.util.List;
 
+/**
+ * Class-service for finding contacts
+ * @author Marianna Patrusova
+ * @version 1.0
+ */
 public class GetContactsService {
+
     private final static Logger LOGGER = LogManager.getLogger();
 
     /**
