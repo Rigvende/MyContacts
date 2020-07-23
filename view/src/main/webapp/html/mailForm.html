@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <title>Почта</title>
+</head>
+<body>
+
+<!--    todo привязать действие к контроллеру-->
+<form name="mailForm" method="POST" action="/mail">
+    <input type="hidden" name="command" value="mail" />
+    <table>
+        <tr>
+            <td>
+                Кому
+            </td>
+            <td><label>
+                <!--todo автозаполнение email -->
+                <input type ="text" name="to" value=""
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Куда
+            </td>
+            <td><label>
+                <!--todo автозаполнение темы -->
+                <input type ="text" name="subject" value=""
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Выбор шаблона
+            </td>
+            <td><label>
+                <!--todo функция выбора шаблона с автозаполнением текстом -->
+                <select id="selectTemplate">
+                    <option>---</option>
+                    <option>Шаблон 1</option>
+                    <option>Шаблон 2</option>
+                </select>
+            </label></td>
+        </tr>
+    </table>
+    <hr/>
+    <label>
+        <textarea id='letter' name="body" rows="5" cols="100">
+        </textarea>
+    </label>
+    <br>
+    <input class='messageButton' type="submit" value="Отправить"/>
+</form>
+
+<div id="link">
+    <button id="cancel">
+        <a style="text-decoration: none;" href="../index.html">Отмена</a>
+    </button>
+</div>
+
+<section class="popup">
+    <p><strong>Success</strong>
+        <br>Письмо успешно отправлено!</p>
+    <button class="close" type="button">Закрыть</button>
+    <br>
+</section>
+
+<script src="../js/message-popup.js"></script>
+
+</body>
+</html>

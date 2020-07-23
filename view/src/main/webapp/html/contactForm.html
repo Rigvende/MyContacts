@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <title>Контакт</title>
+</head>
+<body>
+<h1>Данные контакта</h1>
+<!--todo привязать к контроллеру-->
+<form name="contactForm" method="post" action="/create">
+    <input type="hidden" name="command" value="create"/>
+    <table>
+        <tr>
+            <td>
+                Фото
+            </td>
+            <td>
+                <label class="popupForm">
+                    <img id="contactPhoto" src="../image/user_no_photo.png" height="100px" width="100px" alt="фото"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Фамилия*
+            </td>
+            <td><label>
+                <input id="contactSurname" type="text" name="surname" value=""
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Имя*
+            </td>
+            <td><label>
+                <input id="contactName" type="text" name="contactName" value=""
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Отчество
+            </td>
+            <td><label>
+                <input id="contactPatronymic" type="text" name="patronymic" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                День рождения
+            </td>
+            <td><label>
+                <input id="contactBirthday" type="date" name="birthday" value="ДД-ММ-ГГГГ"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Пол
+            </td>
+            <td><label>
+                <input id="male" type="radio" name="gender" value="man" checked> М
+                <input id="female" type="radio" name="gender" value="woman"> Ж
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Семейное положение
+            </td>
+            <td><label>
+                <input id="contactStatus" type="text" name="status" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Гражданство
+            </td>
+            <td><label>
+                <input id="contactCitizenship" type="text" name="citizenship" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Web-сайт
+            </td>
+            <td><label>
+                <input id="contactWebsite" type="text" name="web" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Email
+            </td>
+            <td><label>
+                <input id="contactEmail" type="text" name="email" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Место работы
+            </td>
+            <td><label>
+                <input id="contactWork" type="text" name="work" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>АДРЕС</td>
+        </tr>
+        <tr>
+            <td>
+                Страна
+            </td>
+            <td><label>
+                <input id="contactCountry" type="text" name="country" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Город
+            </td>
+            <td><label>
+                <input id="contactCity" type="text" name="city" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Улица, дом, квартира
+            </td>
+            <td><label>
+                <input id="contactAddress" type="text" name="address" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Индекс
+            </td>
+            <td><label>
+                <input id="contactZipcode" type="text" name="location" value=""/>
+            </label></td>
+        </tr>
+    </table>
+    <br>
+    <p>КОНТАКТНЫЕ ТЕЛЕФОНЫ</p>
+    <!--    todo обработка событий кнопок-->
+    <div>
+        <button class="button" id="createPhone" onclick="return false;">
+            <a class="buttonLink">Создать</a>
+        </button>
+        <button class="button" id="editPhone" onclick="return false;">
+            <a class="buttonLink">Редактировать</a>
+        </button>
+        <button class="button" id="deletePhone" onclick="return false;">
+            <a class="buttonLink">Удалить выбранные</a>
+        </button>
+    </div>
+    <table id="phonesTable">
+        <tr>
+            <th>#</th>
+            <th>Номер</th>
+            <th>Тип</th>
+            <th>Комментарий</th>
+        </tr>
+    </table>
+    <br>
+    <p>ПРИЛОЖЕНИЯ</p>
+    <!--    todo обработка событий кнопок-->
+    <div>
+        <button class="button" id="createAttachment">
+            <a class="buttonLink">Создать</a>
+        </button>
+        <button class="button" id="editAttachment">
+            <a class="buttonLink">Редактировать</a>
+        </button>
+        <button class="button" id="deleteAttachment">
+            <a class="buttonLink">Удалить выбранные</a>
+        </button>
+    </div>
+    <table id="attachTable">
+        <tr>
+            <th>#</th>
+            <th>Имя</th>
+            <th>Дата загрузки</th>
+            <th>Комментарий</th>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="Сохранить контакт"/>
+</form>
+
+<!--todo привязать к контроллеру-->
+<div class="popup" id="attachForm">
+    <form name="attachForm" method="post" enctype="multipart/form-data" action="/create/attachment">
+        <input type="hidden" name="command" value="createAttachment"/>
+        <table>
+            <tr>
+                <td>
+                    Имя
+                </td>
+                <td><label>
+                    <input id="attachmentName" type="text" name="attachmentName" value=""/>
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    Комментарий
+                </td>
+                <td><label>
+                    <input id="attachmentComment" type="text" name="attachmentComment" value=""/>
+                </label></td>
+            </tr>
+        </table>
+        <label>
+            <input id="attachment" name="attachment" size="1000" type="file"
+                   required oninvalid="this.setCustomValidity('Выберите файл')"
+                   oninput="setCustomValidity('')"/>
+        </label>
+        <br>
+        <button type="submit">Загрузить</button>
+        <button type="button" class="hideForm">Закрыть</button>
+    </form>
+</div>
+
+<!--todo привязать к контроллеру-->
+<div class="popup" id="phoneForm">
+    <form name="phoneForm" method="post" action="/create/phone">
+        <input type="hidden" name="command" value="createPhone"/>
+        <table>
+            <tr>
+                <td>
+                    Код страны
+                </td>
+                <td><label>
+                    <input id="phoneCountry" type="text" name="countryCode" value=""/>
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    Код оператора
+                </td>
+                <td><label>
+                    <input id="phoneOperator" type="text" name="operatorCode" value=""/>
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    Номер
+                </td>
+                <td><label>
+                    <input id="phoneNumber" type="text" name="number" value=""/>
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    Тип
+                </td>
+                <td><label>
+                    <select id="phoneType">
+                        <option>иной</option>
+                        <option>домашний</option>
+                        <option>рабочий</option>
+                        <option>мобильный</option>
+                    </select>
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    Комментарий
+                </td>
+                <td><label>
+                    <input id="phoneComment" type="text" name="phoneComment" value=""/>
+                </label></td>
+            </tr>
+        </table>
+        <button type="submit">Загрузить</button>
+        <button type="button" class="hideForm">Закрыть</button>
+    </form>
+</div>
+
+<!--todo привязать к контроллеру-->
+<div class="popup" id="photoForm">
+    <form name="photoForm" method="post" enctype="multipart/form-data" action="/create/photo">
+        <input type="hidden" name="command" value="createPhoto"/>
+        <label>
+            <input id="photo" name="picture" size="100" accept="image/*" type="file"
+                   required oninvalid="this.setCustomValidity('Выберите фото')"
+                   oninput="setCustomValidity('')"/>
+        </label>
+        <button type="submit">Загрузить</button>
+        <button type="button" class="hidePhoto">Закрыть</button>
+    </form>
+</div>
+
+<div class="cancel">
+    <button>
+        <a style="text-decoration: none;" href="../index.html">Вернуться к списку контактов</a>
+    </button>
+</div>
+
+<script src="../js/form-popup.js"></script>
+
+</body>
+</html>

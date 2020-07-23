@@ -1,0 +1,140 @@
+package com.itechart.contacts.domain;
+
+import com.itechart.contacts.domain.dao.AbstractDao;
+import com.itechart.contacts.domain.dao.DaoFactory;
+import com.itechart.contacts.domain.dao.impl.AttachmentDao;
+import com.itechart.contacts.domain.dao.impl.ContactDao;
+import com.itechart.contacts.domain.dao.impl.PhoneDao;
+import com.itechart.contacts.domain.dao.impl.PhotoDao;
+import com.itechart.contacts.domain.entity.AbstractEntity;
+import com.itechart.contacts.domain.entity.EntityType;
+import com.itechart.contacts.domain.entity.impl.*;
+import com.itechart.contacts.domain.exception.DaoException;
+import com.itechart.contacts.domain.util.DbcpManager;
+import org.json.JSONObject;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException {
+//        Connection connection = DbcpManager.getConnection();
+//        System.out.println(connection);
+//        connection.close();
+//        System.out.println(connection);
+////////////////////////////////////////////////
+//        ContactDao contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        List<AbstractEntity> contactList = contactDao.findAll();
+//        StringBuilder json = new StringBuilder("[\n");
+//        for (AbstractEntity entity : contactList) {
+//            Contact contact = (Contact) entity;
+//            json.append("{\n");
+//            json.append("\"id\": ").append(JSONObject.numberToString(contact.getContactId())).append(",\n");
+//            json.append("\"name\": ").append(JSONObject.quote(contact.getName())).append(",\n");
+//            json.append("\"surname\": ").append(JSONObject.quote(contact.getSurname())).append(",\n");
+//            json.append("\"patronymic\": ").append(JSONObject.quote(contact.getPatronymic())).append("\n");
+//            json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append("\n");
+//            json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append("\n");
+//            json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append("\n");
+//            json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append("\n");
+//            json.append("\"work\": ").append(JSONObject.quote(contact.getWork())).append("\n");
+//            json.append("},\n");
+//        }
+//        String responseJson = json.toString().substring(0, json.length() - 2) + "\n]";
+//        System.out.println(responseJson);
+//        contactDao.exit();
+////////////////////////////////////////////
+//        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/contacts_patrusova?serverTimezone=Europe/Minsk&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8", "root", "root");
+//        connection.close();
+
+        /////////////////////////////////
+//        PhotoDao photoDao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
+//        Photo photo = new Photo(0, "");
+//        photo = (Photo) photoDao.create(photo);
+//        System.out.println(photo);
+//        photoDao.exit();
+//        ContactDao contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        Contact contact = new Contact(0, "Ольга", "Петренко", "Ивановна",
+//                LocalDate.of(2000,5, 6), Gender.WOMAN, "РБ",
+//                "не замужем", "", "olga@yandex.by", "БПС-Сбербанк",
+//                "РБ", "Минск", "Каменногорская 20-10", "220036",
+//                photo.getPhotoId(), null);
+//        contact = (Contact)contactDao.create(contact);
+//        System.out.println(contact);
+//        contactDao.exit();
+//        PhoneDao phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
+//        Phone phone = new Phone(0, "+375", "17",
+//                "214-56-23", PhoneType.WORK, "", contact.getContactId());
+//        phone = (Phone) phoneDao.create(phone);
+//        System.out.println(phone);
+//        phoneDao.exit();
+//        AttachmentDao attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
+//        Attachment attachment = new Attachment(0, "C:\\\\attachments\\xssflt.jar", "xssflt.jar",
+//                LocalDate.of(2020, 7, 22), "", contact.getContactId());
+//        attachment = (Attachment) attachmentDao.create(attachment);
+//        System.out.println(attachment);
+//        attachmentDao.exit();
+        //////////////////////////////
+//        long id = 1;
+//        ContactDao contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        PhotoDao photoDao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
+//        PhoneDao phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
+//        AttachmentDao attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
+//        Contact contact = (Contact) contactDao.findEntityById(id);
+//        if (contact != null) {
+//            Photo photo = (Photo) photoDao.findEntityById(contact.getPhotoId());
+//            List<AbstractEntity> alist = attachmentDao.findByContactId(id);
+//            List<AbstractEntity> plist = phoneDao.findByContactId(id);
+//            StringBuilder json = new StringBuilder("{\n");
+//            json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue() + "")).append(",\n");
+//            json.append("\"citizenship\": ").append(JSONObject.quote(contact.getCitizenship())).append(",\n");
+//            json.append("\"status\": ").append(JSONObject.quote(contact.getFamilyStatus())).append(",\n");
+//            json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append("\n");
+//            json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
+//            json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append("\n");
+//            json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append("\n");
+//            json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append("\n");
+//            if (!alist.isEmpty()) {
+//                for (AbstractEntity entity : alist) {
+//                    Attachment attachment = (Attachment) entity;
+//                    json.append("\"id_attachment\": ").append(JSONObject.numberToString(attachment.getAttachmentId())).append(",\n");
+//                    json.append("\"a_path\": ").append(JSONObject.quote(attachment.getPath())).append(",\n");
+//                    json.append("\"a_name\": ").append(JSONObject.quote(attachment.getName())).append(",\n");
+//                    json.append("\"a_date\": ").append(JSONObject.valueToString(attachment.getLoadDate())).append("\n");
+//                    json.append("\"a_comments\": ").append(JSONObject.quote(attachment.getComments())).append("\n");
+//                }
+//            }
+//           if (!plist.isEmpty()) {
+//                for (AbstractEntity entity : plist) {
+//                    Phone phone = (Phone) entity;
+//                    json.append("\"id_phone\": ").append(JSONObject.numberToString(phone.getPhoneId())).append(",\n");
+//                    json.append("\"p_country\": ").append(JSONObject.quote(phone.getCountryCode())).append(",\n");
+//                    json.append("\"p_operator\": ").append(JSONObject.quote(phone.getOperatorCode())).append(",\n");
+//                    json.append("\"p_number\": ").append(JSONObject.quote(phone.getNumber())).append("\n");
+//                    json.append("\"p_type\": ").append(JSONObject.quote(phone.getType().getValue())).append(",\n");
+//                    json.append("\"p_comments\": ").append(JSONObject.quote(phone.getComments())).append("\n");
+//                }
+//            }
+//            json.append("\"id\": ").append(JSONObject.numberToString(contact.getContactId())).append(",\n");
+//            json.append("\"name\": ").append(JSONObject.quote(contact.getName())).append(",\n");
+//            json.append("\"surname\": ").append(JSONObject.quote(contact.getSurname())).append(",\n");
+//            json.append("\"patronymic\": ").append(JSONObject.quote(contact.getPatronymic())).append("\n");
+//            json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append("\n");
+//            json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append("\n");
+//            json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append("\n");
+//            json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append("\n");
+//            json.append("\"work\": ").append(JSONObject.quote(contact.getWork())).append("\n");
+//            json.append("},\n");
+//            System.out.println(json.toString());
+//        }
+//        contactDao.exit();
+//        photoDao.exit();
+//        phoneDao.exit();
+//        attachmentDao.exit();
+
+
+    }
+}

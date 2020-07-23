@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <title>Поиск</title>
+</head>
+<body>
+<h1>Фильтр поиска</h1>
+<!--todo привязать к контроллеру-->
+<form name="searchForm" method="get" action="/search">
+    <input type="hidden" name="command" value="search"/>
+    <table>
+        <tr>
+            <td>
+                Фамилия
+            </td>
+            <td><label>
+                <input type="text" name="surname" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Имя
+            </td>
+            <td><label>
+                <input type="text" name="contactName" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Отчество
+            </td>
+            <td><label>
+                <input type="text" name="patronymic" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                День рождения
+            </td>
+            <td><label>
+                <input type="date" name="birthday" value="ДД-ММ-ГГГГ"/>
+                <input name="day" type="radio" value="after"> После
+                <input name="day" type="radio" value="before"> До
+                <input name="day" type="radio" value="strict" checked> Точно
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Пол
+            </td>
+            <td><label>
+                <input name="gender" type="radio" value="man" checked> М
+                <input name="gender" type="radio" value="woman"> Ж
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Семейное положение
+            </td>
+            <td><label>
+                <input type="text" name="status" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Гражданство
+            </td>
+            <td><label>
+                <input type="text" name="citizenship" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Страна
+            </td>
+            <td><label>
+                <input type="text" name="country" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Город
+            </td>
+            <td><label>
+                <input type="text" name="city" value=""/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>
+                Улица
+            </td>
+            <td><label>
+                <input type="text" name="location" value=""/>
+            </label></td>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="Поиск"/>
+</form>
+
+<button id="cancel">
+    <a style="text-decoration: none;" href="../index.html">Отмена</a>
+</button>
+
+</body>
+</html>

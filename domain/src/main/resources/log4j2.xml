@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="3600" status="WARN">
+    <properties>
+        <property name="pattern">
+            %d{dd-MM HH:mm} %-5level %logger{3} - %msg%n
+        </property>
+    </properties>
+    <appenders>
+        <file name="TxtFile"
+              fileName="C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\WEB-INF\log\data.log"
+              bufferedIO="true">
+            <patternLayout pattern="${pattern}"/>
+        </file>
+        <console name="Console" target="SYSTEM_OUT">
+            <patternLayout pattern="${pattern}"/>
+        </console>
+    </appenders>
+    <loggers>
+        <logger name= "com.itechart.contacts.domain" additivity="true"/>
+        <root level="debug">
+            <appenderRef ref="TxtFile"/>
+            <appenderRef ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

@@ -1,0 +1,4 @@
+# Project exclude paths
+/domain/target/
+/view/target/
+/web/target/

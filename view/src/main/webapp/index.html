@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <title>Контакты</title>
+    </head>
+
+    <body>
+        <h1>Список контактов</h1>
+
+        <div id="link">
+            <button class="button" id="createContact">
+                <a class="buttonLink" href="html/contactForm.html">Создать контакт</a>
+            </button>
+            <button class="button" id="editContact">
+                <a class="buttonLink" href="html/contactForm.html">Редактировать</a>
+            </button>
+            <button class="button" id="deleteContact">
+                <a class="buttonLink"  href="index.html">Удалить выбранные</a>
+            </button>
+            <button class="button" id="sendEmail">
+                <a class="buttonLink"  href="html/mailForm.html">Отправить сообщение</a>
+            </button>
+            <button class="button" id="searchContact">
+                <a class="buttonLink"  href="html/searchForm.html">Поиск</a>
+            </button>
+        </div>
+
+        <table id="contactsList">
+        </table>
+        <ul id="pagination">
+        </ul>
+
+        <script src="js/load-contacts.js"></script>
+    </body>
+</html>

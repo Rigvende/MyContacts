@@ -1,0 +1,68 @@
+/*общие настройки
+----------------------------*/
+
+body {
+    background-color: royalblue;
+}
+
+.buttonLink {
+    text-decoration: none;
+}
+
+.buttonLink:hover {
+    color: purple;
+}
+
+/*отрисовка таблицы контактов
+----------------------------*/
+
+#personsList td {
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#pagination {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+}
+
+#pagination li {
+    margin-right: 5px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#pagination li:hover, #pagination li.active {
+    cursor: pointer;
+    color: rebeccapurple;
+    border: 1px solid hotpink;
+}
+
+/*popup
+------------------------------*/
+
+#cancel {
+    color: #0c4f5b;
+    font-family: 'Segoe Print', 'Tahoma', sans-serif;
+    width: 300px;
+    font-size: 18px;
+    height: 40px;
+    float: right;
+    padding-right: 5px;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.popup{
+    display: none;
+    text-align: center;
+    width:250px;
+    height:100px;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    top:0;
+}
