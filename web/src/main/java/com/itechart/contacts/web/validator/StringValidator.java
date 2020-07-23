@@ -79,4 +79,9 @@ public class StringValidator {
         return comment.isEmpty() || comment.length() <= 255;
     }
 
+    //attachment_name
+    public static boolean isValidAttachment(String name) {
+        return name.length() <= 40;
+    }
+
 }
