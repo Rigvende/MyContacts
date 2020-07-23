@@ -2,7 +2,7 @@
 <html lang="ru">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
+        <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- prevents from missing favicon.ico error-->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <title>Контакты</title>
     </head>
@@ -33,6 +33,21 @@
         <ul id="pagination">
         </ul>
 
-        <script src="js/load-contacts.js"></script>
+        <script>
+            function loadContacts() {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("Hi!");
+                    }
+                };
+                request.open("GET", "/contacts/", true);
+                request.send();
+            }
+
+            loadContacts();
+        </script>
+
+<!--        <script src="js/load-contacts.js"></script>-->
     </body>
 </html>

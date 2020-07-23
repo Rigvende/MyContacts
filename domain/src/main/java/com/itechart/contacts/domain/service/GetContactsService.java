@@ -72,25 +72,25 @@ public class GetContactsService {
     }
 
     private void createFullContactJson(Contact contact, Photo photo, StringBuilder json) {
-        json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue() + "")).append(",\n");
+        json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue())).append(",\n");
         json.append("\"citizenship\": ").append(JSONObject.quote(contact.getCitizenship())).append(",\n");
         json.append("\"status\": ").append(JSONObject.quote(contact.getFamilyStatus())).append(",\n");
-        json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append("\n");
-        json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
-        json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append("\n");
-        json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append("\n");
-        json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append("\n");
+        json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append(",\n");
+        json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append(",\n");
+        json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append(",\n");
+        json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append(",\n");
+        json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append(",\n");
     }
 
     private void createCoreJson(Contact contact, StringBuilder json) {
         json.append("\"id\": ").append(JSONObject.numberToString(contact.getContactId())).append(",\n");
         json.append("\"name\": ").append(JSONObject.quote(contact.getName())).append(",\n");
         json.append("\"surname\": ").append(JSONObject.quote(contact.getSurname())).append(",\n");
-        json.append("\"patronymic\": ").append(JSONObject.quote(contact.getPatronymic())).append("\n");
-        json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append("\n");
-        json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append("\n");
-        json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append("\n");
-        json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append("\n");
+        json.append("\"patronymic\": ").append(JSONObject.quote(contact.getPatronymic())).append(",\n");
+        json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append(",\n");
+        json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append(",\n");
+        json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append(",\n");
+        json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append(",\n");
         json.append("\"work\": ").append(JSONObject.quote(contact.getWork())).append("\n");
         json.append("},\n");
     }
@@ -102,9 +102,9 @@ public class GetContactsService {
                 json.append("\"id_phone\": ").append(JSONObject.numberToString(phone.getPhoneId())).append(",\n");
                 json.append("\"p_country\": ").append(JSONObject.quote(phone.getCountryCode())).append(",\n");
                 json.append("\"p_operator\": ").append(JSONObject.quote(phone.getOperatorCode())).append(",\n");
-                json.append("\"p_number\": ").append(JSONObject.quote(phone.getNumber())).append("\n");
+                json.append("\"p_number\": ").append(JSONObject.quote(phone.getNumber())).append(",\n");
                 json.append("\"p_type\": ").append(JSONObject.quote(phone.getType().getValue())).append(",\n");
-                json.append("\"p_comments\": ").append(JSONObject.quote(phone.getComments())).append("\n");
+                json.append("\"p_comments\": ").append(JSONObject.quote(phone.getComments())).append(",\n");
             }
         }
     }
@@ -116,8 +116,8 @@ public class GetContactsService {
                 json.append("\"id_attachment\": ").append(JSONObject.numberToString(attachment.getAttachmentId())).append(",\n");
                 json.append("\"a_path\": ").append(JSONObject.quote(attachment.getPath())).append(",\n");
                 json.append("\"a_name\": ").append(JSONObject.quote(attachment.getName())).append(",\n");
-                json.append("\"a_date\": ").append(JSONObject.valueToString(attachment.getLoadDate())).append("\n");
-                json.append("\"a_comments\": ").append(JSONObject.quote(attachment.getComments())).append("\n");
+                json.append("\"a_date\": ").append(JSONObject.valueToString(attachment.getLoadDate())).append(",\n");
+                json.append("\"a_comments\": ").append(JSONObject.quote(attachment.getComments())).append(",\n");
             }
         }
     }
