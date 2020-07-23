@@ -75,7 +75,7 @@ function loadContacts() {
             }
         }
     };
-    request.open("GET", "http://localhost:8080/contacts/", true);
+    request.open("GET", "/contacts/", true);
     request.send();
 }
 
