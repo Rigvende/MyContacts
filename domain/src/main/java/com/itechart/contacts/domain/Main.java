@@ -91,6 +91,7 @@ public class Main {
 //        PhoneDao phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
 //        AttachmentDao attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
 //        Contact contact = (Contact) contactDao.findEntityById(id);
+//        System.out.println(contact);
 //        if (contact != null) {
 //            Photo photo = (Photo) photoDao.findEntityById(contact.getPhotoId());
 //            List<AbstractEntity> alist = attachmentDao.findByContactId(id);

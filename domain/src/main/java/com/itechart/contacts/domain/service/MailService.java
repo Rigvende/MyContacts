@@ -2,7 +2,6 @@ package com.itechart.contacts.domain.service;
 
 import com.itechart.contacts.domain.dao.DaoFactory;
 import com.itechart.contacts.domain.dao.impl.ContactDao;
-import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.entity.EntityType;
 import com.itechart.contacts.domain.entity.impl.Contact;
 import com.itechart.contacts.domain.exception.DaoException;
@@ -11,7 +10,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -20,7 +18,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Class for implementation of service logic concerning sending mails
+ * Class-service logic for sending mails
  * @author Marianna Patrusova
  * @version 1.0
  */

@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 
 /**
  * Class for mail operations controller.
- *
  * @author Marianna Patrusova
  * @version 1.0
  */

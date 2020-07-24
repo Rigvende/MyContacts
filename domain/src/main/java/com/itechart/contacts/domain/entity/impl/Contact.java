@@ -3,6 +3,7 @@ package com.itechart.contacts.domain.entity.impl;
 import com.itechart.contacts.domain.entity.AbstractEntity;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -157,6 +158,13 @@ public class Contact extends AbstractEntity {
     }
     public void setDeleted(Timestamp deleted) {
         this.deleted = deleted;
+    }
+    public String getStringBirthday() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return birthday.format(fmt);
+    }
+    public String getStringGender() {
+        return gender.getValue();
     }
 
     @Override
