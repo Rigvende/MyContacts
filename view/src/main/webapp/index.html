@@ -33,21 +33,6 @@
         <ul id="pagination">
         </ul>
 
-        <script>
-            function loadContacts() {
-                var request = new XMLHttpRequest();
-                request.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        alert("Hi!");
-                    }
-                };
-                request.open("GET", "/contacts/", true);
-                request.send();
-            }
-
-            loadContacts();
-        </script>
-
-<!--        <script src="js/load-contacts.js"></script>-->
+        <script src="js/load-contacts.js"></script>
     </body>
 </html>

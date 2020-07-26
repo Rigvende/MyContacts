@@ -9,7 +9,7 @@ function loadContacts() {
             var contacts = JSON.parse(this.responseText);
             var table = document.querySelector("#contactsList");
             var pagination = document.querySelector("#pagination");
-            var notesOnPage = 10;
+            var notesOnPage = 2;
             var size = Math.ceil(contacts.length / notesOnPage);
 
             var showActive = (function() {
@@ -75,7 +75,7 @@ function loadContacts() {
             }
         }
     };
-    request.open("GET", "/contacts/", true);
+    request.open("GET", "http://localhost:8080/view_war/contacts/", true);
     request.send();
 }
 

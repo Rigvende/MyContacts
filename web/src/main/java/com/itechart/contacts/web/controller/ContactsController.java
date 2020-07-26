@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * @author Marianna Patrusova
  * @version 1.0
  */
-@WebServlet(urlPatterns = "/contacts/*", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/contacts/*")
 public class ContactsController extends HttpServlet {
 
     private static final long serialVersionUID = 8362021663142387750L;
@@ -40,14 +39,13 @@ public class ContactsController extends HttpServlet {
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
     private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
-    @Override
-    public void init() {
-        setScheduler();
-    }
+//    @Override
+//    public void init() {
+//        setScheduler();
+//    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("Hello");//fixme
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         try {
