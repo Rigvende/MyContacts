@@ -1,6 +1,7 @@
 package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.entity.impl.Contact;
+import com.itechart.contacts.domain.entity.impl.SearchedContact;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.SearchService;
 import org.apache.logging.log4j.Level;
@@ -27,6 +28,15 @@ public class SearchController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Contact contact = new Contact();//fixme
         String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String patronymic = request.getParameter("patronymic");
+        String birthday = request.getParameter("birthday");
+        String condition = request.getParameter("condition"); //greater then, lesser then, <, strict
+        String gender = request.getParameter("gender");
+        String citizenship = request.getParameter("citizenship");
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String street = request.getParameter("street");
         //
         try {
             searchService.service(contact);

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,9 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             "birthday, gender, citizenship, family_status, website, email, work_place, " +
             "country, city, address, zipcode, id_photo, deleted " +
             "FROM contacts WHERE id_contact = ? AND deleted IS NULL;";
+    private static final String SQL_FIND_ALL_BY_BIRTHDAY =
+            "SELECT contact_name, surname, patronymic " +
+            "FROM contacts WHERE deleted IS NULL AND birthday LIKE ?;";
 
     public ContactDao() throws DaoException, ClassNotFoundException {
         super();
@@ -227,6 +231,39 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             throw new DaoException(e);
         }
         return isDeleted;
+    }
+
+    public List<String> findAllByBirthday() throws DaoException {
+        AutoCommitDisable();
+        List<String> contacts = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        String date = "%" + today.getMonthValue() + "-" + today.getDayOfMonth();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_BY_BIRTHDAY)) {
+            preparedStatement.setString(1, date);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String contact = resultSet.getString("surname") + " " +
+                                     resultSet.getString("contact_name") + " " +
+                                     resultSet.getString("patronymic");
+                    contacts.add(contact);
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();                  //rollback whole transaction if smth goes wrong
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.ERROR,
+                            "Cannot do rollback in ContactDao findAllByBirthday method. ", e);
+                    throw new DaoException(e);
+                }
+            }
+            LOGGER.log(Level.ERROR,
+                    "Cannot find birthday list. Request to table failed. ", e);
+            throw new DaoException(e);
+        }
+        return contacts;
     }
 
 }

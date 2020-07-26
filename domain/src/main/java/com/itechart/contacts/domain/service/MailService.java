@@ -2,6 +2,7 @@ package com.itechart.contacts.domain.service;
 
 import com.itechart.contacts.domain.dao.DaoFactory;
 import com.itechart.contacts.domain.dao.impl.ContactDao;
+import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.entity.EntityType;
 import com.itechart.contacts.domain.entity.impl.Contact;
 import com.itechart.contacts.domain.exception.DaoException;
@@ -15,6 +16,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -92,6 +96,27 @@ public class MailService {
         json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
         json.append("},\n");
         return json.toString();
+    }
+
+    //find all contacts birthday for today
+    public String service() throws ServiceException {
+        ContactDao dao = null;
+        StringBuilder message = new StringBuilder("Сегодня день рождения у ваших контактов: \n");
+        try {
+        dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+        List<String> birthdayList = dao.findAllByBirthday();
+        for (String person: birthdayList) {
+            message.append(person).append("\n");
+        }
+        } catch (DaoException | ClassNotFoundException e) {
+            LOGGER.log(Level.ERROR, "Error while sending work confirmation by e-mail has occurred. ", e);
+            throw new ServiceException(e);
+        } finally {
+            if (dao != null) {
+                dao.exit();
+            }
+        }
+        return message.toString();
     }
 
 }
