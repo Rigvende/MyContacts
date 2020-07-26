@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -166,6 +167,27 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        /////////////////
+//        ContactDao dao = null;
+//        String query = "SELECT id_contact, contact_name, surname, patronymic, " +
+//                "birthday, gender, citizenship, family_status, website, email, " +
+//                "work_place, country, city, address, zipcode, id_photo " +
+//                "FROM contacts WHERE contact_name = 'Ольга' AND birthday > '1980-11-08' AND deleted is null;";
+//        try {
+//            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//            List<AbstractEntity> birthdayList = dao.findAllByFilter(query);
+//            for (AbstractEntity person : birthdayList) {
+//                Contact contact = (Contact) person;
+//                System.out.println(contact);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (dao != null) {
+//                dao.exit();
+//            }
+//        }
+
     }
 
 }

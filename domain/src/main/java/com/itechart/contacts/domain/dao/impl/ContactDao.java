@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -204,6 +205,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
         return contact;
     }
 
+    //special method for soft deleting (fill field "deleted" in db)
     public boolean softDelete(long id) throws DaoException {
         AutoCommitDisable();
         boolean isDeleted = false;
@@ -233,6 +235,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
         return isDeleted;
     }
 
+    //special method for finding contacts by birthday for email sending
     public List<String> findAllByBirthday() throws DaoException {
         AutoCommitDisable();
         List<String> contacts = new ArrayList<>();
@@ -266,16 +269,14 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
         return contacts;
     }
 
-    public List<AbstractEntity> findAllByFilter(String query, int counter) throws DaoException {
+    //special method for finding contacts using filter
+    public List<AbstractEntity> findAllByFilter(String query) throws DaoException {
         AutoCommitDisable();
         List<AbstractEntity> contacts = new ArrayList<>();
-        AbstractEntity contact;
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, "date");//fixme
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(query)) {
                 while (resultSet.next()) {
-                    contact = EntityBuilder.createContact(resultSet);
+                    AbstractEntity contact = EntityBuilder.createContact(resultSet);
                     contacts.add(contact);
                 }
             }
