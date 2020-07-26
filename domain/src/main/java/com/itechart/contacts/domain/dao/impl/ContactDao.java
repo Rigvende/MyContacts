@@ -266,4 +266,35 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
         return contacts;
     }
 
+    public List<AbstractEntity> findAllByFilter(String query, int counter) throws DaoException {
+        AutoCommitDisable();
+        List<AbstractEntity> contacts = new ArrayList<>();
+        AbstractEntity contact;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "date");//fixme
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    contact = EntityBuilder.createContact(resultSet);
+                    contacts.add(contact);
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();                  //rollback whole transaction if smth goes wrong
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.ERROR,
+                            "Cannot do rollback in ContactDao findAllByFilter method. ", e);
+                    throw new DaoException(e);
+                }
+            }
+            LOGGER.log(Level.ERROR,
+                    "Cannot find filtered list. Request to table failed. ", e);
+            throw new DaoException(e);
+        }
+        return contacts;
+    }
+
 }

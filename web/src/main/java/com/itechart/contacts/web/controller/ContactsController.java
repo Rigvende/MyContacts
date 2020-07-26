@@ -6,9 +6,13 @@ import com.itechart.contacts.domain.entity.impl.Phone;
 import com.itechart.contacts.domain.entity.impl.Photo;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.*;
+import com.itechart.contacts.web.scheduler.MailJob;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +20,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Class for contacts operations controller.
  * @author Marianna Patrusova
  * @version 1.0
  */
-@WebServlet(urlPatterns = "/contacts/*")
+@WebServlet(urlPatterns = "/contacts/*", loadOnStartup = 1)
 public class ContactsController extends HttpServlet {
 
     private static final long serialVersionUID = 8362021663142387750L;
@@ -35,7 +41,13 @@ public class ContactsController extends HttpServlet {
     private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
     @Override
+    public void init() {
+        setScheduler();
+    }
+
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Hello");//fixme
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         try {
@@ -74,6 +86,28 @@ public class ContactsController extends HttpServlet {
 //            LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
 //            response.sendError(500);
 //        }
+    }
+
+    //set background task - daily birthdays checking
+    private void setScheduler() {
+        SchedulerFactory sf = new StdSchedulerFactory();
+        Scheduler scheduler;
+        try {
+            scheduler = sf.getScheduler();
+            scheduler.start();
+            JobDetail job = newJob(MailJob.class)
+                    .withIdentity("job1", "group1")
+                    .build();
+            CronTrigger trigger = newTrigger()
+                    .withIdentity("trigger1", "group1")
+                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(17, 20))
+                    .forJob("job1", "group1")
+                    .build();
+            scheduler.scheduleJob(job, trigger);
+            System.out.println("Job");//fixme
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -39,7 +39,7 @@ public class SearchController extends HttpServlet {
         String street = request.getParameter("street");
         //
         try {
-            searchService.service(contact);
+            searchService.service(contact, "greater"); //todo
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(500);

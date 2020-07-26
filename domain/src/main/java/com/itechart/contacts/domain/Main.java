@@ -149,7 +149,23 @@ public class Main {
 
 //        MailService service = new MailService();
 //        System.out.println(service.service("zvezdo4ka13@yandex.by", "Привет сервлет", "Привет, Мэри. Ещё не сдохла?"));
-
+/////////////////////////
+//        ContactDao dao = null;
+//        StringBuilder message = new StringBuilder("Дни рождения: \n");
+//        try {
+//            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//            List<String> birthdayList = dao.findAllByBirthday();
+//            for (String person : birthdayList) {
+//                message.append(person).append("\n");
+//            }
+//            System.out.println(message.toString());
+//            MailService service = new MailService();
+//            String header = "Дни рождения" + LocalDate.now() ;
+//            String body = message.toString();
+//            service.service("zvezdo4ka13@yandex.by", header, body);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
