@@ -21,18 +21,16 @@ public class UpdatePhotoService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update
-    public boolean service(long id, String path) throws ServiceException {
+    public String service(long id, String name) throws ServiceException {
         Photo photo;
         PhotoDao dao = null;
+        String oldName;
         try {
             dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
             photo = (Photo) dao.findEntityById(id);
-            photo.setPath(path);
-            //todo
-            //
-            //
-            //
-            return dao.update(photo);
+            oldName = photo.getName();
+            photo.setName(name);
+            return dao.update(photo) ? oldName : null;
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update photo. Error has occurred. ", e);
             throw new ServiceException(e);
@@ -50,7 +48,7 @@ public class UpdatePhotoService {
             dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
             return dao.create(photo);
         } catch (ClassNotFoundException | DaoException e) {
-            LOGGER.log(Level.ERROR, "Cannot create photo. Error has occurred. ", e);
+            LOGGER.log(Level.ERROR, "Cannot add photo. Error has occurred. ", e);
             throw new ServiceException(e);
         } finally {
             if (dao != null) {

@@ -13,11 +13,13 @@ public class Photo extends AbstractEntity {
     private static final long serialVersionUID = -8168785902630912721L;
     private long photoId;
     private String path;
+    private String name;
 
     public Photo() {}
-    public Photo(long photoId, String path) {
+    public Photo(long photoId, String path, String name) {
         this.photoId = photoId;
         this.path = path;
+        this.name = name;
     }
 
     public long getPhotoId() {
@@ -32,6 +34,12 @@ public class Photo extends AbstractEntity {
     public void setPath(String path) {
         this.path = path;
     }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -43,6 +51,7 @@ public class Photo extends AbstractEntity {
         }
         Photo photo = (Photo) o;
         return photoId == photo.photoId
+                && Objects.equals(name, photo.name)
                 && Objects.equals(path, photo.path);
     }
 
@@ -52,6 +61,7 @@ public class Photo extends AbstractEntity {
         int result = 1;
         result = (int)(prime * result + photoId);
         result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -59,7 +69,8 @@ public class Photo extends AbstractEntity {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("Photo{");
         stringBuilder.append("photoId=").append(photoId).append(", path='")
-                .append(path).append('\'').append('}');
+                .append(path).append('\'').append(", name='")
+                .append(name).append('\'').append('}');
         return stringBuilder.toString();
     }
 

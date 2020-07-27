@@ -19,21 +19,21 @@
     <description>Location to store uploaded photo</description>
     <param-name>photo-upload</param-name>
     <param-value>
-      C:\photo
+      C:\photo\
     </param-value>
   </context-param>
   <context-param>
     <description>Location to store uploaded file</description>
     <param-name>file-upload</param-name>
     <param-value>
-      C:\attachments
+      C:\attachments\
     </param-value>
   </context-param>
   <context-param>
     <description>Extra location to store uploaded file</description>
     <param-name>file-upload-ext</param-name>
     <param-value>
-      C:\temp
+      C:\temp\
     </param-value>
   </context-param>
 

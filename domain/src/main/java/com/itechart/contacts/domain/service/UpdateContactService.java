@@ -71,20 +71,4 @@ public class UpdateContactService {
         }
     }
 
-    //update = soft delete (set timestamp value in field deleted)
-    public boolean service(boolean flag, long id) throws ServiceException {
-        ContactDao dao = null;
-        try {
-            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-            return dao.softDelete(id);
-        } catch (ClassNotFoundException | DaoException e) {
-            LOGGER.log(Level.ERROR, "Cannot update contact. Error has occurred. ", e);
-            throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
-        }
-    }
-
 }

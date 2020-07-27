@@ -131,7 +131,8 @@ public class EntityBuilder {
         try {
             long id = resultSet.getLong("id_photo");
             String path = PathParser.parse(resultSet.getString("photo_path"));
-            photo = new Photo(id, path);
+            String name = PathParser.parse(resultSet.getString("photo_name"));
+            photo = new Photo(id, path, name);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build attachment. Error has occurred. ", e);
             throw new DaoException(e);
@@ -140,8 +141,9 @@ public class EntityBuilder {
     }
 
     public static AbstractEntity createPhoto(HttpServletRequest request) {
-        String path = request.getParameter("photo_path") + "_" + new Timestamp(System.currentTimeMillis());
-        return new Photo(0L, path);
+        String path = request.getParameter("photo_path");
+        String name = request.getParameter("photo_name");
+        return new Photo(0L, path, name);
     }
 
 }

@@ -25,16 +25,16 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String SQL_ADD_PHOTO =
-            "INSERT INTO photos (photo_path) " +
-                    "VALUES (?);";
+            "INSERT INTO photos (photo_path, photo_name) " +
+                    "VALUES (?, ?);";
     private final static String SQL_DELETE_PHOTO =
             "DELETE FROM photos WHERE id_photo = ?;";
     private final static String SQL_UPDATE_PHOTO =
-            "UPDATE photos SET photo_path = ? WHERE id_photo = ?;";
+            "UPDATE photos SET photo_path = ?, photo_name = ? WHERE id_photo = ?;";
     private static final String SQL_FIND_ALL_PHOTOS =
-            "SELECT id_photo, photo_path FROM photos;";
+            "SELECT id_photo, photo_path, photo_name FROM photos;";
     private final static String SQL_FIND_PHOTO_BY_ID =
-            "SELECT id_photo, photo_path FROM photos WHERE id_photo = ?;";
+            "SELECT id_photo, photo_path, photo_name FROM photos WHERE id_photo = ?;";
 
     public PhotoDao() throws DaoException, ClassNotFoundException {
         super();
@@ -47,6 +47,7 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
         try (PreparedStatement preparedStatement
                      = connection.prepareStatement(SQL_ADD_PHOTO, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, photo.getPath());
+            preparedStatement.setString(2, photo.getName());
             preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -108,6 +109,7 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
         boolean isUpdated = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PHOTO)) {
             preparedStatement.setString(1, photo.getPath());
+            preparedStatement.setString(2, photo.getName());
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;
