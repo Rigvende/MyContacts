@@ -5,6 +5,10 @@ import com.itechart.contacts.domain.service.MailService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,12 +48,16 @@ public class MailController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         String sender = request.getParameter("to");
         String subject = request.getParameter("subject");
         String message = request.getParameter("body");
         try {
             mailService.service(sender, subject, message);
-        } catch (ServiceException e) {
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/index.html");
+            requestDispatcher.forward(request, response);
+        } catch (ServiceException | ServletException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(500);
         }

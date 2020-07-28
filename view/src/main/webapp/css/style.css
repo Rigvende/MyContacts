@@ -157,6 +157,87 @@
     cursor: pointer;
 }
 
+/*страница почты
+----------------------------------
+*/
+
+#emailField, #headerField, #templateField, #messageField {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+#messageField {
+    height: 150px;
+}
+
+.mailButton {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: #31c3ff;
+    color: white;
+    margin: 5px;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 150px;
+}
+
+.mailButton:hover {
+    background-color: #0099cc;
+}
+
+.mailContainer {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+.visitedLink {
+    color: white;
+}
+
+.mailColumn {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    float: left;
+    width: 50%;
+    margin-top: 6px;
+    padding: 20px;
+}
+
+.mailPanel:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#mailImage {
+    max-height: 500px;
+}
+
+@media screen and (max-width: 600px) {
+    .mailColumn, .mailButton {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+
+.emailLabel {
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0099cc;
+    color: white;
+}
+.emailLabel label {
+    padding-left: 20px;
+}
+
 /*popup
 ------------------------------*/
 

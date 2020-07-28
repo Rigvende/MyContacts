@@ -3,8 +3,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
     <title>Почта</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,75 +18,47 @@
     <h1>Отправка сообщения</h1>
 </div>
 
-<!--    todo привязать действие к контроллеру-->
-<form name="mailForm" method="POST" action="/mail/">
-    <table>
-        <tr>
-            <td>
-                Кому
-            </td>
-            <td><label>
-                <!--todo автозаполнение email -->
-                <input type ="text" name="to" value=""
+<div class="mailContainer">
+    <div class="mailPanel">
+        <div class="mailColumn">
+            <img src="../image/mail.jpg" id="mailImage" style="width:100%" alt="конверт">
+        </div>
+        <div class="mailColumn">
+            <form method="post" action="http://localhost:8080/view_war/mail">
+                <div class="emailLabel"><label for="emailField">Кому</label> </div>
+                <input type="text" id="emailField" name="to" placeholder="Введите адрес.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Тема
-            </td>
-            <td><label>
-                <input type ="text" name="subject" value=""
+                <div class="emailLabel"><label for="headerField">Тема</label></div>
+                <input type="text" id="headerField" name="subject" placeholder="Введите заголовок.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Выбор шаблона
-            </td>
-            <td><label>
-                <!--todo функция выбора шаблона с автозаполнением текстом -->
-                <select id="selectTemplate">
-                    <option>---</option>
-                    <option>Шаблон 1</option>
-                    <option>Шаблон 2</option>
+                <div class="emailLabel"><label for="templateField">Выбор шаблона</label></div>
+                <select id="templateField" name="template">
+                    <option value="unknown">Без шаблона</option>
+                    <option value="one">Шаблон 1</option>
+                    <option value="two">Шаблон 2</option>
                 </select>
-            </label></td>
-        </tr>
-    </table>
-    <hr/>
-    <label>
-        <textarea id='letter' name="body" rows="5" cols="100">
-        </textarea>
-    </label>
-    <br>
-    <input class='messageButton' type="submit" value="Отправить"/>
-</form>
-
-<div id="link">
-    <button id="cancel">
-        <a style="text-decoration: none;" href="../index.html">Отмена</a>
-    </button>
+                <div class="emailLabel"><label for="messageField">Сообщение</label></div>
+                <textarea id="messageField" name="body" placeholder="Написать сообщение.."></textarea>
+                <input type="submit" class="mailButton" value="Отправить">
+                <button class="mailButton">
+                    <a style="text-decoration: none;" class="visitedLink" href="../index.html">Отмена</a>
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
-
-<section class="popup">
-    <p><strong>Success</strong>
-        <br>Письмо успешно отправлено!</p>
-    <button class="close" type="button">Закрыть</button>
-    <br>
-</section>
-
-<script src="../js/message-popup.js"></script>
 
 <!-- футер-->
 <div class="footer">
     <p>(c) 2020 Марианна Патрусова</p>
 </div>
 
-<!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
-<script></script>
+<!-- скрипт для обработки событий на странице и отправки почты-->
+<script>
+
+</script>
 </body>
 
 </body>
