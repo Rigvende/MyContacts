@@ -1,30 +1,96 @@
 /*общие настройки
 ----------------------------*/
-
-body {
-    background-color: royalblue;
-}
-
 .buttonLink {
     text-decoration: none;
 }
 
-.buttonLink:hover {
-    color: purple;
+.buttonLink:hover, .buttonLink:visited {
+    color: #33b5e5;
+}
+
+.header, .footer {
+    background-color: grey;
+    color: white;
+    padding: 15px;
+}
+
+/* главная страница
+-------------------------------
+ */
+
+.column {
+    float: left;
+    padding: 15px;
+}
+
+.mainpage {
+    display: flex;
+    min-width: 800px;
+}
+
+.menu {
+    width: 25%;
+    min-width: 240px;
+}
+
+.content {
+    width: 75%;
+}
+
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #33b5e5;
+    color: #ffffff;
+}
+
+.menu li p {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.menu li:hover {
+    background-color: #0099cc;
 }
 
 /*отрисовка таблицы контактов
 ----------------------------*/
 
-#personsList td {
-    padding: 10px;
-    border: 1px solid black;
+#contactsList {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#contactsList td, #contactsList th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#contactsList tr:nth-child(even){background-color: #f2f2f2;}
+
+#contactsList tr:hover {background-color: #ddd;}
+
+#contactsList tr:first-child {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #31c3ff;
+    color: white;
 }
 
 #pagination {
     display: flex;
     padding: 0;
     list-style-type: none;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 #pagination li {
@@ -35,8 +101,9 @@ body {
 
 #pagination li:hover, #pagination li.active {
     cursor: pointer;
-    color: rebeccapurple;
-    border: 1px solid hotpink;
+    background-color: #31c3ff;
+    color: white;
+
 }
 
 /*popup

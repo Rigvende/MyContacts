@@ -85,7 +85,8 @@ public class GetContactsService {
         json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append(",\n");
         json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append(",\n");
         json.append("\"id_photo\": ").append(JSONObject.numberToString(photo.getPhotoId())).append(",\n");
-        json.append("\"photo\": ").append(JSONObject.quote(photo.getPath())).append(",\n");
+        json.append("\"photo_path\": ").append(JSONObject.quote(photo.getPath())).append(",\n");
+        json.append("\"photo_name\": ").append(JSONObject.quote(photo.getName())).append(",\n");
     }
 
     private void createCoreJson(Contact contact, StringBuilder json) {

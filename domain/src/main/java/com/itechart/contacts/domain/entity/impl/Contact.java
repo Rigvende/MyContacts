@@ -36,7 +36,7 @@ public class Contact extends AbstractEntity {
     }
     public Contact(long contactId, String name, String surname, String patronymic,
                    LocalDate birthday, Gender gender, String citizenship, String familyStatus,
-                   String website, String email, String work, String city, String country,
+                   String website, String email, String work, String country, String city,
                    String address, String zipcode, long photoId, Timestamp deleted) {
         this.contactId = contactId;
         this.name = name;

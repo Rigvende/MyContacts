@@ -2,6 +2,23 @@
 
 "use strict";
 
+var createContact = document.querySelector('#createContact');
+createContact.addEventListener('click', function () {
+    document.location.href = "html/contactForm.html";
+})
+var editContact = document.querySelector('#editContact');
+editContact.addEventListener('click', function () {
+    document.location.href = "html/contactForm.html";
+})
+var sendEmail = document.querySelector('#sendEmail');
+sendEmail.addEventListener('click', function () {
+    document.location.href = "html/mailForm.html";
+})
+var searchContact = document.querySelector('#searchContact');
+searchContact.addEventListener('click', function () {
+    document.location.href = "html/searchForm.html";
+})
+
 function loadContacts() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {

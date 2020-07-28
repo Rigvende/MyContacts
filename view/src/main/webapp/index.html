@@ -8,31 +8,43 @@
     </head>
 
     <body>
+    <div class="header">
         <h1>Список контактов</h1>
+    </div>
 
-        <div id="link">
-            <button class="button" id="createContact">
-                <a class="buttonLink" href="html/contactForm.html">Создать контакт</a>
-            </button>
-            <button class="button" id="editContact">
-                <a class="buttonLink" href="html/contactForm.html">Редактировать</a>
-            </button>
-            <button class="button" id="deleteContact">
-                <a class="buttonLink"  href="index.html">Удалить выбранные</a>
-            </button>
-            <button class="button" id="sendEmail">
-                <a class="buttonLink"  href="html/mailForm.html">Отправить сообщение</a>
-            </button>
-            <button class="button" id="searchContact">
-                <a class="buttonLink"  href="html/searchForm.html">Поиск</a>
-            </button>
+    <div class="mainpage">
+        <div class="column menu">
+            <ul>
+                <li id="createContact">
+                    <p>Создать контакт</p>
+                </li>
+                <li id="editContact">
+                    <p>Редактировать контакт</p>
+               </li>
+                <li id="deleteContact">
+                    <p>Удалить выбранные</p>
+                </li>
+                <li id="sendEmail">
+                    <p>Отправить сообщение</p>
+                </li>
+                <li id="searchContact">
+                    <p>Поиск по фильтру</p>
+                </li>
+            </ul>
         </div>
 
-        <table id="contactsList">
-        </table>
-        <ul id="pagination">
-        </ul>
+        <div class="column content">
+            <table id="contactsList">
+            </table>
+            <ul id="pagination">
+            </ul>
+        </div>
+    </div>
 
-        <script src="js/load-contacts.js"></script>
+    <script src="js/load-contacts.js"></script>
+
+    <div class="footer">
+        <p>(c) 2020 Марианна Патрусова</p>
+    </div>
     </body>
 </html>
