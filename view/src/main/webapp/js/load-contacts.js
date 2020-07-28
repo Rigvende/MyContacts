@@ -1,7 +1,8 @@
-// function for loading contacts on the main page
+// function for main page generation
 
 "use strict";
 
+//обработчики событий для кнопок меню:
 var createContact = document.querySelector('#createContact');
 createContact.addEventListener('click', function () {
     document.location.href = "html/contactForm.html";
@@ -16,9 +17,28 @@ sendEmail.addEventListener('click', function () {
 })
 var searchContact = document.querySelector('#searchContact');
 searchContact.addEventListener('click', function () {
-    document.location.href = "html/searchForm.html";
+    document.location.href = 'html/searchForm.html';
 })
 
+//всплывающее окошко при удалении контактов:
+var modal = document.querySelector('#messageDelete');
+var btn = document.querySelector('#deleteContact');
+var closeBtn = document.querySelectorAll('.close');
+btn.addEventListener('click', function () {
+    modal.style.display = "block";
+})
+closeBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        modal.style.display = "none";
+    })
+})
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+//генерация таблички с контактами с пагинацией:
 function loadContacts() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -29,9 +49,9 @@ function loadContacts() {
             var notesOnPage = 2;
             var size = Math.ceil(contacts.length / notesOnPage);
 
-            var showActive = (function() {
+            var showActive = (function () {
                 var active;
-                return function(item) {
+                return function (item) {
                     if (active) {
                         active.classList.remove('active');
                     }
@@ -57,7 +77,7 @@ function loadContacts() {
                         table.appendChild(tr);
                         var checkbox = '<label><input type="checkbox" value="' + note.id + '"/></label>';
                         var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
-                                       + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
+                            + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
                         var location = note.country + ', ' + note.city + ', ' + note.address;
                         createTd(checkbox, tr);
                         createTd(editLink, tr);
@@ -96,4 +116,5 @@ function loadContacts() {
     request.send();
 }
 
+//загрузка таблицы при старте:
 loadContacts();

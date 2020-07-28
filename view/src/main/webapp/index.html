@@ -8,11 +8,13 @@
     </head>
 
     <body>
+    <!-- хедер-->
     <div class="header">
         <h1>Список контактов</h1>
     </div>
 
-    <div class="mainpage">
+    <!-- главная панель с меню и таблицей контактов-->
+    <div class="mainPage">
         <div class="column menu">
             <ul>
                 <li id="createContact">
@@ -32,7 +34,6 @@
                 </li>
             </ul>
         </div>
-
         <div class="column content">
             <table id="contactsList">
             </table>
@@ -41,10 +42,24 @@
         </div>
     </div>
 
-    <script src="js/load-contacts.js"></script>
+    <!-- скрытое окошко для подтверждения удаления-->
+    <div id="messageDelete" class="modal">
+        <div class="modalContent">
+            <span class="close closeX">&times;</span>
+            <p>Вы уверены, что хотите удалить выбранные контакты?</p>
+            <div class="modalButtons">
+                <button type="submit" id="deleteButton">Удалить</button>
+                <button class="close">Отмена</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- футер-->
     <div class="footer">
         <p>(c) 2020 Марианна Патрусова</p>
     </div>
+
+    <!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
+    <script src="js/load-contacts.js"></script>
     </body>
 </html>
