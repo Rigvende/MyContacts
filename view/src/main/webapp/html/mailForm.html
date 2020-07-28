@@ -35,9 +35,9 @@
                        oninput="setCustomValidity('')"/>
                 <div class="emailLabel"><label for="templateField">Выбор шаблона</label></div>
                 <select id="templateField" name="template">
-                    <option value="unknown">Без шаблона</option>
-                    <option value="one">Шаблон 1</option>
-                    <option value="two">Шаблон 2</option>
+                    <option value="unknown" selected="selected">Без шаблона</option>
+                    <option value="template 1">С днём рожденья</option>
+                    <option value="template 2">Хочу встретиться</option>
                 </select>
                 <div class="emailLabel"><label for="messageField">Сообщение</label></div>
                 <textarea id="messageField" name="body" placeholder="Написать сообщение.."></textarea>
@@ -55,11 +55,7 @@
     <p>(c) 2020 Марианна Патрусова</p>
 </div>
 
-<!-- скрипт для обработки событий на странице и отправки почты-->
-<script>
-
-</script>
-</body>
-
+<!-- скрипт для обработки событий на странице -->
+<script src="../js/mail-template.js"></script>
 </body>
 </html>
