@@ -9,7 +9,6 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,5 +36,5 @@ public class SearchService {
         }
         return filterResult;
     }
-
+//fixme создать json с данными и вернуть
 }

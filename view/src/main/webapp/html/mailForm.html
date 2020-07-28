@@ -18,31 +18,31 @@
     <h1>Отправка сообщения</h1>
 </div>
 
-<div class="mailContainer">
-    <div class="mailPanel">
-        <div class="mailColumn">
+<div class="pageContainer">
+    <div class="pagePanel">
+        <div class="pageColumn">
             <img src="../image/mail.jpg" id="mailImage" style="width:100%" alt="конверт">
         </div>
-        <div class="mailColumn">
+        <div class="pageColumn">
             <form method="post" action="http://localhost:8080/view_war/mail">
-                <div class="emailLabel"><label for="emailField">Кому</label> </div>
-                <input type="text" id="emailField" name="to" placeholder="Введите адрес.."
+                <div class="pageLabel"><label for="emailField">Кому</label> </div>
+                <input type="text" class="field" id="emailField" name="to" placeholder="Введите адрес.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-                <div class="emailLabel"><label for="headerField">Тема</label></div>
-                <input type="text" id="headerField" name="subject" placeholder="Введите заголовок.."
+                <div class="pageLabel"><label for="headerField">Тема</label></div>
+                <input type="text" class="field" id="headerField" name="subject" placeholder="Введите заголовок.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-                <div class="emailLabel"><label for="templateField">Выбор шаблона</label></div>
-                <select id="templateField" name="template">
+                <div class="pageLabel"><label for="templateField">Выбор шаблона</label></div>
+                <select id="templateField" class="field" name="template">
                     <option value="unknown" selected="selected">Без шаблона</option>
                     <option value="template 1">С днём рожденья</option>
                     <option value="template 2">Хочу встретиться</option>
                 </select>
-                <div class="emailLabel"><label for="messageField">Сообщение</label></div>
-                <textarea id="messageField" name="body" placeholder="Написать сообщение.."></textarea>
-                <input type="submit" class="mailButton" value="Отправить">
-                <button class="mailButton">
+                <div class="pageLabel"><label for="messageField">Сообщение</label></div>
+                <textarea id="messageField" class="field" name="body" placeholder="Написать сообщение.."></textarea>
+                <input type="submit" class="pageButton" value="Отправить">
+                <button class="pageButton">
                     <a style="text-decoration: none;" class="visitedLink" href="../index.html">Отмена</a>
                 </button>
             </form>

@@ -5,104 +5,72 @@
     <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
     <title>Поиск</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
 </head>
-<body>
-<h1>Фильтр поиска</h1>
-<!--todo привязать к контроллеру-->
-<form name="searchForm" method="get" action="/search/">
-    <table>
-        <tr>
-            <td>
-                Фамилия
-            </td>
-            <td><label>
-                <input type="text" name="surname" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Имя
-            </td>
-            <td><label>
-                <input type="text" name="contactName" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Отчество
-            </td>
-            <td><label>
-                <input type="text" name="patronymic" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                День рождения
-            </td>
-            <td><label>
-                <input type="date" name="birthday" value="ДД-ММ-ГГГГ"/>
-                <input name="day" type="radio" value="after"> После
-                <input name="day" type="radio" value="before"> До
-                <input name="day" type="radio" value="strict" checked> Точно
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Пол
-            </td>
-            <td><label>
-                <input name="gender" type="radio" value="man" checked> М
-                <input name="gender" type="radio" value="woman"> Ж
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Семейное положение
-            </td>
-            <td><label>
-                <input type="text" name="status" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Гражданство
-            </td>
-            <td><label>
-                <input type="text" name="citizenship" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Страна
-            </td>
-            <td><label>
-                <input type="text" name="country" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Город
-            </td>
-            <td><label>
-                <input type="text" name="city" value=""/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>
-                Улица
-            </td>
-            <td><label>
-                <input type="text" name="location" value=""/>
-            </label></td>
-        </tr>
-    </table>
-    <br>
-    <input type="submit" value="Поиск"/>
-</form>
 
-<button id="cancel">
-    <a style="text-decoration: none;" href="../index.html">Отмена</a>
-</button>
+<body>
+<!-- хедер-->
+<div class="header">
+    <h1>Фильтр поиска</h1>
+</div>
+
+<!--форма поиска-->
+<div class="pageContainer">
+    <div class="pagePanel">
+        <div class="pageColumn">
+            <img src="../image/search.jpg" id="searchImage" style="width:100%" alt="лупа">
+        </div>
+        <div class="pageColumn">
+            <form method="post" action="http://localhost:8080/view_war/search">
+                <div class="pageLabel"><label for="nameField">Имя</label></div>
+                <input type="text" class="field" id="nameField" name="сontactName" placeholder="Введите имя.."/>
+                <div class="pageLabel"><label for="surnameField">Фамилия</label></div>
+                <input type="text" class="field" id="surnameField" name="surname" placeholder="Введите фамилию.."/>
+                <div class="pageLabel"><label for="patronymicField">Отчество</label></div>
+                <input type="text" class="field" id="patronymicField" name="patronymic"
+                       placeholder="Введите отчество.."/>
+                <div class="pageLabel"><label for="birthdayField">День рождения</label></div>
+                <input type="date" id="birthdayField" name="birthday" value="ДД-ММ-ГГГГ"/>
+                <label>
+                    <input name="day" type="radio" value="after"> После
+                    <input name="day" type="radio" value="before"> До
+                    <input name="day" type="radio" value="strict" checked> Точно
+                </label>
+                <div class="pageLabel"><label for="genderField">Пол</label></div>
+                <div id="genderField">
+                <label >
+                    <input name="gender" type="radio" value="man" checked> М
+                    <input name="gender" type="radio" value="woman"> Ж
+                </label>
+                </div>
+                <div class="pageLabel"><label for="statusField">Семейное положение</label></div>
+                <input type="text" class="field" id="statusField" name="status" placeholder="Введите статус.."/>
+                <div class="pageLabel"><label for="citizenshipField">Гражданство</label></div>
+                <input type="text" class="field" id="citizenshipField" name="citizenship"
+                       placeholder="Введите гражданство.."/>
+                <div class="pageLabel"><label for="countryField">Страна</label></div>
+                <input type="text" class="field" id="countryField" name="country" placeholder="Введите страну.."/>
+                <div class="pageLabel"><label for="cityField">Город</label></div>
+                <input type="text" class="field" id="cityField" name="city" placeholder="Введите город.."/>
+                <div class="pageLabel"><label for="addressField">Улица</label></div>
+                <input type="text" class="field" id="addressField" name="address" placeholder="Введите улицу.."/>
+                <input type="submit" class="pageButton" value="Отправить">
+                <button class="pageButton">
+                    <a style="text-decoration: none;" class="visitedLink" href="../index.html">Отмена</a>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- футер-->
+<div class="footer">
+    <p>(c) 2020 Марианна Патрусова</p>
+</div>
 
 </body>
 </html>

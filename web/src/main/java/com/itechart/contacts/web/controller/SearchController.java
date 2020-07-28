@@ -5,6 +5,10 @@ import com.itechart.contacts.domain.service.SearchService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +20,7 @@ import java.io.IOException;
  * @author Marianna Patrusova
  * @version 1.0
  */
-@WebServlet(urlPatterns = "/search/")
+@WebServlet(urlPatterns = "/search")
 public class SearchController extends HttpServlet {
 
     private static final long serialVersionUID = 7649477230906914706L;
@@ -82,7 +86,10 @@ public class SearchController extends HttpServlet {
         String query = builder.toString();
         try {
             searchService.service(query);
-        } catch (ServiceException e) {
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/index.html");
+            requestDispatcher.forward(request, response); //fixme добавить json с найденными контактами
+        } catch (ServiceException | ServletException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(500);
         }
