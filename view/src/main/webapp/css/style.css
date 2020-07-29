@@ -172,10 +172,10 @@
 .modalContent {
     background-color: #31c3ff;
     color: white;
-    font-size: 15px;
+    font-size: 18px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     margin: 15% auto;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid #888;
     width: 30%;
     min-width: 300px;
@@ -184,7 +184,7 @@
 .closeX {
     color: white;
     float: right;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
 }
 
@@ -196,6 +196,17 @@
 
 #photo, #attachment {
     max-width: 90%;
+}
+
+.modalButtons {
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+}
+
+.modalBtn {
+    border-radius: 5px;
+    border: 2px solid white;
 }
 
 /*страницы почты и поиска

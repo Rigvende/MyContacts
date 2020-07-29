@@ -5,10 +5,7 @@
     <link rel="shortcut icon" href="#"> <!-- prevents from missing favicon.ico error-->
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
     <title>Страница контакта</title>
-    <style>
-
-
-    </style>
+    <script type="text/javascript" src="../js/jquery-3.5.1.js"></script>
 </head>
 
 <body>
@@ -26,15 +23,19 @@
 
 <!--форма создания/изменения контакта-->
 <div class="pageContainer" style="min-width: 1100px">
-    <form id="contactSave" method="post" enctype="multipart/form-data" action="http://localhost:8080/view_war/search">
+    <form id="contactSave" method="post" enctype="multipart/form-data" action="http://localhost:8080/view_war/contacts">
         <div class="pagePanel">
             <div class="contactColumn">
-                <div class="pageLabel"><label for="surnameField">Фамилия</label></div>
+                <div class="pageLabel"><label for="surnameField">Фамилия *</label></div>
                 <input form="contactSave" type="text" class="field" id="surnameField" name="surname"
-                       placeholder="Введите фамилию.."/>
-                <div class="pageLabel"><label for="nameField">Имя</label></div>
+                       placeholder="Введите фамилию.."
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
+                <div class="pageLabel"><label for="nameField">Имя *</label></div>
                 <input form="contactSave" type="text" class="field" id="nameField" name="сontactName"
-                       placeholder="Введите имя.."/>
+                       placeholder="Введите имя.."
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
                 <div class="pageLabel"><label for="patronymicField">Отчество</label></div>
                 <input form="contactSave" type="text" class="field" id="patronymicField" name="patronymic"
                        placeholder="Введите отчество.."/>
@@ -151,14 +152,12 @@
         <br>
         <p style="font-size: 18px">Загрузить новое фото:</p>
         <label>
-            <input form="contactSave" id="photo" name="picture" size="100" accept="image/*" type="file"
-                   required oninvalid="this.setCustomValidity('Выберите фото')"
-                   oninput="setCustomValidity('')"/>
+            <input form="contactSave" id="photo" name="picture" size="100" accept="image/*" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">
-            <button type="button" id="photoButton">Загрузить</button>
-            <button type="button" class="close">Отмена</button>
+            <button type="button" class="close pageButton modalBtn">Оставить</button>
+            <button type="button" class="pageButton modalBtn" id="photoButton">Сброс</button>
         </div>
     </div>
 </div>
@@ -258,6 +257,9 @@
 <script src="../js/popup-photo.js"></script>
 <script src="../js/popup-phone.js"></script>
 <script src="../js/popup-attachment.js"></script>
+<script>
+
+</script>
 
 <!-- футер-->
 <div class="footer">
