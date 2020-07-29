@@ -27,7 +27,7 @@ public class SearchController extends HttpServlet {
     private final static Logger LOGGER = LogManager.getLogger();
     private final SearchService searchService = new SearchService();
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ")
                                 .append("birthday, gender, citizenship, family_status, website, email, ")

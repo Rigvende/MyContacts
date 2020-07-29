@@ -48,8 +48,32 @@
             <span class="close closeX">&times;</span>
             <p>Вы уверены, что хотите удалить выбранные контакты?</p>
             <div class="modalButtons">
-                <button type="submit" id="deleteButton">Удалить</button>
-                <button class="close">Отмена</button>
+                <button type="submit" class="pageButton modalBtn" id="deleteButton">Удалить</button>
+                <button class="close pageButton modalBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- скрытое окошко для отсутствующего чекбокса для удаления и редактирования -->
+    <div id="errorDeleteEdit" class="modal">
+        <div class="modalContent">
+            <span class="close closeX">&times;</span>
+            <p>Невозможно выполнить действие!</p>
+            <p>>> не выбран чекбокс</p>
+            <div class="modalButtons">
+                <button class="close pageButton modalBtn">ОК</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- скрытое окошко для лишних чекбоксов для почты и редактирования -->
+    <div id="errorEditMail" class="modal">
+        <div class="modalContent">
+            <span class="close closeX">&times;</span>
+            <p>Невозможно выполнить действие!</p>
+            <p>>> выбрано больше одного чекбокса</p>
+            <div class="modalButtons">
+                <button class="close pageButton modalBtn">ОК</button>
             </div>
         </div>
     </div>

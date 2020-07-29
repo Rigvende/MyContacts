@@ -7,10 +7,10 @@ var createContact = document.querySelector('#createContact');
 createContact.addEventListener('click', function () {
     document.location.href = "html/contactForm.html";
 })
-var editContact = document.querySelector('#editContact');
-editContact.addEventListener('click', function () {
-    document.location.href = "html/contactForm.html";
-})
+// var editContact = document.querySelector('#editContact');
+// editContact.addEventListener('click', function () {
+//     document.location.href = "html/contactForm.html";
+// })
 var sendEmail = document.querySelector('#sendEmail');
 sendEmail.addEventListener('click', function () {
     document.location.href = "html/mailForm.html";
@@ -20,23 +20,64 @@ searchContact.addEventListener('click', function () {
     document.location.href = 'html/searchForm.html';
 })
 
-//всплывающее окошко для кнопки удаления контакта:
+//всплывающие окошки
+var deleteBtn = document.querySelector("#deleteContact");
+var editBtn = document.querySelector("#editContact");
+var modalErr = document.querySelector('#errorDeleteEdit');
 var modal = document.querySelector('#messageDelete');
-var btn = document.querySelector('#deleteContact');
 var closeBtn = document.querySelectorAll('.close');
-btn.addEventListener('click', function () {
-    modal.style.display = "block";
-})
+var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+deleteBtn.addEventListener('click', showModals);
+editBtn.addEventListener('click', showModals);
+
+function showModals() {
+    var flag = false;
+    checkboxes.forEach(box => {
+        if (box.checked) {
+            flag = true;
+        }
+    })
+    if (flag) {
+        modal.style.display = "block";//если это кнопка удалить fixme
+        //document.location.href = "html/contactForm.html"; //если это кнопка редактировать
+    } else {
+        modalErr.style.display = "block";
+    }
+}
+
+//закрытие окошек
 closeBtn.forEach(btn => {
     btn.addEventListener('click', () => {
         modal.style.display = "none";
+        modalErr.style.display = "none";
     })
 })
+
 window.onclick = function (event) {
-    if (event.target === modal) {
+    if (event.target === modal || event.target === modalErr) {
         modal.style.display = "none";
+        modalErr.style.display = "none";
     }
 }
+
+//всплывающее окошко для кнопки удаления контакта:
+// var modal = document.querySelector('#messageDelete');
+// var btn = document.querySelector('#deleteContact');
+// var closeBtn = document.querySelectorAll('.close');
+// btn.addEventListener('click', function () {
+//     modal.style.display = "block";
+// })
+// closeBtn.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         modal.style.display = "none";
+//     })
+// })
+// window.onclick = function (event) {
+//     if (event.target === modal) {
+//         modal.style.display = "none";
+//     }
+// }
 
 //генерация таблички с контактами с пагинацией:
 function loadContacts() {
