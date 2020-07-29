@@ -1,12 +1,19 @@
 /*общие настройки
 ----------------------------*/
+* {
+    box-sizing: border-box;
+}
+
 .header, .footer {
+    display: flex;
+    justify-content: space-between;
     background-color: grey;
     color: white;
     padding: 30px;
 }
 
 .footer {
+    display: block;
     text-align: right;
 }
 
@@ -32,7 +39,7 @@
     border: none;
     cursor: pointer;
     border-radius: 10px;
-    width: 200px;
+    width: 150px;
 }
 
 .pageButton:hover {
@@ -146,7 +153,7 @@
     border-radius: 5px;
 }
 
-/* popup delete main
+/* popup
 ------------------------------
  */
 .modal {
@@ -163,7 +170,7 @@
 }
 
 .modalContent {
-    background-color: #0099cc;
+    background-color: #31c3ff;
     color: white;
     font-size: 15px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -175,7 +182,7 @@
 }
 
 .closeX {
-    color: #aaa;
+    color: white;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -185,6 +192,10 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+#photo, #attachment {
+    max-width: 90%;
 }
 
 /*страницы почты и поиска
@@ -204,8 +215,8 @@
     max-width: 650px;
 }
 #genderField, #birthdayField{
-    margin-bottom: 15px;
-    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .pageContainer {
@@ -248,30 +259,47 @@
     padding-left: 20px;
 }
 
-/*popup
-------------------------------*/
+/*страница контакта
+----------------------------------
+*/
 
-#cancel {
-    color: #0c4f5b;
-    font-family: 'Segoe Print', 'Tahoma', sans-serif;
-    width: 300px;
-    font-size: 18px;
-    height: 40px;
-    float: right;
-    padding-right: 5px;
-    padding-top: 5px;
-    margin-right: 10px;
+.contactColumn {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    padding: 20px;
 }
 
-.popup{
-    display: none;
-    text-align: center;
-    width:250px;
-    height:100px;
-    background-color: rgba(0,0,0,0.5);
-    overflow:hidden;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    top:0;
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tableButtons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.subheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.small {
+    font-size: 16px;
+    width: 120px;
+    background-color: #888888;
+}
+
+.small:hover {
+    background-color: dimgray;
+}
+
+.stretch {
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
 }

@@ -20,7 +20,7 @@ searchContact.addEventListener('click', function () {
     document.location.href = 'html/searchForm.html';
 })
 
-//всплывающее окошко при удалении контактов:
+//всплывающее окошко для кнопки удаления контакта:
 var modal = document.querySelector('#messageDelete');
 var btn = document.querySelector('#deleteContact');
 var closeBtn = document.querySelectorAll('.close');
@@ -33,7 +33,7 @@ closeBtn.forEach(btn => {
     })
 })
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
@@ -42,7 +42,7 @@ window.onclick = function (event) {
 function loadContacts() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             var contacts = JSON.parse(this.responseText);
             var table = document.querySelector("#contactsList");
             var pagination = document.querySelector("#pagination");
