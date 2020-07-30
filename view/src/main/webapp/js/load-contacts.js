@@ -2,83 +2,6 @@
 
 "use strict";
 
-//обработчики событий для кнопок меню:
-var createContact = document.querySelector('#createContact');
-createContact.addEventListener('click', function () {
-    document.location.href = "html/contactForm.html";
-})
-// var editContact = document.querySelector('#editContact');
-// editContact.addEventListener('click', function () {
-//     document.location.href = "html/contactForm.html";
-// })
-var sendEmail = document.querySelector('#sendEmail');
-sendEmail.addEventListener('click', function () {
-    document.location.href = "html/mailForm.html";
-})
-var searchContact = document.querySelector('#searchContact');
-searchContact.addEventListener('click', function () {
-    document.location.href = 'html/searchForm.html';
-})
-
-//всплывающие окошки
-var deleteBtn = document.querySelector("#deleteContact");
-var editBtn = document.querySelector("#editContact");
-var modalErr = document.querySelector('#errorDeleteEdit');
-var modal = document.querySelector('#messageDelete');
-var closeBtn = document.querySelectorAll('.close');
-var checkboxes = document.querySelectorAll("input[type='checkbox']");
-
-deleteBtn.addEventListener('click', showModals);
-editBtn.addEventListener('click', showModals);
-
-function showModals() {
-    var flag = false;
-    checkboxes.forEach(box => {
-        if (box.checked) {
-            flag = true;
-        }
-    })
-    if (flag) {
-        modal.style.display = "block";//если это кнопка удалить fixme
-        //document.location.href = "html/contactForm.html"; //если это кнопка редактировать
-    } else {
-        modalErr.style.display = "block";
-    }
-}
-
-//закрытие окошек
-closeBtn.forEach(btn => {
-    btn.addEventListener('click', () => {
-        modal.style.display = "none";
-        modalErr.style.display = "none";
-    })
-})
-
-window.onclick = function (event) {
-    if (event.target === modal || event.target === modalErr) {
-        modal.style.display = "none";
-        modalErr.style.display = "none";
-    }
-}
-
-//всплывающее окошко для кнопки удаления контакта:
-// var modal = document.querySelector('#messageDelete');
-// var btn = document.querySelector('#deleteContact');
-// var closeBtn = document.querySelectorAll('.close');
-// btn.addEventListener('click', function () {
-//     modal.style.display = "block";
-// })
-// closeBtn.forEach(btn => {
-//     btn.addEventListener('click', () => {
-//         modal.style.display = "none";
-//     })
-// })
-// window.onclick = function (event) {
-//     if (event.target === modal) {
-//         modal.style.display = "none";
-//     }
-// }
-
 //генерация таблички с контактами с пагинацией:
 function loadContacts() {
     var request = new XMLHttpRequest();
@@ -159,3 +82,137 @@ function loadContacts() {
 
 //загрузка таблицы при старте:
 loadContacts();
+
+
+//кнопки меню
+var createContact = document.querySelector('#createContact');
+createContact.addEventListener('click', function () {
+    document.location.href = "html/contactForm.html";
+})
+
+var searchContact = document.querySelector('#searchContact');
+searchContact.addEventListener('click', function () {
+    document.location.href = 'html/searchForm.html';
+})
+
+var mailBtn = document.querySelector('#sendEmail');
+mailBtn.addEventListener('click', handleEmail);
+
+var deleteBtn = document.querySelector('#deleteContact');
+deleteBtn.addEventListener('click', handleDelete);
+
+var editBtn = document.querySelector('#editContact');
+editBtn.addEventListener('click', handleEdit);
+
+//кнопка удаления во всплывающем окошке
+var reallyDelete = document.querySelector('#deleteButton');
+reallyDelete.addEventListener('click', deleteContact);
+
+//всплывающие окошки
+var deleteModal = document.querySelector('#messageDelete');
+var errDeleteEdit = document.querySelector('#errorDeleteEdit');
+var errEditMail = document.querySelector('#errorEditMail');
+
+//обработка нажатия чекбоксов
+var checkboxes = document.querySelectorAll("input[type='checkbox']");
+var counter = 0;
+
+checkboxes.forEach(box => {
+    box.addEventListener('change', event => {
+        if (event.target.checked) { //fixme
+            counter++;
+        } else {
+            counter--;
+        }
+    })
+})
+
+//обработка нажатия кнопок, для которых нужны чекбоксы
+function handleEmail() {
+    switch (counter) {
+        case 1:
+            var checkId = '';
+            checkboxes.forEach(box => {
+                if (box.checked) {
+                    checkId = box.getAttribute('value');
+                }
+            })
+            document.location.href = "html/mailForm.html&id=" + checkId;
+            break;
+        case 0:
+            document.location.href = "html/mailForm.html";
+            break;
+        default:
+            errEditMail.style.display = 'block';
+            break;
+    }
+}
+
+function handleEdit() {
+    switch (counter) {
+        case 1:
+            var checkId = '';
+            checkboxes.forEach(box => {
+                if (box.checked) {
+                    checkId = box.getAttribute('value');
+                }
+            })
+            document.location.href = "html/contactForm.html&id=" + checkId;
+            break;
+        case 0:
+            errDeleteEdit.style.display = 'block';
+            break;
+        default:
+            errEditMail.style.display = 'block';
+            break;
+    }
+}
+
+var checkIds = [];
+function handleDelete() {
+    if (counter > 0) {
+        checkboxes.forEach(box => {
+            if (box.checked) {
+                checkIds.push(box.getAttribute('value'));
+            }
+        })
+        deleteModal.style.display = 'block';
+    } else {
+        errDeleteEdit.style.display = 'block';
+    }
+}
+
+function deleteContact() {
+    var request = new XMLHttpRequest();
+    var ids = '';
+    checkIds.forEach(id => {
+        ids = ids + id + " ";
+    })
+    ids = 'ids=' + encodeURIComponent(ids);
+    request.open("post", "http://localhost:8080/view_war/delete", true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send(ids);
+}
+
+//закрытие окошек
+var closeBtn = document.querySelectorAll('.close');
+
+closeBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        errEditMail.style.display = "none";
+        errDeleteEdit.style.display = "none";
+        deleteModal.style.display = "none";
+        checkIds = [];
+    })
+})
+
+window.onclick = function (event) {
+    if (event.target === errEditMail ||
+        event.target === errDeleteEdit ||
+        event.target === deleteModal) {
+        errEditMail.style.display = "none";
+        errDeleteEdit.style.display = "none";
+        deleteModal.style.display = "none";
+        checkIds = [];
+    }
+}

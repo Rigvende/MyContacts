@@ -56,7 +56,7 @@ public class ContactsController extends HttpServlet {
             out.println(json);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
-            response.sendError(500);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         }
     }
 

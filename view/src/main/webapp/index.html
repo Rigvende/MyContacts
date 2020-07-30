@@ -1,89 +1,93 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- prevents from missing favicon.ico error-->
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <title>Контакты</title>
-    </head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- prevents from missing favicon.ico error-->
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <title>Контакты</title>
+</head>
 
-    <body>
-    <!-- хедер-->
-    <div class="header">
-        <h1>Список контактов</h1>
+<body>
+<!-- хедер-->
+<div class="header">
+    <h1>Список контактов</h1>
+</div>
+
+<!-- главная панель с меню и таблицей контактов-->
+<div class="mainPage">
+    <div class="column menu">
+        <ul>
+            <li id="createContact">
+                <p>Создать контакт</p>
+            </li>
+            <li id="editContact">
+                <p>Редактировать контакт</p>
+            </li>
+            <li id="deleteContact">
+                <p>Удалить выбранные</p>
+            </li>
+            <li id="sendEmail">
+                <p>Отправить сообщение</p>
+            </li>
+            <li id="searchContact">
+                <p>Поиск по фильтру</p>
+            </li>
+        </ul>
     </div>
-
-    <!-- главная панель с меню и таблицей контактов-->
-    <div class="mainPage">
-        <div class="column menu">
-            <ul>
-                <li id="createContact">
-                    <p>Создать контакт</p>
-                </li>
-                <li id="editContact">
-                    <p>Редактировать контакт</p>
-               </li>
-                <li id="deleteContact">
-                    <p>Удалить выбранные</p>
-                </li>
-                <li id="sendEmail">
-                    <p>Отправить сообщение</p>
-                </li>
-                <li id="searchContact">
-                    <p>Поиск по фильтру</p>
-                </li>
-            </ul>
-        </div>
-        <div class="column content">
-            <table id="contactsList">
-            </table>
-            <ul id="pagination">
-            </ul>
-        </div>
+    <div class="column content">
+        <table id="contactsList">
+        </table>
+        <ul id="pagination">
+        </ul>
     </div>
+</div>
 
-    <!-- скрытое окошко для подтверждения удаления-->
-    <div id="messageDelete" class="modal">
-        <div class="modalContent">
-            <span class="close closeX">&times;</span>
-            <p>Вы уверены, что хотите удалить выбранные контакты?</p>
-            <div class="modalButtons">
-                <button type="submit" class="pageButton modalBtn" id="deleteButton">Удалить</button>
-                <button class="close pageButton modalBtn">Отмена</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- скрытое окошко для отсутствующего чекбокса для удаления и редактирования -->
-    <div id="errorDeleteEdit" class="modal">
-        <div class="modalContent">
-            <span class="close closeX">&times;</span>
-            <p>Невозможно выполнить действие!</p>
-            <p>>> не выбран чекбокс</p>
-            <div class="modalButtons">
-                <button class="close pageButton modalBtn">ОК</button>
-            </div>
+<!-- скрытое окошко для подтверждения удаления-->
+<div id="messageDelete" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p>Вы уверены, что хотите удалить выбранные контакты?</p>
+        <div class="modalButtons">
+            <button type="submit" class="pageButton modalBtn" id="deleteButton">Удалить</button>
+            <button class="close pageButton modalBtn">Отмена</button>
         </div>
     </div>
+</div>
 
-    <!-- скрытое окошко для лишних чекбоксов для почты и редактирования -->
-    <div id="errorEditMail" class="modal">
-        <div class="modalContent">
-            <span class="close closeX">&times;</span>
-            <p>Невозможно выполнить действие!</p>
-            <p>>> выбрано больше одного чекбокса</p>
-            <div class="modalButtons">
-                <button class="close pageButton modalBtn">ОК</button>
-            </div>
+<!-- скрытое окошко для отсутствующего чекбокса для удаления и редактирования -->
+<div id="errorDeleteEdit" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p>Невозможно выполнить действие!</p>
+        <p>>> не выбран чекбокс</p>
+        <div class="modalButtons">
+            <button class="close pageButton modalBtn">ОК</button>
         </div>
     </div>
+</div>
 
-    <!-- футер-->
-    <div class="footer">
-        <p>(c) 2020 Марианна Патрусова</p>
+<!-- скрытое окошко для лишних чекбоксов для почты и редактирования -->
+<div id="errorEditMail" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p>Невозможно выполнить действие!</p>
+        <p>>> выбрано больше одного чекбокса</p>
+        <div class="modalButtons">
+            <button class="close pageButton modalBtn">ОК</button>
+        </div>
     </div>
+</div>
 
-    <!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
-    <script src="js/load-contacts.js"></script>
-    </body>
+<!-- футер-->
+<div class="footer">
+    <p>(c) 2020 Марианна Патрусова</p>
+</div>
+
+<script>
+
+</script>
+
+<!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
+<script src="js/load-contacts.js"></script>
+</body>
 </html>

@@ -19,6 +19,7 @@ public class StringValidator {
     private final static String CHECK_ZIP = "^[\\d]([-\\d]){3,9}$";
     private final static String CHECK_CODE = "^([-+\\d]){2,5}$";
     private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
+    private final static String CHECK_ID = "[1-9223372036854775807]";
 
     //name, surname
     public static boolean isValidName(String name) {
@@ -82,6 +83,13 @@ public class StringValidator {
     //attachment_name
     public static boolean isValidAttachment(String name) {
         return name.length() <= 40;
+    }
+
+    //phone_number
+    public static boolean isValidId(String number) {
+        Pattern pattern = Pattern.compile(CHECK_ID);
+        Matcher matcher = pattern.matcher(number);
+        return matcher.find();
     }
 
 }
