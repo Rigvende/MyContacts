@@ -1,6 +1,7 @@
 // function for main page generation
 
 "use strict";
+var checkboxes = [];
 
 //генерация таблички с контактами с пагинацией:
 function loadContacts() {
@@ -39,7 +40,7 @@ function loadContacts() {
                     for (var note of notes) {
                         var tr = document.createElement('tr');
                         table.appendChild(tr);
-                        var checkbox = '<label><input type="checkbox" value="' + note.id + '"/></label>';
+                        var checkbox = '<label><input type="checkbox" class="checkbox" value="' + note.id + '"/></label>';
                         var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
                             + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
                         var location = note.country + ', ' + note.city + ', ' + note.address;
@@ -62,6 +63,8 @@ function loadContacts() {
             }
 
             showActive(items[0]);
+
+            checkboxes = document.querySelector(".checkbox");//fixme не захватываются созданные чекбоксы!
 
             for (var item of items) {
                 item.addEventListener('click', function () {
@@ -114,12 +117,14 @@ var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
 
 //обработка нажатия чекбоксов
-var checkboxes = document.querySelectorAll("input[type='checkbox']");
+// var checkboxes = document.querySelectorAll("input[type='checkbox']");
+// alert(checkboxes.length);
+
 var counter = 0;
 
 checkboxes.forEach(box => {
     box.addEventListener('change', event => {
-        if (event.target.checked) { //fixme
+        if (event.target.checked) {
             counter++;
         } else {
             counter--;
@@ -129,18 +134,18 @@ checkboxes.forEach(box => {
 
 //обработка нажатия кнопок, для которых нужны чекбоксы
 function handleEmail() {
+    var checkId = '';
     switch (counter) {
         case 1:
-            var checkId = '';
             checkboxes.forEach(box => {
                 if (box.checked) {
-                    checkId = box.getAttribute('value');
+                    checkId = box.value;
                 }
             })
-            document.location.href = "html/mailForm.html&id=" + checkId;
+            document.location.href = "html/mailForm.html?id=" + checkId;
             break;
         case 0:
-            document.location.href = "html/mailForm.html";
+            document.location.href = "html/mailForm.html?id=" + checkId;
             break;
         default:
             errEditMail.style.display = 'block';
@@ -154,10 +159,10 @@ function handleEdit() {
             var checkId = '';
             checkboxes.forEach(box => {
                 if (box.checked) {
-                    checkId = box.getAttribute('value');
+                    checkId = box.value;
                 }
             })
-            document.location.href = "html/contactForm.html&id=" + checkId;
+            document.location.href = "html/contactForm.html?id=" + checkId;
             break;
         case 0:
             errDeleteEdit.style.display = 'block';
@@ -192,6 +197,7 @@ function deleteContact() {
     request.open("post", "http://localhost:8080/view_war/delete", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(ids);
+    loadContacts();
 }
 
 //закрытие окошек

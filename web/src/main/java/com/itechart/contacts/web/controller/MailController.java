@@ -6,10 +6,6 @@ import com.itechart.contacts.web.validator.StringValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +18,13 @@ import java.io.PrintWriter;
  * @author Marianna Patrusova
  * @version 1.0
  */
-@WebServlet(urlPatterns = "/mail/*")
+@WebServlet(urlPatterns = "/mail")
 public class MailController extends HttpServlet {
 
     private static final long serialVersionUID = -4687623009995660337L;
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String CONTEXT = "/view_war/mail/"; //artifact war, context /view_war fixme
+    private final static String MESSAGE_FAIL = "Что-то пошло не так...";
     private final MailService mailService = new MailService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -44,23 +41,25 @@ public class MailController extends HttpServlet {
             }
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of getting mail info failed.");
-            response.sendError(500);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, MESSAGE_FAIL);
         }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
-        String sender = request.getParameter("to");
+        String to = request.getParameter("to");
         String subject = request.getParameter("subject");
-        String message = request.getParameter("body");
+        String body = request.getParameter("body");
         try {
-            mailService.service(sender, subject, message);
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/index.html");
-            requestDispatcher.forward(request, response);
-        } catch (ServiceException | ServletException e) {
+            mailService.service(to, subject, body);
+//            if (StringValidator.isValidEmail(to) &&
+//                    StringValidator.isValidHeader(subject) &&
+//                    StringValidator.isValidMessage(body)) {
+
+//            }
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
-            response.sendError(500);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, MESSAGE_FAIL);
         }
     }
 

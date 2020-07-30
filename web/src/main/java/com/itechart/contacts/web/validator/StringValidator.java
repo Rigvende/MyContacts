@@ -1,5 +1,6 @@
 package com.itechart.contacts.web.validator;
 
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +20,9 @@ public class StringValidator {
     private final static String CHECK_ZIP = "^[\\d]([-\\d]){3,9}$";
     private final static String CHECK_CODE = "^([-+\\d]){2,5}$";
     private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
-    private final static String CHECK_ID = "[1-9223372036854775807]";
+    private final static String CHECK_ID = "[\\d]";
+    private final static int HEADER_LENGTH = 255;
+    private final static int MESSAGE_LENGTH = 1000;
 
     //name, surname
     public static boolean isValidName(String name) {
@@ -85,11 +88,24 @@ public class StringValidator {
         return name.length() <= 40;
     }
 
-    //phone_number
+    //id
     public static boolean isValidId(String number) {
         Pattern pattern = Pattern.compile(CHECK_ID);
         Matcher matcher = pattern.matcher(number);
-        return matcher.find();
+        if (matcher.find()) {
+            return new BigInteger(number).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0;
+        }
+        return false;
+    }
+
+    //Mail header
+    public static boolean isValidHeader(String header) {
+        return header.length() < HEADER_LENGTH;
+    }
+
+    //message
+    public static boolean isValidMessage(String message) {
+        return message.length() < MESSAGE_LENGTH;
     }
 
 }

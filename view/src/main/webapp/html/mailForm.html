@@ -19,13 +19,9 @@
             <img src="../image/mail.jpg" id="mailImage" style="width:100%" alt="конверт">
         </div>
         <div class="pageColumn">
-            <form method="post" action="http://localhost:8080/view_war/mail">
-                <div class="pageLabel"><label for="emailField">Кому</label> </div>
+            <form>
+                <div class="pageLabel"><label for="emailField">Кому</label></div>
                 <input type="text" class="field" id="emailField" name="to" placeholder="Введите адрес.."
-                       required oninvalid="this.setCustomValidity('Заполните это поле')"
-                       oninput="setCustomValidity('')"/>
-                <div class="pageLabel"><label for="headerField">Тема</label></div>
-                <input type="text" class="field" id="headerField" name="subject" placeholder="Введите заголовок.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
                 <div class="pageLabel"><label for="templateField">Выбор шаблона</label></div>
@@ -34,9 +30,13 @@
                     <option value="template 1">С днём рожденья</option>
                     <option value="template 2">Хочу встретиться</option>
                 </select>
+                <div class="pageLabel"><label for="headerField">Тема</label></div>
+                <input type="text" class="field" id="headerField" name="subject" placeholder="Введите заголовок.."
+                       required oninvalid="this.setCustomValidity('Заполните это поле')"
+                       oninput="setCustomValidity('')"/>
                 <div class="pageLabel"><label for="messageField">Сообщение</label></div>
                 <textarea id="messageField" class="field" name="body" placeholder="Написать сообщение.."></textarea>
-                <input type="submit" class="pageButton" value="Отправить">
+                <input type="submit" class="pageButton" id="sendButton" value="Отправить">
                 <button class="pageButton">
                     <a style="text-decoration: none;" class="visitedLink" href="../index.html">Отмена</a>
                 </button>
@@ -44,6 +44,96 @@
         </div>
     </div>
 </div>
+
+<!-- скрытое окошко для извещения об отправке -->
+<div id="messageSend" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p></p>
+        <div class="modalButtons">
+            <button type="submit" class="pageButton modalBtn small" id="returnButton">Вернуться к списку</button>
+            <button class="close pageButton modalBtn small">Новое сообщение</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    //автозаполнение емэйла по чекбоксу
+    function autofill() {
+
+        var id = window.location.href.split("?")[1].split("=")[1];
+        if (id !== '') {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    var to = document.querySelector('#to');
+                    to.innerHTML = JSON.parse(this.responseText);
+                }
+            }
+            request.open("GET", "http://localhost:8080/view_war/mail/" + id, true);
+            request.send();
+        }
+    }
+
+    autofill();
+
+    //модальное окошко после отправки
+    var modalSend = document.querySelector('#messageSend');
+    var sendBtn = document.querySelector("#sendButton");
+    var success = "Сообщение успешно отправлено";
+    var fail = "Что-то пошло не так";
+
+    sendBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            //включить спиннер на 10 сек
+            if (this.readyState === 4 && this.status === 200) {
+                //выключить спиннер
+                modalSend.querySelector('p').innerHTML = success;
+                modalSend.style.display = 'block';
+            }
+            if(this.status === 404 || this.status === 500) {
+                //выключить спиннер
+                modalSend.querySelector('p').innerHTML = fail;
+                modalSend.style.display = 'block';
+            }
+        }
+        var to = document.getElementById('emailField').value;
+        var subject = document.getElementById('headerField').value;
+        var body = document.getElementById('messageField').value;
+        var postData = 'to=' + to;
+        postData += '&subject=' + encodeURIComponent(subject);
+        postData += '&body=' + encodeURIComponent(body);
+        request.open("POST", "http://localhost:8080/view_war/mail", true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send(postData);
+    })
+
+    var returnBtn = document.querySelector('#returnButton');
+    returnBtn.addEventListener('click', function () {
+        document.location.href = "../index.html";
+    })
+
+    //закрытие окошка
+    var closeBtn = document.querySelectorAll('.close');
+
+    closeBtn.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modalSend.style.display = "none";
+            modalSend.querySelector('p').innerHTML = "Сообщение успешно отправлено";
+        })
+    })
+
+    window.onclick = function (event) {
+        if (event.target === modalSend) {
+            modalSend.style.display = "none";
+            modalSend.querySelector('p').innerHTML = "Сообщение успешно отправлено";
+        }
+    }
+</script>
 
 <!-- футер-->
 <div class="footer">
