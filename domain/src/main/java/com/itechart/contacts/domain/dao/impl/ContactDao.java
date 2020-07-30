@@ -50,6 +50,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
     private static final String SQL_FIND_ALL_BY_BIRTHDAY =
             "SELECT contact_name, surname, patronymic " +
             "FROM contacts WHERE deleted IS NULL AND birthday LIKE ?;";
+    private static final String SQL_FIND_EMAIL_BY_ID =
+            "SELECT email FROM contacts WHERE deleted IS NULL AND id_contact = ?;";
 
     public ContactDao() throws DaoException, ClassNotFoundException {
         super();
@@ -296,6 +298,34 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             throw new DaoException(e);
         }
         return contacts;
+    }
+
+    public String findEmailById(long id) throws DaoException {
+        AutoCommitDisable();
+        String email = "";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_EMAIL_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    email = resultSet.getString(1);
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();                  //rollback whole transaction if smth goes wrong
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.ERROR,
+                            "Cannot do rollback in ContactDao findEmailById method. ", e);
+                    throw new DaoException(e);
+                }
+            }
+            LOGGER.log(Level.ERROR,
+                    "Cannot find email by ID. Request to table failed. ", e);
+            throw new DaoException(e);
+        }
+        return email;
     }
 
 }

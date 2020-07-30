@@ -2,6 +2,7 @@ package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.MailService;
+import com.itechart.contacts.web.validator.StringValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,7 @@ public class MailController extends HttpServlet {
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         try {
-            if (!id.isEmpty()) {
+            if (!id.isEmpty() && StringValidator.isValidId(id)) {
                 long contactId = Long.parseLong(id);
                 String json = mailService.service(contactId);
                 response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data

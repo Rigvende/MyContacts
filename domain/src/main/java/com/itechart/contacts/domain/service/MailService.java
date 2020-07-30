@@ -76,8 +76,8 @@ public class MailService {
         ContactDao dao = null;
         try {
             dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-            Contact contact = (Contact) dao.findEntityById(id);
-            json = createMailJson(contact);
+            String email = dao.findEmailById(id);
+            json = createMailJson(email);
         } catch (DaoException | ClassNotFoundException e) {
             LOGGER.log(Level.ERROR, "Error while sending work confirmation by e-mail has occurred. ", e);
             throw new ServiceException(e);
@@ -89,11 +89,9 @@ public class MailService {
         return json;
     }
 
-    private String createMailJson(Contact contact) {
+    private String createMailJson(String email) {
         StringBuilder json = new StringBuilder("{\n");
-        json.append("\"name\": ").append(JSONObject.quote(contact.getName())).append(",\n");
-        json.append("\"surname\": ").append(JSONObject.quote(contact.getSurname())).append(",\n");
-        json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append("\n");
+        json.append("\"email\": ").append(JSONObject.quote(email)).append("\n");
         json.append("},\n");
         return json.toString();
     }
