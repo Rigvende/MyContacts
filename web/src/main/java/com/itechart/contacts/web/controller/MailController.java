@@ -18,12 +18,12 @@ import java.io.PrintWriter;
  * @author Marianna Patrusova
  * @version 1.0
  */
-@WebServlet(urlPatterns = "/mail")
+@WebServlet(urlPatterns = "/mail/*")
 public class MailController extends HttpServlet {
 
     private static final long serialVersionUID = -4687623009995660337L;
     private final static Logger LOGGER = LogManager.getLogger();
-    private final static String CONTEXT = "/view_war/mail/"; //artifact war, context /view_war fixme
+    private final static String CONTEXT = "/view_war/mail/"; //artifact war, context /view_war
     private final static String MESSAGE_FAIL = "Что-то пошло не так...";
     private final MailService mailService = new MailService();
 
@@ -51,12 +51,11 @@ public class MailController extends HttpServlet {
         String subject = request.getParameter("subject");
         String body = request.getParameter("body");
         try {
-            mailService.service(to, subject, body);
-//            if (StringValidator.isValidEmail(to) &&
-//                    StringValidator.isValidHeader(subject) &&
-//                    StringValidator.isValidMessage(body)) {
-
-//            }
+            if (StringValidator.isValidEmail(to) &&
+                    StringValidator.isValidHeader(subject) &&
+                    StringValidator.isValidMessage(body)) {
+                mailService.service(to, subject, body);
+            }
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, MESSAGE_FAIL);

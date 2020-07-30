@@ -156,8 +156,8 @@
         </label>
         <br><br>
         <div class="modalButtons">
-            <button type="button" class="close pageButton modalBtn">Оставить</button>
-            <button type="button" class="pageButton modalBtn" id="photoButton">Сброс</button>
+            <button type="button" class="close pageButton modalBtn small">Оставить</button>
+            <button type="button" class="pageButton modalBtn small" id="photoButton">Сброс</button>
         </div>
     </div>
 </div>
@@ -174,7 +174,7 @@
                     Код страны
                 </td>
                 <td><label>
-                    <input id="phoneCountry" type="text" name="countryCode" value=""/>
+                    <input form="contactSave" id="phoneCountry" type="text" name="countryCode" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -182,7 +182,7 @@
                     Код оператора
                 </td>
                 <td><label>
-                    <input id="phoneOperator" type="text" name="operatorCode" value=""/>
+                    <input form="contactSave" id="phoneOperator" type="text" name="operatorCode" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -190,7 +190,7 @@
                     Номер
                 </td>
                 <td><label>
-                    <input id="phoneNumber" type="text" name="number" value=""/>
+                    <input form="contactSave" id="phoneNumber" type="text" name="number" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -198,7 +198,7 @@
                     Тип
                 </td>
                 <td><label>
-                    <select id="phoneType">
+                    <select form="contactSave" id="phoneType">
                         <option>иной</option>
                         <option>домашний</option>
                         <option>рабочий</option>
@@ -211,14 +211,14 @@
                     Комментарий
                 </td>
                 <td><label>
-                    <input id="phoneComment" type="text" name="phoneComment" value=""/>
+                    <input form="contactSave" id="phoneComment" type="text" name="phoneComment" value=""/>
                 </label></td>
             </tr>
         </table>
         <br><br>
         <div class="modalButtons">
-            <button type="button" id="phoneButton">Добавить</button>
-            <button type="button" class="close">Отмена</button>
+            <button type="button" class="pageButton modalBtn small" id="phoneButton">Добавить</button>
+            <button type="button" class="close pageButton modalBtn small">Отмена</button>
         </div>
     </div>
 </div>
@@ -235,20 +235,20 @@
                     Комментарий
                 </td>
                 <td><label>
-                    <input id="attachmentComment" type="text" name="attachmentComment" value=""/>
+                    <input form="contactSave" id="attachmentComment" type="text" name="attachmentComment" value=""/>
                 </label></td>
             </tr>
         </table>
         <br>
         <label>
-            <input id="attachment" name="attachment" size="1000" type="file"
+            <input form="contactSave" id="attachment" name="attachment" size="1000" type="file"
                    required oninvalid="this.setCustomValidity('Выберите файл')"
                    oninput="setCustomValidity('')"/>
         </label>
         <br><br>
         <div class="modalButtons">
-            <button type="button" id="attachmentButton">Добавить</button>
-            <button type="button" class="close">Отмена</button>
+            <button type="button" class="pageButton modalBtn small" id="attachmentButton">Добавить</button>
+            <button type="button" class="close pageButton modalBtn small">Отмена</button>
         </div>
     </div>
 </div>

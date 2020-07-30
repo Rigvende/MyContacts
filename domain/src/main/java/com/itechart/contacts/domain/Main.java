@@ -26,6 +26,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException {
@@ -187,6 +189,13 @@ public class Main {
 //                dao.exit();
 //            }
 //        }
+
+        ////////////////////
+//        String email = "zvezdo4ka13@yandex.by";
+//        Pattern pattern = Pattern.compile("^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$");
+//        Matcher matcher = pattern.matcher(email);
+//
+//        System.out.println(matcher.find());
 
     }
 
