@@ -7,6 +7,7 @@ package com.itechart.contacts.domain.entity.impl;
  */
 public enum Gender {
 
+    UNKNOWN("unknown"),
     MAN("male"),
     WOMAN("female");
 
@@ -22,6 +23,8 @@ public enum Gender {
 
     public static Gender getGender(String value) {
         switch(value) {
+            case "unknown":
+                return Gender.UNKNOWN;
             case "male":
                 return Gender.MAN;
             case "female":
