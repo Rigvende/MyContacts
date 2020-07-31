@@ -63,12 +63,12 @@ function loadContacts() {
             }
 
             showActive(items[0]);
-
-            checkboxes = document.querySelector(".checkbox");//fixme не захватываются созданные чекбоксы!
+            checkCheckboxes();
 
             for (var item of items) {
                 item.addEventListener('click', function () {
                     showActive(this);
+                    checkCheckboxes();
                 });
             }
 
@@ -116,21 +116,21 @@ var deleteModal = document.querySelector('#messageDelete');
 var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
 
-//обработка нажатия чекбоксов
-// var checkboxes = document.querySelectorAll("input[type='checkbox']");
-// alert(checkboxes.length);
-
 var counter = 0;
 
-checkboxes.forEach(box => {
-    box.addEventListener('change', event => {
-        if (event.target.checked) {
-            counter++;
-        } else {
-            counter--;
-        }
+function checkCheckboxes() {
+    checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach(box => {
+        box.addEventListener('change', event => {
+            if (event.target.checked) {
+                counter++;
+                alert(counter + "" + event.target.value);
+            } else {
+                counter--;
+            }
+        })
     })
-})
+}
 
 //обработка нажатия кнопок, для которых нужны чекбоксы
 function handleEmail() {
@@ -174,6 +174,7 @@ function handleEdit() {
 }
 
 var checkIds = [];
+
 function handleDelete() {
     if (counter > 0) {
         checkboxes.forEach(box => {
