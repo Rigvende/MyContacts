@@ -55,7 +55,12 @@ public class EntityBuilder {
             String name = resultSet.getString("contact_name");
             String surname = resultSet.getString("surname");
             String patronymic = resultSet.getString("patronymic");
-            LocalDate birthday = DateConverter.convertToLocalDate(resultSet.getDate("birthday"));
+            LocalDate birthday;
+            if (resultSet.getDate("birthday") != null) {
+                birthday = DateConverter.convertToLocalDate(resultSet.getDate("birthday"));
+            } else {
+                birthday = null;
+            }
             Gender gender = Gender.getGender(resultSet.getString("gender"));
             String citizenship = resultSet.getString("citizenship");
             String familyStatus = resultSet.getString("family_status");

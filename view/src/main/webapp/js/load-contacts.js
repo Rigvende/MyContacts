@@ -11,7 +11,7 @@ function loadContacts() {
             var contacts = JSON.parse(this.responseText);
             var table = document.querySelector("#contactsList");
             var pagination = document.querySelector("#pagination");
-            var notesOnPage = 2;
+            var notesOnPage = 10;
             var size = Math.ceil(contacts.length / notesOnPage);
 
             var showActive = (function () {
@@ -43,7 +43,7 @@ function loadContacts() {
                         var checkbox = '<label><input type="checkbox" class="checkbox" value="' + note.id + '"/></label>';
                         var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
                             + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
-                        var location = note.country + ', ' + note.city + ', ' + note.address;
+                        var location = note.country + ' ' + note.city + ' ' + note.address;
                         createTd(checkbox, tr);
                         createTd(editLink, tr);
                         createTd(note.birthday, tr);
