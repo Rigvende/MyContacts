@@ -125,6 +125,11 @@
             <artifactId>jquery</artifactId>
             <version>3.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.30</version>
+        </dependency>
     </dependencies>
 
     <build>

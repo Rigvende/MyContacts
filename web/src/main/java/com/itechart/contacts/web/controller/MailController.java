@@ -34,6 +34,7 @@ public class MailController extends HttpServlet {
             if (!id.isEmpty() && StringValidator.isValidId(id)) {
                 long contactId = Long.parseLong(id);
                 String json = mailService.service(contactId);
+                System.out.println(json);
                 response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();

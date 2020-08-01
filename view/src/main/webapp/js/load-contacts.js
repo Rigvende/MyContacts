@@ -115,8 +115,7 @@ reallyDelete.addEventListener('click', deleteContact);
 var deleteModal = document.querySelector('#messageDelete');
 var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
-
-var counter = 0;
+var counter = 0; //счетчик нажатых чекбоксов
 
 function checkCheckboxes() {
     checkboxes = document.querySelectorAll(".checkbox");
@@ -124,7 +123,6 @@ function checkCheckboxes() {
         box.addEventListener('change', event => {
             if (event.target.checked) {
                 counter++;
-                alert(counter + "" + event.target.value);
             } else {
                 counter--;
             }

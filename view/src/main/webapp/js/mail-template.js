@@ -22,14 +22,14 @@ choice.addEventListener('change', function () {
 
 //автозаполнение емэйла по чекбоксу
 function autofill() {
-
     var id = window.location.href.split("?")[1].split("=")[1];
-    if (id !== '') {
+    if (!(id.trim().length === 0)) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                var to = document.querySelector('#to');
-                to.innerHTML = JSON.parse(this.responseText);
+                var to = document.querySelector('#emailField');
+                var receiver = JSON.parse(this.responseText);
+                to.value = receiver.email;
             }
         }
         request.open("GET", "http://localhost:8080/view_war/mail/" + id, true);

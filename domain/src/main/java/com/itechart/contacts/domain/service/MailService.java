@@ -92,7 +92,7 @@ public class MailService {
     private String createMailJson(String email) {
         StringBuilder json = new StringBuilder("{\n");
         json.append("\"email\": ").append(JSONObject.quote(email)).append("\n");
-        json.append("},\n");
+        json.append("}\n");
         return json.toString();
     }
 

@@ -14,23 +14,24 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.MailService;
 import com.itechart.contacts.domain.util.DbcpManager;
 import com.itechart.contacts.domain.util.PathParser;
+import freemarker.cache.FileTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException {
+    public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException, IOException, TemplateException {
 //        Connection connection = DbcpManager.getConnection();
 //        System.out.println(connection);
 //        connection.close();
@@ -197,6 +198,19 @@ public class Main {
 //
 //        System.out.println(matcher.find());
 
+
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+        FileTemplateLoader ftl1 = new FileTemplateLoader(new File("view\\src\\main\\webapp\\templates"));
+        cfg.setTemplateLoader(ftl1);
+        ContactDao dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+        Contact contact = (Contact) dao.findEntityById(1);
+        Map<String, Object> root = new HashMap<>();
+        root.put("user", contact);
+        Template temp = cfg.getTemplate("birthday.ftl");
+        Writer out = new OutputStreamWriter(System.out);
+        temp.process(root, out);
+        out.close();
     }
+
 
 }
