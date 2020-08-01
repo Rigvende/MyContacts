@@ -13,10 +13,9 @@
     <h1>Список контактов</h1>
     <div style="text-align: right; font-size: 18px">
         Для просмотра информации о контакте<br>
-        нажмите на ссылку в поле ФИО<br>
+        нажми на ссылку в поле ФИО :)<br>
         <hr>
-        Для прочих манипуляций со списком<br>
-        воспользуйтесь боковой панелью меню
+        <i>-- Найди знакомого прямо сейчас! --</i><br>
     </div>
 </div>
 
@@ -103,15 +102,19 @@
             <input type="text" class="field" id="patronymicField" name="patronymic"
                    placeholder="Введите отчество.."/>
             <div class="pageLabel"><label for="birthdayField">День рождения</label></div>
-            <input type="date" id="birthdayField" name="birthday" />
-            <label>
-                <input name="day" type="radio" value="after"> После
-                <input name="day" type="radio" value="before"> До
-                <input name="day" type="radio" value="strict" checked> Точно
-            </label>
+            <div id="birthStrictField">
+                <label>
+                    <input name="day" type="radio" value="after"> После
+                    <input name="day" type="radio" value="before"> До
+                    <input name="day" type="radio" value="strict" checked> Точно
+                </label>
+            </div>
+            <div id="birthdayField">
+                <input type="date" name="birthday"/>
+            </div>
             <div class="pageLabel"><label for="genderField">Пол</label></div>
             <div id="genderField">
-                <label >
+                <label>
                     <input name="gender" type="radio" value="man"> М
                     <input name="gender" type="radio" value="woman"> Ж
                     <input name="gender" type="radio" value="unknown" hidden checked>
@@ -130,8 +133,8 @@
             <input type="text" class="field" id="addressField" name="address" placeholder="Введите улицу.."/>
             <br><br>
             <div class="modalButtons">
-            <input type="submit" class="pageButton modalBtn small" value="Поиск">
-            <button type="button" class="close pageButton modalBtn small">Отмена</button>
+                <input type="submit" class="pageButton modalBtn small" value="Поиск">
+                <button type="button" class="close pageButton modalBtn small">Отмена</button>
             </div>
         </form>
     </div>

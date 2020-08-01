@@ -247,7 +247,9 @@
     max-height: 500px;
     max-width: 650px;
 }
-#genderField, #birthdayField{
+#genderField, #birthdayField, #birthStrictField {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
     margin-top: 20px;
 }

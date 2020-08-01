@@ -26,22 +26,36 @@
     <form id="contactSave" method="post" enctype="multipart/form-data" action="http://localhost:8080/view_war/contacts">
         <div class="pagePanel">
             <div class="contactColumn">
-                <div class="pageLabel"><label for="surnameField">Фамилия *</label></div>
+                <div class="pageLabel">
+                    <label for="surnameField">Фамилия *</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="surnameField" name="surname"
                        placeholder="Введите фамилию.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-                <div class="pageLabel"><label for="nameField">Имя *</label></div>
+                <div class="pageLabel">
+                    <label for="nameField">Имя *</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="nameField" name="сontactName"
                        placeholder="Введите имя.."
                        required oninvalid="this.setCustomValidity('Заполните это поле')"
                        oninput="setCustomValidity('')"/>
-                <div class="pageLabel"><label for="patronymicField">Отчество</label></div>
+                <div class="pageLabel">
+                    <label for="patronymicField">Отчество</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="patronymicField" name="patronymic"
                        placeholder="Введите отчество.."/>
-                <div class="pageLabel"><label for="birthdayField">День рождения</label></div>
-                <input form="contactSave" type="date" id="birthdayField" name="birthday" value="ДД-ММ-ГГГГ"/>
-                <div class="pageLabel"><label for="genderField">Пол</label></div>
+                <div class="pageLabel">
+                    <label for="birthdayField">День рождения</label>
+                </div>
+                <div id="birthdayField">
+                    <label>
+                        <input form="contactSave" type="date" name="birthday"/>
+                    </label>
+                </div>
+                <div class="pageLabel">
+                    <label for="genderField">Пол</label>
+                </div>
                 <div id="genderField">
                     <label>
                         <input form="contactSave" name="gender" type="radio" value="man"> М
@@ -51,33 +65,51 @@
                 </div>
             </div>
             <div class="contactColumn">
-                <div class="pageLabel"><label for="siteField">Веб-сайт</label></div>
+                <div class="pageLabel">
+                    <label for="siteField">Веб-сайт</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="siteField" name="website"
                        placeholder="Введите веб-сайт.."/>
-                <div class="pageLabel"><label for="emailField">E-mail</label></div>
+                <div class="pageLabel">
+                    <label for="emailField">E-mail</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="emailField" name="email"
                        placeholder="Введите e-mail.."/>
-                <div class="pageLabel"><label for="workField">Место работы</label></div>
+                <div class="pageLabel">
+                    <label for="workField">Место работы</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="workField" name="work"
                        placeholder="Введите место работы.."/>
-                <div class="pageLabel"><label for="statusField">Семейное положение</label></div>
+                <div class="pageLabel">
+                    <label for="statusField">Семейное положение</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="statusField" name="status"
                        placeholder="Введите статус.."/>
-                <div class="pageLabel"><label for="citizenshipField">Гражданство</label></div>
+                <div class="pageLabel">
+                    <label for="citizenshipField">Гражданство</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="citizenshipField" name="citizenship"
                        placeholder="Введите гражданство.."/>
             </div>
             <div class="contactColumn">
-                <div class="pageLabel"><label for="countryField">Страна</label></div>
+                <div class="pageLabel">
+                    <label for="countryField">Страна</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="countryField" name="country"
                        placeholder="Введите страну.."/>
-                <div class="pageLabel"><label for="cityField">Город</label></div>
+                <div class="pageLabel">
+                    <label for="cityField">Город</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="cityField" name="city"
                        placeholder="Введите город.."/>
-                <div class="pageLabel"><label for="addressField">Адрес</label></div>
+                <div class="pageLabel">
+                    <label for="addressField">Адрес</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="addressField" name="address"
                        placeholder="Введите улицу, дом, квартиру.."/>
-                <div class="pageLabel"><label for="zipField">Индекс</label></div>
+                <div class="pageLabel">
+                    <label for="zipField">Индекс</label>
+                </div>
                 <input form="contactSave" type="text" class="field" id="zipField" name="address"
                        placeholder="Введите почтовый индекс.."/>
             </div>

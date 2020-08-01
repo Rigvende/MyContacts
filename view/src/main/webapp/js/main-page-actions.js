@@ -3,80 +3,85 @@
 "use strict";
 var checkboxes = [];
 
+//заполнение таблицы и пагинация
+function fillTable(contacts) {
+    var table = document.querySelector("#contactsList");
+    var pagination = document.querySelector("#pagination");
+    var notesOnPage = 10;
+    var size = Math.ceil(contacts.length / notesOnPage);
+
+    var showActive = (function () {
+        var active;
+        return function (item) {
+            if (active) {
+                active.classList.remove('active');
+            }
+            active = item;
+            item.classList.add('active');
+
+            var pageNum = +item.innerHTML;
+            var start = (pageNum - 1) * notesOnPage;
+            var end = start + notesOnPage;
+            var notes = contacts.slice(start, end);
+
+            table.innerHTML = '';
+            var th = document.createElement('tr');
+            table.appendChild(th);
+            createTd('<b>#</b>', th);
+            createTd('<b>Имя контакта</b>', th);
+            createTd('<b>Дата рождения</b>', th);
+            createTd('<b>Адрес</b>', th);
+            createTd('<b>Место работы</b>', th);
+
+            for (var note of notes) {
+                var tr = document.createElement('tr');
+                table.appendChild(tr);
+                var checkbox = '<label><input type="checkbox" class="checkbox" value="' + note.id + '"/></label>';
+                var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
+                    + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
+                var location = note.country + ' ' + note.city + ' ' + note.address;
+                createTd(checkbox, tr);
+                createTd(editLink, tr);
+                createTd(note.birthday, tr);
+                createTd(location, tr);
+                createTd(note.work, tr);
+            }
+        };
+    }());
+
+    var items = [];
+    pagination.innerHTML = '';
+    for (var i = 1; i <= size; i++) {
+        var li = document.createElement('li');
+        li.innerHTML = i;
+        pagination.appendChild(li);
+        items.push(li);
+    }
+
+    showActive(items[0]);
+    checkCheckboxes();
+
+    for (var item of items) {
+        item.addEventListener('click', function () {
+            showActive(this);
+            checkCheckboxes();
+        });
+    }
+
+    function createTd(text, tr) {
+        var td = document.createElement('td');
+        td.innerHTML = text;
+        tr.appendChild(td);
+    }
+}
+
 //генерация таблички с контактами с пагинацией:
 function loadContacts() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var contacts = JSON.parse(this.responseText);
-            var table = document.querySelector("#contactsList");
-            var pagination = document.querySelector("#pagination");
-            var notesOnPage = 10;
-            var size = Math.ceil(contacts.length / notesOnPage);
-
-            var showActive = (function () {
-                var active;
-                return function (item) {
-                    if (active) {
-                        active.classList.remove('active');
-                    }
-                    active = item;
-                    item.classList.add('active');
-
-                    var pageNum = +item.innerHTML;
-                    var start = (pageNum - 1) * notesOnPage;
-                    var end = start + notesOnPage;
-                    var notes = contacts.slice(start, end);
-
-                    table.innerHTML = '';
-                    var th = document.createElement('tr');
-                    table.appendChild(th);
-                    createTd('<b>#</b>', th);
-                    createTd('<b>Имя контакта</b>', th);
-                    createTd('<b>Дата рождения</b>', th);
-                    createTd('<b>Адрес</b>', th);
-                    createTd('<b>Место работы</b>', th);
-
-                    for (var note of notes) {
-                        var tr = document.createElement('tr');
-                        table.appendChild(tr);
-                        var checkbox = '<label><input type="checkbox" class="checkbox" value="' + note.id + '"/></label>';
-                        var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
-                            + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
-                        var location = note.country + ' ' + note.city + ' ' + note.address;
-                        createTd(checkbox, tr);
-                        createTd(editLink, tr);
-                        createTd(note.birthday, tr);
-                        createTd(location, tr);
-                        createTd(note.work, tr);
-                    }
-                };
-            }());
-
-            var items = [];
-            pagination.innerHTML = '';
-            for (var i = 1; i <= size; i++) {
-                var li = document.createElement('li');
-                li.innerHTML = i;
-                pagination.appendChild(li);
-                items.push(li);
-            }
-
-            showActive(items[0]);
-            checkCheckboxes();
-
-            for (var item of items) {
-                item.addEventListener('click', function () {
-                    showActive(this);
-                    checkCheckboxes();
-                });
-            }
-
-            function createTd(text, tr) {
-                var td = document.createElement('td');
-                td.innerHTML = text;
-                tr.appendChild(td);
-            }
+            fillTable(contacts);
         }
     };
     request.open("GET", "http://localhost:8080/view_war/contacts/", true);
@@ -137,7 +142,9 @@ function checkCheckboxes() {
     })
 }
 
-//обработка нажатия кнопок, для которых нужны чекбоксы
+//обработка нажатия кнопок, для которых нужны чекбоксы:
+
+//отправка почты
 function handleEmail() {
     var checkId = '';
     switch (counter) {
@@ -158,6 +165,7 @@ function handleEmail() {
     }
 }
 
+//редактирование
 function handleEdit() {
     switch (counter) {
         case 1:
@@ -178,6 +186,7 @@ function handleEdit() {
     }
 }
 
+//массив айдишников для удаления
 var checkIds = [];
 
 function handleDelete() {
@@ -215,7 +224,6 @@ closeBtn.forEach(btn => {
         errDeleteEdit.style.display = "none";
         deleteModal.style.display = "none";
         searchModal.style.display = "none";
-        alert(checkIds.length);
         checkIds = [];
     })
 })
