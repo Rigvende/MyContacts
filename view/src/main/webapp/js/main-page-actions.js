@@ -87,25 +87,32 @@ function loadContacts() {
 loadContacts();
 
 
-//кнопки меню
+//кнопки меню:
+
+//создать
 var createContact = document.querySelector('#createContact');
 createContact.addEventListener('click', function () {
     document.location.href = "html/contactForm.html";
 })
 
+//поиск
 var searchContact = document.querySelector('#searchContact');
+var searchModal = document.querySelector('#searching');
 searchContact.addEventListener('click', function () {
-    document.location.href = 'html/searchForm.html';
+    searchModal.style.display = 'block';
 })
 
-var mailBtn = document.querySelector('#sendEmail');
-mailBtn.addEventListener('click', handleEmail);
+//редактировать
+var editBtn = document.querySelector('#editContact');
+editBtn.addEventListener('click', handleEdit);
 
+//удалить
 var deleteBtn = document.querySelector('#deleteContact');
 deleteBtn.addEventListener('click', handleDelete);
 
-var editBtn = document.querySelector('#editContact');
-editBtn.addEventListener('click', handleEdit);
+//почта
+var mailBtn = document.querySelector('#sendEmail');
+mailBtn.addEventListener('click', handleEmail);
 
 //кнопка удаления во всплывающем окошке
 var reallyDelete = document.querySelector('#deleteButton');
@@ -207,6 +214,8 @@ closeBtn.forEach(btn => {
         errEditMail.style.display = "none";
         errDeleteEdit.style.display = "none";
         deleteModal.style.display = "none";
+        searchModal.style.display = "none";
+        alert(checkIds.length);
         checkIds = [];
     })
 })
@@ -214,10 +223,12 @@ closeBtn.forEach(btn => {
 window.onclick = function (event) {
     if (event.target === errEditMail ||
         event.target === errDeleteEdit ||
-        event.target === deleteModal) {
+        event.target === deleteModal ||
+        event.target === searchModal) {
         errEditMail.style.display = "none";
         errDeleteEdit.style.display = "none";
         deleteModal.style.display = "none";
+        searchModal.style.display = "none";
         checkIds = [];
     }
 }

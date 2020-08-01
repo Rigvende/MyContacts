@@ -106,6 +106,15 @@
     background-color: #0099cc;
 }
 
+.menu #searchContact {
+    display: block;
+}
+
+.menu #filterContact {
+    display: none;
+    background-color: chocolate;
+}
+
 /*отрисовка таблицы контактов
 ----------------------------*/
 
@@ -184,6 +193,14 @@
     border-radius: 10px;
     width: 30%;
     min-width: 300px;
+}
+
+.searchModal {
+    margin-top: 5%;
+}
+
+.modalContent p {
+    font-size: 18px;
 }
 
 .closeX {

@@ -39,6 +39,9 @@
             <li id="searchContact">
                 <p>Поиск по фильтру</p>
             </li>
+            <li id="filterContact">
+                <p>Снять фильтр</p>
+            </li>
         </ul>
     </div>
     <div class="column content">
@@ -85,12 +88,65 @@
     </div>
 </div>
 
+<!--скрытое окошко для поиска-->
+<div id="searching" class="modal">
+    <div class="modalContent searchModal">
+        <span class="close closeX">&times;</span>
+        <br>
+        <p> ФИЛЬТР ПОИСКА </p>
+        <form name="searchForm">
+            <div class="pageLabel"><label for="nameField">Имя</label></div>
+            <input type="text" class="field" id="nameField" name="сontactName" placeholder="Введите имя.."/>
+            <div class="pageLabel"><label for="surnameField">Фамилия</label></div>
+            <input type="text" class="field" id="surnameField" name="surname" placeholder="Введите фамилию.."/>
+            <div class="pageLabel"><label for="patronymicField">Отчество</label></div>
+            <input type="text" class="field" id="patronymicField" name="patronymic"
+                   placeholder="Введите отчество.."/>
+            <div class="pageLabel"><label for="birthdayField">День рождения</label></div>
+            <input type="date" id="birthdayField" name="birthday" />
+            <label>
+                <input name="day" type="radio" value="after"> После
+                <input name="day" type="radio" value="before"> До
+                <input name="day" type="radio" value="strict" checked> Точно
+            </label>
+            <div class="pageLabel"><label for="genderField">Пол</label></div>
+            <div id="genderField">
+                <label >
+                    <input name="gender" type="radio" value="man"> М
+                    <input name="gender" type="radio" value="woman"> Ж
+                    <input name="gender" type="radio" value="unknown" hidden checked>
+                </label>
+            </div>
+            <div class="pageLabel"><label for="statusField">Семейное положение</label></div>
+            <input type="text" class="field" id="statusField" name="status" placeholder="Введите статус.."/>
+            <div class="pageLabel"><label for="citizenshipField">Гражданство</label></div>
+            <input type="text" class="field" id="citizenshipField" name="citizenship"
+                   placeholder="Введите гражданство.."/>
+            <div class="pageLabel"><label for="countryField">Страна</label></div>
+            <input type="text" class="field" id="countryField" name="country" placeholder="Введите страну.."/>
+            <div class="pageLabel"><label for="cityField">Город</label></div>
+            <input type="text" class="field" id="cityField" name="city" placeholder="Введите город.."/>
+            <div class="pageLabel"><label for="addressField">Улица</label></div>
+            <input type="text" class="field" id="addressField" name="address" placeholder="Введите улицу.."/>
+            <br><br>
+            <div class="modalButtons">
+            <input type="submit" class="pageButton modalBtn small" value="Поиск">
+            <button type="button" class="close pageButton modalBtn small">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- футер-->
 <div class="footer">
     <p>(c) 2020 Марианна Патрусова</p>
 </div>
 
 <!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
-<script src="js/load-contacts.js"></script>
+<script src="js/main-page-actions.js"></script>
+<script>
+    //гет-запрос на поиск
+
+</script>
 </body>
 </html>

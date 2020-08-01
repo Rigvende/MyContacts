@@ -27,6 +27,7 @@ public class MailController extends HttpServlet {
     private final static String MESSAGE_FAIL = "Что-то пошло не так...";
     private final MailService mailService = new MailService();
 
+    //получаем данные по id из чекбокса
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
@@ -34,7 +35,6 @@ public class MailController extends HttpServlet {
             if (!id.isEmpty() && StringValidator.isValidId(id)) {
                 long contactId = Long.parseLong(id);
                 String json = mailService.service(contactId);
-                System.out.println(json);
                 response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
@@ -46,6 +46,7 @@ public class MailController extends HttpServlet {
         }
     }
 
+    //отправляем почту
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String to = request.getParameter("to");

@@ -1,7 +1,8 @@
-//скрипт для автозаполнения полей при выборе шаблона
+//скрипт для почты
 
 'use strict';
 
+//скрипт для автозаполнения полей при выборе шаблона
 var templates = {
     "template 1": "Поздравляю с днём рожденья! Желаю счастья, здоровья и успехов в делах!",
     "template 2": "Привет! Давно не виделись! Может быть, ты не против встретиться в ближайшее время?"
@@ -75,7 +76,7 @@ returnBtn.addEventListener('click', function () {
     document.location.href = "../index.html";
 })
 
-//закрытие окошка
+//закрытие модального окошка
 var closeBtn = document.querySelectorAll('.close');
 
 closeBtn.forEach(btn => {
