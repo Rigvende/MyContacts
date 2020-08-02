@@ -39,7 +39,7 @@ public class ContactsController extends HttpServlet {
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
     private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
-//    @Override
+//    @Override //todo раскомментить
 //    public void init() {
 //        setScheduler();
 //    }

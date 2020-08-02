@@ -24,7 +24,7 @@ choice.addEventListener('change', function () {
 //автозаполнение емэйла по чекбоксу
 function autofill() {
     var id = window.location.href.split("?")[1].split("=")[1];
-    if (!(id.trim().length === 0)) {
+    if (id != null && id.trim()) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -50,7 +50,6 @@ sendBtn.addEventListener('click', function (event) {
     event.preventDefault();
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
-        console.log(this.status + " " + this.readyState);
         if (this.readyState === 4 && this.status === 200) {
             modalSend.querySelector('p').innerHTML = success;
             modalSend.style.display = 'block';

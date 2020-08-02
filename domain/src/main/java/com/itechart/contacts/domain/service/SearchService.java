@@ -20,7 +20,7 @@ public class SearchService {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    public List<AbstractEntity> service(String query) throws ServiceException {
+    public String service(String query) throws ServiceException {
         List<AbstractEntity> filterResult;
         ContactDao dao = null;
         try {
@@ -34,7 +34,7 @@ public class SearchService {
                 dao.exit();
             }
         }
-        return filterResult;
+        return filterResult.toString();
     }
 //fixme создать json с данными и вернуть
 }

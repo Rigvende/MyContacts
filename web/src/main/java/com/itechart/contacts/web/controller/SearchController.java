@@ -5,15 +5,12 @@ import com.itechart.contacts.domain.service.SearchService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Class for mail operations controller.
@@ -27,12 +24,25 @@ public class SearchController extends HttpServlet {
     private final static Logger LOGGER = LogManager.getLogger();
     private final SearchService searchService = new SearchService();
 
+    //выполняем поиск контактов по полученным данным
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String query = buildQuery(request).toString();
+            String json = searchService.service(query);
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(json);
+        } catch (ServiceException e) {
+            LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
+        }
+    }
 
+    //формирование запроса к бд на основании данных фильтра
+    private StringBuilder buildQuery(HttpServletRequest request) {
         StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ")
-                                .append("birthday, gender, citizenship, family_status, website, email, ")
-                                .append("work_place, country, city, address, zipcode, id_photo ")
-                                .append("FROM contacts WHERE ");
+                .append("birthday, work_place, country, city, address FROM contacts WHERE ");
         String name = request.getParameter("name");
         if (name != null && !name.isEmpty()) {
             builder.append("contact_name = '").append(name).append("' AND ");
@@ -53,10 +63,10 @@ public class SearchController extends HttpServlet {
                     case "strict":
                         builder.append("birthday = '").append(birthday).append("' AND ");
                         break;
-                    case "lesser":
+                    case "before":
                         builder.append("birthday < '").append(birthday).append("' AND ");
                         break;
-                    case "greater":
+                    case "after":
                         builder.append("birthday > '").append(birthday).append("' AND ");
                         break;
                 }
@@ -83,16 +93,7 @@ public class SearchController extends HttpServlet {
             builder.append("address = '").append(address).append("' AND ");
         }
         builder.append("deleted IS NULL;");
-        String query = builder.toString();
-        try {
-            searchService.service(query);
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/index.html");
-            requestDispatcher.forward(request, response); //fixme добавить json с найденными контактами
-        } catch (ServiceException | ServletException e) {
-            LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
-            response.sendError(500);
-        }
+        return builder;
     }
 
 }
