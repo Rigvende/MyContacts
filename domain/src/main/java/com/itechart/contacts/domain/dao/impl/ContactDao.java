@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             "country, city, address, zipcode, id_photo) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String SQL_UPDATE_DELETED =
-            "INSERT INTO contacts (deleted) VALUES (?) WHERE id_contact = ?;";
+            "UPDATE contacts SET deleted = ? WHERE id_contact = ?;";
     private final static String SQL_UPDATE_CONTACT =
             "UPDATE contacts " +
             "SET contact_name = ?, surname = ?, patronymic = ?, birthday = ?, " +

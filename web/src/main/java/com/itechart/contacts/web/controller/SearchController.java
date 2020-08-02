@@ -41,8 +41,9 @@ public class SearchController extends HttpServlet {
 
     //формирование запроса к бд на основании данных фильтра
     private StringBuilder buildQuery(HttpServletRequest request) {
-        StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ")
-                .append("birthday, work_place, country, city, address FROM contacts WHERE ");
+        StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ");
+        builder.append("birthday, gender, citizenship, family_status, website, email, work_place, ")
+                .append("country, city, address, zipcode, id_photo  FROM contacts WHERE ");
         String name = request.getParameter("name");
         if (name != null && !name.isEmpty()) {
             builder.append("contact_name = '").append(name).append("' AND ");
@@ -57,7 +58,7 @@ public class SearchController extends HttpServlet {
         }
         String birthday = request.getParameter("birthday");
         if (birthday != null && !birthday.isEmpty()) {
-            String condition = request.getParameter("condition"); //greater, lesser, strict
+            String condition = request.getParameter("condition"); //after, before, strict
             if (condition != null && !condition.isEmpty()) {
                 switch (condition) {
                     case "strict":

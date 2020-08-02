@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Class-service for deleting contacts
- *
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -21,23 +20,25 @@ public class DeleteContactService {
 
     //update = soft delete (set timestamp value in field deleted)
     public boolean service(long... ids) throws ServiceException {
-        ContactDao dao = null;
-        try {
-            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-            boolean flag = false;
-            for (long id : ids) {
-                if (id != 0) {
+        if (ids != null) {
+            ContactDao dao = null;
+            try {
+                dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+                boolean flag = false;
+                for (long id : ids) {
                     flag = dao.softDelete(id);
                 }
+                return flag;
+            } catch (ClassNotFoundException | DaoException e) {
+                LOGGER.log(Level.ERROR, "Cannot update contact. Error has occurred. ", e);
+                throw new ServiceException(e);
+            } finally {
+                if (dao != null) {
+                    dao.exit();
+                }
             }
-            return flag;
-        } catch (ClassNotFoundException | DaoException e) {
-            LOGGER.log(Level.ERROR, "Cannot update contact. Error has occurred. ", e);
-            throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
+        } else {
+            return false;
         }
     }
 

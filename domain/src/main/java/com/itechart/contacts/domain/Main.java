@@ -11,7 +11,9 @@ import com.itechart.contacts.domain.entity.EntityType;
 import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
+import com.itechart.contacts.domain.service.DeleteContactService;
 import com.itechart.contacts.domain.service.MailService;
+import com.itechart.contacts.domain.service.SearchService;
 import com.itechart.contacts.domain.util.DbcpManager;
 import com.itechart.contacts.domain.util.PathParser;
 import freemarker.cache.FileTemplateLoader;
@@ -198,18 +200,66 @@ public class Main {
 //
 //        System.out.println(matcher.find());
 
+////////////////////
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+//        FileTemplateLoader ftl1 = new FileTemplateLoader(new File("view\\src\\main\\webapp\\templates"));
+//        cfg.setTemplateLoader(ftl1);
+//        ContactDao dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        Contact contact = (Contact) dao.findEntityById(1);
+//        Map<String, Object> root = new HashMap<>();
+//        root.put("user", contact);
+//        Template temp = cfg.getTemplate("birthday.ftl");
+//        Writer out = new OutputStreamWriter(System.out);
+//        temp.process(root, out);
+//        out.close();
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-        FileTemplateLoader ftl1 = new FileTemplateLoader(new File("view\\src\\main\\webapp\\templates"));
-        cfg.setTemplateLoader(ftl1);
-        ContactDao dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-        Contact contact = (Contact) dao.findEntityById(1);
-        Map<String, Object> root = new HashMap<>();
-        root.put("user", contact);
-        Template temp = cfg.getTemplate("birthday.ftl");
-        Writer out = new OutputStreamWriter(System.out);
-        temp.process(root, out);
-        out.close();
+        /////////////////////
+
+//        StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ");
+//        builder.append("birthday, gender, citizenship, family_status, website, email, work_place, ")
+//                .append("country, city, address, zipcode, id_photo  FROM contacts WHERE ");
+//        String name = "Иван";
+//        if (name != null && !name.isEmpty()) {
+//            builder.append("contact_name = '").append(name).append("' AND ");
+//        }
+//        String birthday = "1999-01-01";
+//        if (birthday != null && !birthday.isEmpty()) {
+//            String condition = "after";
+//            if (condition != null && !condition.isEmpty()) {
+//                switch (condition) {
+//                    case "strict":
+//                        builder.append("birthday = '").append(birthday).append("' AND ");
+//                        break;
+//                    case "before":
+//                        builder.append("birthday < '").append(birthday).append("' AND ");
+//                        break;
+//                    case "after":
+//                        builder.append("birthday > '").append(birthday).append("' AND ");
+//                        break;
+//                }
+//            }
+//        }
+//        String gender = "male";
+//        if (gender != null && !gender.isEmpty()) {
+//            builder.append("gender = '").append(gender).append("' AND ");
+//        }
+//        String city = "Минск";
+//        if (city != null && !city.isEmpty()) {
+//            builder.append("city = '").append(city).append("' AND ");
+//        }
+//        builder.append("deleted IS NULL;");
+//        System.out.println(builder.toString());
+//        SearchService service = new SearchService();
+//        String string = service.service(builder.toString());
+//        System.out.println(string);
+        /////////////////////
+
+//        DeleteContactService service = new DeleteContactService();
+//        System.out.println(service.service(64, 65));
+//        ContactDao dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        System.out.println(dao.findEntityById(64));
+//        System.out.println(dao.findEmailById(65).equals(""));
+//        dao.exit();
     }
 
 
