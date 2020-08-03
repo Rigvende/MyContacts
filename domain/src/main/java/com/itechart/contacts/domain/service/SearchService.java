@@ -28,13 +28,17 @@ public class SearchService {
         try {
             dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
             filterResult = dao.findAllByFilter(query);
-            StringBuilder json = new StringBuilder("[\n");
-            for (AbstractEntity entity: filterResult) {
-                Contact contact = (Contact) entity;
-                json.append("{\n");
-                createCoreJson(contact, json);
+            if (filterResult.size() > 0) {
+                StringBuilder json = new StringBuilder("[\n");
+                for (AbstractEntity entity : filterResult) {
+                    Contact contact = (Contact) entity;
+                    json.append("{\n");
+                    createCoreJson(contact, json);
+                }
+                return json.toString().substring(0, json.length() - 2) + "\n]";
+            } else {
+                return "";
             }
-            return json.toString().substring(0, json.length() - 2) + "\n]";
         } catch (DaoException | ClassNotFoundException e) {
             LOGGER.log(Level.ERROR, "Error while filter searching has occurred. ", e);
             throw new ServiceException(e);
@@ -53,7 +57,11 @@ public class SearchService {
         json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append(",\n");
         json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append(",\n");
         json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append(",\n");
-        json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append(",\n");
+        if (contact.getBirthday() == null) {
+            json.append("\"birthday\": ").append(JSONObject.quote("")).append(",\n");
+        } else {
+            json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append(",\n");
+        }
         json.append("\"work\": ").append(JSONObject.quote(contact.getWork())).append("\n");
         json.append("},\n");
     }

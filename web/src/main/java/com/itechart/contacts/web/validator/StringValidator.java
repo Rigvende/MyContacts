@@ -20,7 +20,7 @@ public class StringValidator {
     private final static String CHECK_ZIP = "^[\\d]([-\\d]){3,9}$";
     private final static String CHECK_CODE = "^([-+\\d]){2,5}$";
     private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
-    private final static String CHECK_ID = "[\\d]";
+    private final static String CHECK_ID = "[\\d]+";
     private final static int HEADER_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;
 

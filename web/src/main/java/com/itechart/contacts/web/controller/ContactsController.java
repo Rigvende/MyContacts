@@ -48,11 +48,10 @@ public class ContactsController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
-        try {
+        response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data
+        response.setContentType("text/html; charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
             String json = getContactsService.service(id);
-            response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
             out.println(json);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");

@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -210,6 +211,7 @@ public class Main {
 //        root.put("user", contact);
 //        Template temp = cfg.getTemplate("birthday.ftl");
 //        Writer out = new OutputStreamWriter(System.out);
+        //////Writer out = response.getWriter();
 //        temp.process(root, out);
 //        out.close();
 
@@ -260,7 +262,27 @@ public class Main {
 //        System.out.println(dao.findEntityById(64));
 //        System.out.println(dao.findEmailById(65).equals(""));
 //        dao.exit();
+
+        /////////
+
+        String[] ids = "g 103".split(" ");
+        int size = ids.length;
+        long[] parsed = new long[size];
+        for (int i = 0; i < size; i++) {
+            if (isValidId(ids[i])) {
+                parsed[i] = Long.parseLong(ids[i]);
+                System.out.println(parsed[i]);
+            }
+        }
     }
 
+    public static boolean isValidId(String data) {
+        Pattern pattern = Pattern.compile("[\\d]+");
+        Matcher matcher = pattern.matcher(data);
+        if (matcher.find()) {
+            return  (new BigInteger(data).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0);
+        }
+        return false;
+    }
 
 }

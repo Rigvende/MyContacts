@@ -95,7 +95,7 @@
         <p> ФИЛЬТР ПОИСКА </p>
         <form name="searchForm">
             <div class="pageLabel"><label for="nameField">Имя</label></div>
-            <input type="text" class="field" id="nameField" name="сontactName" placeholder="Введите имя.."/>
+            <input type="text" class="field" id="nameField" name="contactName" placeholder="Введите имя.."/>
             <div class="pageLabel"><label for="surnameField">Фамилия</label></div>
             <input type="text" class="field" id="surnameField" name="surname" placeholder="Введите фамилию.."/>
             <div class="pageLabel"><label for="patronymicField">Отчество</label></div>
@@ -117,8 +117,8 @@
             <div class="pageLabel"><label for="genderField">Пол</label></div>
             <div id="genderField">
                 <label>
-                    <input name="gender" type="radio" value="man"> М
-                    <input name="gender" type="radio" value="woman"> Ж
+                    <input name="gender" type="radio" value="male"> М
+                    <input name="gender" type="radio" value="female"> Ж
                     <input name="gender" type="radio" value="unknown" hidden checked>
                 </label>
             </div>
@@ -149,85 +149,6 @@
 
 <!-- скрипт для обработки событий на странице и генерации таблицы с контактами-->
 <script src="js/main-page-actions.js"></script>
-<script>
-
-    //обработчик сброса фильтра
-    var removeFilter = document.querySelector('#filterContact');
-    removeFilter.addEventListener('click', function () {
-        this.display.style = 'none';
-        loadContacts();
-    })
-
-    //обработка полей фильтра
-    function processFields() {
-        var name = document.getElementById('nameField').value;
-        var surname = document.getElementById('surnameField').value;
-        var patronymic = document.getElementById('patronymicField').value;
-        var birthday = document.getElementById('birthdayField').value;
-        var condition = document.querySelector('input[name=day]:checked').value;
-        var gender = document.querySelector('input[name=gender]:checked').value;
-        var status = document.getElementById('statusField').value;
-        var citizenship = document.getElementById('citizenshipField').value;
-        var country = document.getElementById('countryField').value;
-        var city = document.getElementById('cityField').value;
-        var street = document.getElementById('addressField').value;
-
-        var searchData = '';
-        if (name != null && name.trim()) {
-            searchData += '&contactName=' + encodeURIComponent(name);
-        }
-        if (surname != null && surname.trim()) {
-            searchData += '&surname=' + encodeURIComponent(surname);
-        }
-        if (patronymic != null && patronymic.trim()) {
-            searchData += '&patronymic=' + encodeURIComponent(patronymic);
-        }
-        if (birthday != null && birthday.trim()) {
-            searchData += '&birthday=' + birthday;
-        }
-        if (condition != null && condition.trim()) {
-            searchData += '&condition=' + encodeURIComponent(condition);
-        }
-        if (gender != null && gender.trim() && gender !== 'unknown') {
-            searchData += '&gender=' + encodeURIComponent(gender);
-        }
-        if (status != null && status.trim()) {
-            searchData += '&status=' + encodeURIComponent(status);
-        }
-        if (citizenship != null && citizenship.trim()) {
-            searchData += '&citizenship=' + encodeURIComponent(citizenship);
-        }
-        if (country != null && country.trim()) {
-            searchData += '&country=' + encodeURIComponent(country);
-        }
-        if (city != null && city.trim()) {
-            searchData += '&city=' + encodeURIComponent(city);
-        }
-        if (street != null && street.trim()) {
-            searchData += '&street=' + encodeURIComponent(street);
-        }
-        return searchData.substr(1, searchData.length - 1);
-    }
-
-    //запрос на получение результатов поиска и отрисовки таблицы
-    function searchContact() {
-        var data = processFields();
-        alert(data);
-        var searchRequest = new XMLHttpRequest();
-        searchRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var contacts = JSON.parse(this.responseText);
-                fillTable(contacts);
-            }
-        };
-        searchRequest.open("GET", "http://localhost:8080/view_war/search/" + data, true);
-        searchRequest.send();
-    }
-
-    //нажатие на кнопку поиска по полям
-    var searchBtn = document.querySelector('#searchBtn');
-    searchBtn.addEventListener('click', searchContact);
-
-</script>
+<script src="js/search-contact.js"></script>
 </body>
 </html>

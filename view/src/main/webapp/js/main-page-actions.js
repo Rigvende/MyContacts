@@ -49,6 +49,12 @@ function fillTable(contacts) {
         };
     }());
 
+    function createTd(text, tr) {
+        var td = document.createElement('td');
+        td.innerHTML = text;
+        tr.appendChild(td);
+    }
+
     var items = [];
     pagination.innerHTML = '';
     for (var i = 1; i <= size; i++) {
@@ -66,12 +72,6 @@ function fillTable(contacts) {
             showActive(this);
             checkCheckboxes();
         });
-    }
-
-    function createTd(text, tr) {
-        var td = document.createElement('td');
-        td.innerHTML = text;
-        tr.appendChild(td);
     }
 }
 
@@ -193,7 +193,7 @@ function handleDelete() {
     if (counter > 0) {
         checkboxes.forEach(box => {
             if (box.checked) {
-                checkIds.push(box.getAttribute('value'));
+                checkIds.push(box.value);
             }
         })
         deleteModal.style.display = 'block';
@@ -202,17 +202,30 @@ function handleDelete() {
     }
 }
 
-function deleteContact() {
+function deleteContact(event) {
+    event.preventDefault();
     var request = new XMLHttpRequest();
     var ids = '';
     checkIds.forEach(id => {
         ids = ids + id + " ";
     })
     ids = 'ids=' + encodeURIComponent(ids);
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            counter = 0;
+            checkIds = [];
+            loadContacts();
+        }
+        // else if (this.status === 404 || this.status === 500) {
+        //     modalSend.querySelector('p').innerHTML = fail;
+        //     modalSend.style.display = 'block';
+        // }
+    }
     request.open("post", "http://localhost:8080/view_war/delete", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(ids);
-    loadContacts();
+    deleteModal.style.display = 'none';
+
 }
 
 //закрытие окошек
@@ -240,3 +253,4 @@ window.onclick = function (event) {
         checkIds = [];
     }
 }
+

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Class for mail operations controller.
+ * Class for searching operations controller.
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -44,7 +44,7 @@ public class SearchController extends HttpServlet {
         StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ");
         builder.append("birthday, gender, citizenship, family_status, website, email, work_place, ")
                 .append("country, city, address, zipcode, id_photo  FROM contacts WHERE ");
-        String name = request.getParameter("name");
+        String name = request.getParameter("contactName");
         if (name != null && !name.isEmpty()) {
             builder.append("contact_name = '").append(name).append("' AND ");
         }

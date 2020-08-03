@@ -97,7 +97,11 @@ public class GetContactsService {
         json.append("\"country\": ").append(JSONObject.quote(contact.getCountry())).append(",\n");
         json.append("\"city\": ").append(JSONObject.quote(contact.getCity())).append(",\n");
         json.append("\"address\": ").append(JSONObject.quote(contact.getAddress())).append(",\n");
-        json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append(",\n");
+        if (contact.getBirthday() == null) {
+            json.append("\"birthday\": ").append(JSONObject.quote("")).append(",\n");
+        } else {
+            json.append("\"birthday\": ").append(JSONObject.valueToString(contact.getBirthday())).append(",\n");
+        }
         json.append("\"work\": ").append(JSONObject.quote(contact.getWork())).append("\n");
         json.append("},\n");
     }

@@ -22,7 +22,7 @@ public class DeleteController extends HttpServlet {
 
     private static final long serialVersionUID = 938035871806818474L;
     private final static Logger LOGGER = LogManager.getLogger();
-    private final static String SPACE = "%20";
+    private final static String SPACE = " ";
     private final DeleteContactService service = new DeleteContactService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -30,6 +30,7 @@ public class DeleteController extends HttpServlet {
         long[] deleteIds = parseId(ids);
         try {
             boolean isDeleted = service.service(deleteIds);
+            System.out.println(isDeleted);
             if (!isDeleted) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                         "Что-то пошло не так...");
@@ -44,9 +45,10 @@ public class DeleteController extends HttpServlet {
         String[] ids = data.split(SPACE);
         int size = ids.length;
         long[] parsed = new long[size];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < parsed.length; i++) {
             if (StringValidator.isValidId(ids[i])) {
                 parsed[i] = Long.parseLong(ids[i]);
+                System.out.println(parsed[i]);
             }
         }
         return parsed;
