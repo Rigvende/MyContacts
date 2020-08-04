@@ -21,6 +21,7 @@
 .buttonLink {
     text-decoration: none;
     border-radius: 30px;
+    color: #0b82ff;
 }
 
 .buttonLink:hover, .buttonLink:visited {
@@ -118,22 +119,22 @@
 /*отрисовка таблицы контактов
 ----------------------------*/
 
-#contactsList {
+table {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-#contactsList td, #contactsList th {
+table td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#contactsList tr:nth-child(even){background-color: #f2f2f2;}
+table tr:nth-child(even){background-color: #f2f2f2;}
 
-#contactsList tr:hover {background-color: #ddd;}
+table tr:hover {background-color: #ddd;}
 
-#contactsList tr:first-child {
+table tr:first-child {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;

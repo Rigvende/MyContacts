@@ -38,7 +38,7 @@ function fillTable(contacts) {
                 var tr = document.createElement('tr');
                 table.appendChild(tr);
                 var checkbox = '<label><input type="checkbox" class="checkbox" value="' + note.id + '"/></label>';
-                var editLink = '<a href="html/contactForm.html" class="buttonLink" id="' + note.id + '">'
+                var editLink = '<a href="html/contactForm.html?id=' + note.id + '" class="buttonLink">'
                     + note.surname + ' ' + note.name + ' ' + note.patronymic + '</a>';
                 var location = note.country + ' ' + note.city + ' ' + note.address;
                 createTd(checkbox, tr);
@@ -133,7 +133,7 @@ var checkCounter = 0; //счетчик нажатых чекбоксов
 
 //счетчик заполненных чекбоксов
 function checkCheckboxes() {
-    checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes = document.querySelectorAll('.checkbox');
     checkboxes.forEach(box => {
         box.addEventListener('change', event => {
             if (event.target.checked) {
