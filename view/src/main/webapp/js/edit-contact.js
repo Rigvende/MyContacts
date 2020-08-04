@@ -1,23 +1,17 @@
+//скрипт для редактирования контакта
+
 "use strict";
 
-//todo написать аналогично созданию, но с автозаполнением полей
-
-
-
-function editContact() {
-
-    //todo создать попап об успешном сохранении
-    //вернуться к списку
-}
-
-function getContact(id) {
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState == 4) {
-            if (request.status == 200) {
+//автозаполнение контакта по выбранному чекбоксу
+function autofill() {
+    var id = window.location.href.split("?")[1].split("=")[1];
+    if (id != null && id.trim()) {
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
                 var person = JSON.parse(request.responseText);
-
-                if(person.photo != null && person.photo !== '') {
+                document.querySelector('#idField').value = id;
+                if (person.photo != null && person.photo.trim()) {
                     document.getElementById('contactPhoto').src = person.photo;
                 }
                 document.getElementById('contactSurname').value = person.surname;
@@ -74,18 +68,9 @@ function getContact(id) {
                 }
             }
         }
+        request.open('GET', 'http://localhost:8080/contacts/' + id);
+        request.send();
     }
-    request.open('GET', 'http://localhost:8080/contacts/' + id);
-    request.send();
 }
 
-var links = document.querySelectorAll(".editLink");
-for (var nameLink of links) {
-    nameLink.addEventListener('click', function () {
-        var id = +this.getAttribute('id');
-        getContact(id);
-        //берем контакста из бд по id ссылки
-        //загружаем contactForm со значениями из контакта
-    });
-}
-
+autofill();

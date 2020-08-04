@@ -127,6 +127,7 @@ reallyDelete.addEventListener('click', deleteContact);
 var deleteModal = document.querySelector('#messageDelete');
 var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
+var deleteMsg = document.querySelector('#deleteMsg');
 var counter = 0; //счетчик нажатых чекбоксов
 
 function checkCheckboxes() {
@@ -211,46 +212,58 @@ function deleteContact(event) {
     })
     ids = 'ids=' + encodeURIComponent(ids);
     request.onreadystatechange = function () {
-        if (this.readyState === 4) {
+        if (this.readyState === 4 && this.status === 200) {
             counter = 0;
             checkIds = [];
-            loadContacts();
+            deleteMsg.querySelector('p').innerHTML = success;
+            deleteMsg.style.display = 'block';
+
         }
-        // else if (this.status === 404 || this.status === 500) {
-        //     modalSend.querySelector('p').innerHTML = fail;
-        //     modalSend.style.display = 'block';
-        // }
+        else if (this.status === 404 || this.status === 500) {
+            counter = 0;
+            checkIds = [];
+            deleteMsg.querySelector('p').innerHTML = fail;
+            deleteMsg.style.display = 'block';
+        }
     }
     request.open("post", "http://localhost:8080/view_war/delete", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(ids);
     deleteModal.style.display = 'none';
-
 }
 
-//закрытие окошек
+//элементы окошка подтверждения удаления
+var success = "Контакты успешно удалены!";
+var fail = "Что-то пошло не так";
+var okBtn = document.querySelector('#okBtn');
+okBtn.addEventListener('click', loadContacts);
+
+//закрытие модальных окошек
 var closeBtn = document.querySelectorAll('.close');
 
+function hideModals() {
+    errEditMail.style.display = "none";
+    errDeleteEdit.style.display = "none";
+    deleteModal.style.display = "none";
+    searchModal.style.display = "none";
+    deleteMsg.style.display = "none";
+    checkIds = [];
+}
+
+//по кнопке
 closeBtn.forEach(btn => {
     btn.addEventListener('click', () => {
-        errEditMail.style.display = "none";
-        errDeleteEdit.style.display = "none";
-        deleteModal.style.display = "none";
-        searchModal.style.display = "none";
-        checkIds = [];
+        hideModals();
     })
 })
 
+//по фону
 window.onclick = function (event) {
     if (event.target === errEditMail ||
         event.target === errDeleteEdit ||
         event.target === deleteModal ||
-        event.target === searchModal) {
-        errEditMail.style.display = "none";
-        errDeleteEdit.style.display = "none";
-        deleteModal.style.display = "none";
-        searchModal.style.display = "none";
-        checkIds = [];
+        event.target === searchModal ||
+        event.target === deleteMsg) {
+        hideModals();
     }
 }
-
