@@ -64,3 +64,150 @@ Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL synta
 	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136) ~[commons-dbcp2-2.7.0.jar:2.7.0]
 	at com.itechart.contacts.domain.dao.impl.ContactDao.softDelete(ContactDao.java:219) ~[classes/:?]
 	... 2 more
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:15 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:16 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:17 INFO  web.controller.DeleteController - User deletes contacts: 114 
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:18 INFO  domain.service.GetContactsService - User gets whole contact list
+04-08 12:28 INFO  web.controller.MailController - User sends email
+04-08 12:28 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.internet.AddressException: Illegal address
+	at javax.mail.internet.InternetAddress.<init>(InternetAddress.java:122) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:49) [domain-1.0-SNAPSHOT.jar:?]
+	at com.itechart.contacts.web.controller.MailController.doPost(MailController.java:59) [web-1.0-SNAPSHOT.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660) [servlet-api.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) [servlet-api.jar:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) [tomcat-websocket.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:71) [log4j-web-2.13.3.jar:2.13.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [catalina.jar:9.0.17]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [catalina.jar:9.0.17]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [catalina.jar:9.0.17]
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:678) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [catalina.jar:9.0.17]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [catalina.jar:9.0.17]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408) [tomcat-coyote.jar:9.0.17]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-coyote.jar:9.0.17]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834) [tomcat-coyote.jar:9.0.17]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415) [tomcat-coyote.jar:9.0.17]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-coyote.jar:9.0.17]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-util.jar:9.0.17]
+	at java.lang.Thread.run(Thread.java:835) [?:?]
+04-08 12:28 ERROR web.controller.MailController - Request process of sending mail failed.
+04-08 12:32 INFO  web.controller.DeleteController - User deletes contacts: 115 
+04-08 12:33 INFO  web.controller.DeleteController - User deletes contacts: 113 
+04-08 12:33 INFO  web.controller.DeleteController - User deletes contacts: 117 
+04-08 12:33 INFO  web.controller.DeleteController - User deletes contacts: 118 
+04-08 12:48 ERROR domain.service.MailService - Error while sending e-mail has occurred. 
+javax.mail.internet.AddressException: Illegal address
+	at javax.mail.internet.InternetAddress.<init>(InternetAddress.java:122) ~[javax.mail-1.6.2.jar:1.6.2]
+	at com.itechart.contacts.domain.service.MailService.service(MailService.java:49) [domain-1.0-SNAPSHOT.jar:?]
+	at com.itechart.contacts.web.controller.MailController.doPost(MailController.java:59) [web-1.0-SNAPSHOT.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660) [servlet-api.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) [servlet-api.jar:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) [tomcat-websocket.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:71) [log4j-web-2.13.3.jar:2.13.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [catalina.jar:9.0.17]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [catalina.jar:9.0.17]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [catalina.jar:9.0.17]
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:678) [catalina.jar:9.0.17]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [catalina.jar:9.0.17]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [catalina.jar:9.0.17]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408) [tomcat-coyote.jar:9.0.17]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-coyote.jar:9.0.17]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834) [tomcat-coyote.jar:9.0.17]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415) [tomcat-coyote.jar:9.0.17]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-coyote.jar:9.0.17]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-util.jar:9.0.17]
+	at java.lang.Thread.run(Thread.java:835) [?:?]
+04-08 12:48 ERROR web.controller.MailController - Request process of sending mail failed.
+04-08 13:13 INFO  web.controller.MailController - User sends email
+04-08 13:18 INFO  web.controller.SearchController - User uses filter for searching contacts
+04-08 13:18 INFO  web.controller.SearchController - User uses filter for searching contacts
+04-08 13:21 INFO  web.controller.DeleteController - User deletes contacts: 110 
+04-08 13:23 INFO  web.controller.DeleteController - User deletes contacts: 107 
+04-08 13:26 INFO  web.controller.DeleteController - User deletes contacts: 104 
+04-08 13:26 INFO  web.controller.DeleteController - User deletes contacts: 111 
+04-08 13:26 INFO  web.controller.DeleteController - User deletes contacts: 116 
+04-08 13:30 INFO  web.controller.DeleteController - User deletes contacts: 109 
+04-08 13:31 INFO  web.controller.DeleteController - User deletes contacts: 119 
+04-08 13:31 INFO  web.controller.DeleteController - User deletes contacts: 3 
+04-08 13:31 INFO  web.controller.DeleteController - User deletes contacts: 2 
+04-08 13:34 INFO  web.controller.DeleteController - User deletes contacts: 1 
+04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 102 
+04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 106 
+04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 107 108 

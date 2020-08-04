@@ -42,6 +42,7 @@ autofill();
 
 //модальное окошко после отправки
 var modalSend = document.querySelector('#messageSend');
+var modalBack = document.querySelector('.modalContent');
 var sendBtn = document.querySelector("#sendButton");
 var success = "Сообщение успешно отправлено";
 var fail = "Что-то пошло не так";
@@ -52,10 +53,12 @@ sendBtn.addEventListener('click', function (event) {
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             modalSend.querySelector('p').innerHTML = success;
+            modalBack.style.backgroundColor = '#31c3ff';
             modalSend.style.display = 'block';
         }
         else if (this.status === 404 || this.status === 500) {
             modalSend.querySelector('p').innerHTML = fail;
+            modalBack.style.backgroundColor = 'Chocolate';
             modalSend.style.display = 'block';
         }
     }
@@ -81,13 +84,11 @@ var closeBtn = document.querySelectorAll('.close');
 closeBtn.forEach(btn => {
     btn.addEventListener('click', () => {
         modalSend.style.display = "none";
-        modalSend.querySelector('p').innerHTML = "Сообщение успешно отправлено";
     })
 })
 
 window.onclick = function (event) {
     if (event.target === modalSend) {
         modalSend.style.display = "none";
-        modalSend.querySelector('p').innerHTML = "Сообщение успешно отправлено";
     }
 }

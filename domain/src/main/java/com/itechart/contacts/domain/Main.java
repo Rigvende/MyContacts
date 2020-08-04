@@ -265,24 +265,29 @@ public class Main {
 
         /////////
 
-        String[] ids = "g 103".split(" ");
-        int size = ids.length;
-        long[] parsed = new long[size];
-        for (int i = 0; i < size; i++) {
-            if (isValidId(ids[i])) {
-                parsed[i] = Long.parseLong(ids[i]);
-                System.out.println(parsed[i]);
-            }
-        }
+//        String[] ids = "g 103".split(" ");
+//        int size = ids.length;
+//        long[] parsed = new long[size];
+//        for (int i = 0; i < size; i++) {
+//            if (isValidId(ids[i])) {
+//                parsed[i] = Long.parseLong(ids[i]);
+//                System.out.println(parsed[i]);
+//            }
+//        }
+        ///////////
+//        String email = "Адрес отсутствует. Обновите данные контакта.";
+//        Pattern pattern = Pattern.compile("^[-\\\\w.]+@([A-z0-9][-A-z0-9]+\\\\.)+[A-z]{2,4}$");
+//        Matcher matcher = pattern.matcher(email);
+//        System.out.println(matcher.find());
     }
-
-    public static boolean isValidId(String data) {
-        Pattern pattern = Pattern.compile("[\\d]+");
-        Matcher matcher = pattern.matcher(data);
-        if (matcher.find()) {
-            return  (new BigInteger(data).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0);
-        }
-        return false;
-    }
+//
+//    public static boolean isValidId(String data) {
+//        Pattern pattern = Pattern.compile("[\\d]+");
+//        Matcher matcher = pattern.matcher(data);
+//        if (matcher.find()) {
+//            return  (new BigInteger(data).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0);
+//        }
+//        return false;
+//    }
 
 }

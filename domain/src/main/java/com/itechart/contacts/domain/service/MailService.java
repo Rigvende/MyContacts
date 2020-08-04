@@ -50,6 +50,9 @@ public class MailService {
             message.setSubject(header);
             message.setText(letter);
             Transport.send(message);
+        } catch (SendFailedException e) {
+            LOGGER.log(Level.ERROR, "Error while sending e-mail has occurred. ", e);
+            return false;
         } catch (MessagingException e) {
             LOGGER.log(Level.ERROR, "Error while sending e-mail has occurred. ", e);
             throw new ServiceException(e);
@@ -92,7 +95,7 @@ public class MailService {
     private String createMailJson(String email) {
         StringBuilder json = new StringBuilder("{\n");
         if (email == null || email.isEmpty()) {
-            json.append("\"email\": ").append(JSONObject.quote("нет адреса")).append("\n");
+            json.append("\"email\": ").append(JSONObject.quote("Адрес отсутствует. Обновите данные контакта.")).append("\n");
         } else {
             json.append("\"email\": ").append(JSONObject.quote(email)).append("\n");
         }

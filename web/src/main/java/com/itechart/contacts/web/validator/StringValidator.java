@@ -47,7 +47,7 @@ public class StringValidator {
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(CHECK_EMAIL);
         Matcher matcher = pattern.matcher(email);
-        return email.isEmpty() || (matcher.find() && email.length() <= 255 && email.length() > 10);
+        return (matcher.find() && email.length() <= 255 && email.length() >= 10);
     }
 
     //web

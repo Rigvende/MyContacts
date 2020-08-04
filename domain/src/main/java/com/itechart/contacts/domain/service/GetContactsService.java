@@ -66,7 +66,6 @@ public class GetContactsService {
                     Contact contact = (Contact) entity;
                     json.append("{\n");
                     createCoreJson(contact, json);
-                    LOGGER.log(Level.INFO, "User gets whole contact list");
                 }
                 return json.toString().substring(0, json.length() - 2) + "\n]";
             }

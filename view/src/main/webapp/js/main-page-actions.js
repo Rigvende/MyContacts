@@ -128,6 +128,7 @@ var deleteModal = document.querySelector('#messageDelete');
 var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
 var deleteMsg = document.querySelector('#deleteMsg');
+var modalContent = document.querySelectorAll('.modalContent');
 var counter = 0; //счетчик нажатых чекбоксов
 
 function checkCheckboxes() {
@@ -142,10 +143,15 @@ function checkCheckboxes() {
         })
     })
 }
+function changeBackground() {
+    modalContent.forEach(modal => {
+        modal.style.backgroundColor = 'Chocolate';
+    })
 
+}
 //обработка нажатия кнопок, для которых нужны чекбоксы:
 
-//отправка почты
+//ПОЧТА
 function handleEmail() {
     var checkId = '';
     switch (counter) {
@@ -161,12 +167,13 @@ function handleEmail() {
             document.location.href = "html/mailForm.html?id=" + checkId;
             break;
         default:
+            changeBackground();
             errEditMail.style.display = 'block';
             break;
     }
 }
 
-//редактирование
+//РЕДАКТИРОВАНИЕ
 function handleEdit() {
     switch (counter) {
         case 1:
@@ -179,14 +186,17 @@ function handleEdit() {
             document.location.href = "html/contactForm.html?id=" + checkId;
             break;
         case 0:
+            changeBackground();
             errDeleteEdit.style.display = 'block';
             break;
         default:
+            changeBackground();
             errEditMail.style.display = 'block';
             break;
     }
 }
 
+//УДАЛЕНИЕ
 //массив айдишников для удаления
 var checkIds = [];
 
@@ -199,6 +209,7 @@ function handleDelete() {
         })
         deleteModal.style.display = 'block';
     } else {
+        changeBackground();
         errDeleteEdit.style.display = 'block';
     }
 }
@@ -217,11 +228,11 @@ function deleteContact(event) {
             checkIds = [];
             deleteMsg.querySelector('p').innerHTML = success;
             deleteMsg.style.display = 'block';
-
         }
         else if (this.status === 404 || this.status === 500) {
             counter = 0;
             checkIds = [];
+            changeBackground();
             deleteMsg.querySelector('p').innerHTML = fail;
             deleteMsg.style.display = 'block';
         }
@@ -235,13 +246,18 @@ function deleteContact(event) {
 //элементы окошка подтверждения удаления
 var success = "Контакты успешно удалены!";
 var fail = "Что-то пошло не так";
-var okBtn = document.querySelector('#okBtn');
-okBtn.addEventListener('click', loadContacts);
+var oks = document.querySelectorAll('.ok');
+oks.forEach(ok => {
+    ok.addEventListener('click', loadContacts);
+})
 
 //закрытие модальных окошек
 var closeBtn = document.querySelectorAll('.close');
 
 function hideModals() {
+    modalContent.forEach(modal => {
+        modal.style.backgroundColor = '#31c3ff';
+    })
     errEditMail.style.display = "none";
     errDeleteEdit.style.display = "none";
     deleteModal.style.display = "none";
@@ -262,8 +278,11 @@ window.onclick = function (event) {
     if (event.target === errEditMail ||
         event.target === errDeleteEdit ||
         event.target === deleteModal ||
-        event.target === searchModal ||
-        event.target === deleteMsg) {
+        event.target === searchModal) {
+        hideModals();
+    }
+    if (event.target === deleteMsg) {
+        loadContacts();
         hideModals();
     }
 }
