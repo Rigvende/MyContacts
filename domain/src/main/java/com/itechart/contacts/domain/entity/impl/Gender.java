@@ -8,8 +8,8 @@ package com.itechart.contacts.domain.entity.impl;
 public enum Gender {
 
     UNKNOWN("unknown"),
-    MAN("male"),
-    WOMAN("female");
+    MALE("male"),
+    FEMALE("female");
 
     private final String gender;
 
@@ -26,9 +26,9 @@ public enum Gender {
             case "unknown":
                 return Gender.UNKNOWN;
             case "male":
-                return Gender.MAN;
+                return Gender.MALE;
             case "female":
-                return Gender.WOMAN;
+                return Gender.FEMALE;
             default:
                 return null;
         }

@@ -93,7 +93,7 @@ function loadContacts() {
 loadContacts();
 
 ///////////////////////////////////////////////////////////////
-//кнопки меню:
+//КНОПКИ МЕНЮ:
 //создать
 var createContact = document.querySelector('#createContact');
 createContact.addEventListener('click', function () {

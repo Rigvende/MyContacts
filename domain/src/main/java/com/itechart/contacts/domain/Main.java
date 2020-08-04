@@ -1,37 +1,11 @@
 package com.itechart.contacts.domain;
 
-import com.itechart.contacts.domain.dao.AbstractDao;
-import com.itechart.contacts.domain.dao.DaoFactory;
-import com.itechart.contacts.domain.dao.impl.AttachmentDao;
-import com.itechart.contacts.domain.dao.impl.ContactDao;
-import com.itechart.contacts.domain.dao.impl.PhoneDao;
-import com.itechart.contacts.domain.dao.impl.PhotoDao;
-import com.itechart.contacts.domain.entity.AbstractEntity;
-import com.itechart.contacts.domain.entity.EntityType;
-import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
-import com.itechart.contacts.domain.service.DeleteContactService;
-import com.itechart.contacts.domain.service.MailService;
-import com.itechart.contacts.domain.service.SearchService;
-import com.itechart.contacts.domain.util.DbcpManager;
-import com.itechart.contacts.domain.util.PathParser;
-import freemarker.cache.FileTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.logging.log4j.Level;
-import org.json.JSONObject;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException, IOException, TemplateException {
@@ -279,6 +253,27 @@ public class Main {
 //        Pattern pattern = Pattern.compile("^[-\\\\w.]+@([A-z0-9][-A-z0-9]+\\\\.)+[A-z]{2,4}$");
 //        Matcher matcher = pattern.matcher(email);
 //        System.out.println(matcher.find());
+
+        /////////////////////
+
+//        PhotoDao dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
+//        Photo photo = (Photo) dao.findEntityById(1);
+//        String photoPath =photo.getPath().replace("\\\\", "\\")
+//                + "\\" + photo.getPhotoId() + "\\" + photo.getName();
+//        System.out.println(photoPath);
+//        dao.exit();
+
+///////////////////////////////
+        StringBuilder json = new StringBuilder("dfsfsf, sdfdsfs, sddfsfs, },");
+        json.replace(json.length() - 5 , json.length(), "\n}\n");
+        json.append("]\n");
+        System.out.println(json.toString());
+
+
+
+
+
+
     }
 //
 //    public static boolean isValidId(String data) {

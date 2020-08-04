@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="3600" status="WARN">
+    <Properties>
+        <property name="pattern">
+            %d{dd-MM-yyyy-HH:mm:ss.SSS} [%t] %-5level %logger{5} - %msg%n
+        </property>
+    </Properties>
+    <Appenders>
+        <File name="TxtFile" fileName="log/data.log" bufferedIO="true">
+            <PatternLayout pattern="${pattern}"/>
+        </File>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name= "edu.epam.first" additivity="true"/>
+        <Root level="debug">
+            <AppenderRef ref="TxtFile" level="debug"/>
+            <AppenderRef ref="Console" level="debug"/>
+        </Root>
+    </Loggers>
+</Configuration>

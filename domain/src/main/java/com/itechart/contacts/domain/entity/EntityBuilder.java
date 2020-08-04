@@ -3,7 +3,6 @@ package com.itechart.contacts.domain.entity;
 import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.util.DateConverter;
-import com.itechart.contacts.domain.util.PathParser;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,0 +1,632 @@
+//
+using System;
+using System.Windows;
+
+namespace Lab4Game
+{
+    public partial class MainWindow : Window
+    {
+        // Конструктор
+        public MainWindow()
+        {
+            this.InitializeComponent();
+        }
+    }
+}
+
+//Controls
+
+using System;
+using System.Windows;
+using System.Windows.Media.Imaging;
+
+namespace Lab4GameControls
+{
+    // Определяем поведение бомбы
+    class Bomb : GameObject
+    {
+        // Переопределенный метод выполняет сброс состояния объекта
+        public override void Init()
+        {
+            // Счетчик, задает ускорение бомбы (увеличивает скорость на каждом кадре)
+            this.counter = new Counter() { Step = .02, End = double.MaxValue };
+            // Загружаем картинку бомбы из файла.
+            this.Image = BitmapFrame.Create(new Uri("Assets/bomb.png", UriKind.RelativeOrAbsolute));
+            this.IsEnabled = true;
+            this.IsActive = true;
+        }
+
+        // Счетчик наращивающий скорость по вертикали
+        private Counter counter;
+
+        // Переопределенный метод выполняет обновление состояния объекта
+        public override void Update()
+        {
+            if (this.IsActive)
+            {
+                Rect rect = this.ObjectRect;
+                // Смещение бомбы по х.
+                rect.X += 1;
+                double y = this.counter.Value;
+                // Смещение по высоте на величину y, изменяющуюся от 0 до бесконечности с шагом 0.02
+                rect.Y -= y;
+                this.ObjectRect = rect;
+                // Скорость бомбы.
+                this.State = string.Format("Скорость бомбы: {0:F}", Math.Sqrt(1 + y * y));
+            }
+        }
+    }
+}
+
+//
+using System;
+using System.Windows;
+
+namespace Lab4GameControls
+{
+    // Самолет.
+    class Bomber : GameObject
+    {
+        // Счетчик наращивающий скорость по вертикали.
+        private Counter counter;
+
+        // Переопределенный метод выполняет сброс состояния объекта.
+        public override void Init()
+        {
+            // Задаем положение по умолчанию.
+            Rect rect = this.ObjectRect;
+            rect.Location = new Point(0, 600);
+            this.ObjectRect = rect;
+            // Счетчик отсчитывает координату х.
+            this.counter = new Counter { Start = -200, Step = 1, End = 1280 };
+            // Самолет отображается.
+            this.IsEnabled = true;
+        }
+
+        // Переопределенный метод выполняет обновление состояния объекта.
+        public override void Update()
+        {
+            // Обновляем положение самолета.
+            Rect rect = this.ObjectRect;
+            // Округляем координату чтобы положение было кратно одному пикселу.
+            rect.X = Math.Round(this.counter.Value);
+            this.ObjectRect = rect;
+            // Вывод координат самолета.
+            this.State = string.Format("Координаты самолета: {0}", this.ObjectRect.Location);
+        }
+    }
+}
+
+//
+using System;
+
+namespace Lab4GameControls
+{
+    // Счетчик.
+    class Counter
+    {
+        // инициализирует счетчик поумолчанию
+        public Counter()
+        {
+            this.Step = 1;
+            this.End = double.MaxValue;
+        }
+
+        // Поле, переменная...
+        private double _value;
+
+       // Начальное значение.
+        public double Start { get; set; }
+        // Шаг изменения.
+        public double Step { get; set; }
+        // Конечное значение, после которого сброс.
+        public double End { get; set; }
+
+        // Текущее значение счетчика
+        public double Value
+        {
+            get
+            {
+                // Берем текщее значение.
+                double d = this._value;
+                // Наращиваем счетчик.
+                this._value += this.Step;
+                // Если счетчик переполнен - сбрасываем.
+                if (d >= this.End)
+                {
+                    d = this._value = this.Start;
+                }
+                // Возвращаем значение.
+                return d;
+            }
+            set
+            {
+                this._value = value;
+            }
+        }
+    }
+}
+
+//
+using System.Windows.Input;
+
+namespace Lab4GameControls
+{
+    public static class GameCommands
+    {
+        // Конструктор.
+        static GameCommands()
+        {
+            Start = new RoutedCommand("Start", typeof(GameControl));
+            Pause = new RoutedCommand("Pause", typeof(GameControl));
+            Reset = new RoutedCommand("Reset", typeof(GameControl));
+            Fire = new RoutedCommand("Fire", typeof(GameControl));
+        }
+
+        public static RoutedCommand Start { get; set; }
+        public static RoutedCommand Pause { get; set; }
+        public static RoutedCommand Reset { get; set; }
+        public static RoutedCommand Fire { get; set; }
+    }
+}
+
+//
+<UserControl x:Class="Lab4GameControls.GameControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lgc="clr-namespace:Lab4GameControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter1" />
+    </UserControl.Resources>
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="lgc:GameCommands.Start" Executed="StartCommandBinding_OnExecuted" CanExecute="StartCommandBinding_OnCanExecute"/>
+        <CommandBinding Command="lgc:GameCommands.Pause" Executed="PauseCommandBinding_OnExecuted" CanExecute="PauseCommandBinding_OnCanExecute"/>
+        <CommandBinding Command="lgc:GameCommands.Reset" Executed="ResetCommandBinding_OnExecuted" CanExecute="ResetCommandBinding_OnCanExecute"/>
+        <CommandBinding Command="lgc:GameCommands.Fire" Executed="FireCommandBinding_OnExecuted" CanExecute="FireCommandBinding_OnCanExecute"/>
+    </UserControl.CommandBindings>
+
+    <Grid>
+
+        <Canvas ClipToBounds="True" UseLayoutRounding="False">
+            <Canvas.DataContext>
+                <lgc:Scene x:Name="Context">
+                    <lgc:Scene.Bomber>
+                        <lgc:Bomber ObjectRect="00,600,200,60"/>   
+                    </lgc:Scene.Bomber>
+
+                    <lgc:Scene.Target>
+                        <lgc:Target ObjectRect="600,50,200,100"/>   
+                    </lgc:Scene.Target>
+
+                    <lgc:Scene.Bomb>
+                        <lgc:Bomb ObjectRect="0,0,20,40" IsEnabled="False"/>   
+                    </lgc:Scene.Bomb>
+                </lgc:Scene>
+            </Canvas.DataContext>
+
+            <Canvas.LayoutTransform>
+                <ScaleTransform ScaleY="-1"/>
+            </Canvas.LayoutTransform>
+
+            <Canvas.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{Binding Image}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=ObjectRect.X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=ObjectRect.Y}"/>
+                    <Setter Property="Width" Value="{Binding Path=ObjectRect.Width}"/>
+                    <Setter Property="Height" Value="{Binding Path=ObjectRect.Height}"/>
+                    <Setter Property="Stretch" Value="Fill"/>
+                    <Setter Property="Visibility" Value="{Binding Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter1}}"/>
+                    <Setter Property="LayoutTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleY="-1"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Canvas.Resources>
+
+            <Image MouseLeftButtonUp="Element_OnMouseLeftButtonUp" Source="/Lab4GameControls;component/Assets/plane.png" DataContext="{Binding Path=Bomber}"/>
+            <Image DataContext="{Binding Path=Target}" Height="250"/>
+            <Image MouseLeftButtonUp="Element_OnMouseLeftButtonUp" DataContext="{Binding Path=Bomb}"/>
+        </Canvas>
+
+    </Grid>
+</UserControl>
+
+//
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Threading;
+
+namespace Lab4GameControls
+{
+    public partial class GameControl : UserControl
+    {
+        // Конструктор.
+        public GameControl()
+        {
+            this.InitializeComponent();
+            this.Context.Init();
+        }
+
+        // "Свойство зависимости". приимает значение состояния объекта, по которому кликнули.
+        public string SelectedObjectInfo
+        {
+            get { return (string)this.GetValue(SelectedObjectInfoProperty); }
+            set
+            {
+                this.SetValue(SelectedObjectInfoProperty, value);
+            }
+        }
+
+         public static readonly DependencyProperty SelectedObjectInfoProperty = DependencyProperty.Register("SelectedObjectInfo", typeof(string), typeof(GameControl), new UIPropertyMetadata(string.Empty));
+
+        // запуск игры.
+        private void StartCommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Context.Start();
+        }
+
+        // Проверка возможности запуска.
+        private void StartCommandBinding_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !this.Context.IsBusy;
+        }
+
+        // Пауза.
+        private void PauseCommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Context.Pause();
+        }
+
+        // Проверка для паузы.
+        private void PauseCommandBinding_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.Context.IsBusy;
+        }
+
+        // Сброс.
+        private void ResetCommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Context.Init();
+        }
+
+        // Проверка для сброса.
+        private void ResetCommandBinding_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        // Огонь.
+        private void FireCommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            Rect bombObjectRect = this.Context.Bomb.ObjectRect;
+            bombObjectRect.Location = this.Context.Bomber.ObjectRect.Location;
+            this.Context.Bomb.ObjectRect = bombObjectRect;
+            this.Context.Bomb.Init();
+        }
+
+        // Проверка для огня.
+        private void FireCommandBinding_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.Context.IsBusy && !this.Context.Bomb.IsEnabled;
+        }
+
+        // Нажатие левой кнопки мыши.
+        private void Element_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Получаем контекст объекта, по которому кликнули (GameObject)
+            object obj = (sender as FrameworkElement).DataContext;
+            // Выполняем привязку к свойству SelectedObjectInfo свойства State
+            this.SetBinding(SelectedObjectInfoProperty, new Binding("State") { Source = obj});
+        }
+    }
+}
+
+//
+using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
+
+namespace Lab4GameControls
+{
+    // Базовый класс для игровых объектов бомба, самолет, танк. описывает их состояние и объявляет методы.
+    public class GameObject : INotifyPropertyChanged
+    {
+        // Поля.
+        private Rect _objectRect;
+        private string _state;
+        private bool _isEnabled;
+        private BitmapSource _image;
+
+        // Конструктор.
+        public GameObject()
+        {
+            this.IsEnabled = true;
+        }
+
+        // Активность да/нет.
+        public bool IsActive { get; set; }
+
+        // Положение и размер.
+        public Rect ObjectRect
+        {
+            get { return this._objectRect; }
+            set
+            {
+                if (value.Equals(this._objectRect))
+                {
+                    return;
+                }
+
+                this._objectRect = value;
+                this.OnPropertyChanged("ObjectRect");
+            }
+        }
+
+        // Картинка.
+        public BitmapSource Image
+        {
+            get { return this._image; }
+            set
+            {
+                if (Equals(value, this._image))
+                {
+                    return;
+                }
+
+                this._image = value;
+                this.OnPropertyChanged("Image");
+            }
+        }
+
+        // Состояние, которое показывается при клике
+        public string State
+        {
+            get { return this._state; }
+            protected set
+            {
+                if (value == this._state)
+                {
+                    return;
+                }
+
+                this._state = value;
+                this.OnPropertyChanged("State");
+            }
+        }
+
+        // Влияет на отображение объекта на экране
+        public bool IsEnabled
+        {
+            get
+            {
+                return this._isEnabled;
+            }
+            set
+            {
+                if (value == this._isEnabled)
+                {
+                    return;
+                }
+
+                this._isEnabled = value;
+                this.OnPropertyChanged("IsEnabled");
+            }
+        }
+
+        // Переопределенный метод выполняет сброс состояния объекта.
+        public virtual void Init() { }
+
+        // Переопределенный метод выполняет обновление состояния объекта
+        public virtual void Update() { }
+
+        // Вызывается при необоходимости отобразить уничтожение объекта.
+        public virtual void Destroy()
+        {
+            this.Image = BitmapFrame.Create(new Uri("Assets/bang.png", UriKind.RelativeOrAbsolute));
+        }
+
+        // Событие изменения свойств.
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Выполняет срабатывание события PropertyChanged.
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            // Если есть хоть один подписчик на событие.
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+}
+
+//
+using System;
+using System.ComponentModel;
+using System.Threading;
+
+namespace Lab4GameControls
+{
+    // Сцена. хранит и управляет состоянием бомбы, танка, саолета:
+    internal class Scene : INotifyPropertyChanged
+    {
+        // таймер, выполняет периодически метод в другом потоке
+        private Timer _t;
+
+        // Цель.
+        public Target Target { get; set; }
+        // Самолет.
+        public Bomber Bomber { get; set; }
+        // Бомба.
+        public Bomb Bomb { get; set; }
+
+        // Запущена ли игра.
+        public bool IsBusy { get; set; }
+
+        // Сброс игры.
+        public void Init()
+        {
+            this.Target.Init();
+            this.Bomber.Init();
+        }
+
+        // Запуск игры.
+        public void Start()
+        {
+            // Если игра уже запущена, то ничего выходим из метода.
+            if (this.IsBusy)
+            {
+                return;
+            }
+
+            // Счетчик. отсчитывает такты до исчезновения взорованного объекта.
+            Counter c = new Counter();
+
+            // Главный таймер, создает поток и выполняет в нем метод обновления состояния сцены.
+            this._t = new Timer
+                (
+                // Лямбда выражение.
+                state =>
+                {
+                    this.Bomber.Update();
+
+                    if (!this.Bomb.IsEnabled)
+                    {
+                        return;
+                    }
+
+                    this.Bomb.Update();
+
+                    // Проверка попадания бомбы в танк.
+                    if (this.Bomb.ObjectRect.IntersectsWith(this.Target.ObjectRect))
+                    {
+                        if (this.Bomb.IsActive)
+                        {
+                            this.Bomb.IsActive = false;
+                            this.Bomb.Destroy();
+                            this.Target.Destroy();
+                        }
+
+                        if (c.Value >= 50)
+                        {
+                            this.Bomb.IsEnabled = false;
+                            this.Target.IsEnabled = false;
+                        }
+                    }
+                    else
+                        if (this.Bomb.ObjectRect.Y < 0)
+                        {
+                            if (this.Bomb.IsActive)
+                            {
+                                this.Bomb.IsActive = false;
+                                this.Bomb.Destroy();
+                            }
+                            if (c.Value >= 50)
+                            {
+                                this.Bomb.IsEnabled = false;
+                                c.Value = 0;
+                            }
+                        }
+                },
+                null,
+                // Задержка.
+                0,
+                // Период.
+                10);
+            // Устанавливаем IsBusy в true.
+            this.IsBusy = true;
+        }
+
+        // Пауза
+        public void Pause()
+        {
+            if (this.IsBusy)
+            {
+                this._t.Dispose();
+                this.IsBusy = false;
+            }
+        }
+
+        // Событие изменения свойств.
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Выполняем срабатывание события PropertyChanged.
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            // Если есть хоть один подписчик на событие.
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+}
+
+//
+using System;
+using System.Windows.Media.Imaging;
+
+namespace Lab4GameControls
+{
+    class Target : GameObject
+    {
+        public override void Init()
+        {
+            this.IsEnabled = true;
+            this.Image = BitmapFrame.Create(new Uri("Assets/wader.png", UriKind.RelativeOrAbsolute));
+        }
+    }
+}
+
+//
+<Window x:Class="Lab4Game.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lgc="clr-namespace:Lab4GameControls;assembly=Lab4GameControls"
+        Title="Wader Kill" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/background.png"/>
+        </Grid.Background>
+        <lgc:GameControl Name="GameControl" Grid.Column="1" Height="700" Width="1000" />
+
+        <StackPanel Width="150">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="90"/>
+                    <Setter Property="Margin" Value="8"/>
+                    <Setter Property="Padding" Value="8"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="{Binding SelectedObjectInfo, ElementName=GameControl}" TextWrapping="Wrap" FontSize="16" Margin="8"/>
+            <Button Content="Старт" Command="lgc:GameCommands.Start" CommandTarget="{Binding ElementName=GameControl}"/>
+            <Button Content="Пауза" Command="lgc:GameCommands.Pause" CommandTarget="{Binding ElementName=GameControl}"/>
+            <Button Content="Сброс" Command="lgc:GameCommands.Reset" CommandTarget="{Binding ElementName=GameControl}"/>
+            <Button Content="Огонь" Background="Red" Foreground="White" Command="lgc:GameCommands.Fire" CommandTarget="{Binding ElementName=GameControl}"/>
+        </StackPanel>
+    </Grid>
+
+</Window>
+
+
+
+

@@ -26,6 +26,7 @@
     <form id="contactSave" method="post" enctype="multipart/form-data" action="http://localhost:8080/view_war/contacts">
         <div class="pagePanel">
             <div class="contactColumn">
+                <label for="idField"></label>
                 <input form="contactSave" type="text" id="idField" name="idContact" hidden/>
                 <div class="pageLabel">
                     <label for="surnameField">Фамилия *</label>
@@ -55,9 +56,9 @@
                 </div>
                 <div id="genderField">
                     <label>
-                        <input form="contactSave" name="gender" type="radio" value="man"> М
-                        <input form="contactSave" name="gender" type="radio" value="woman"> Ж
-                        <input form="contactSave" name="gender" type="radio" value="unknown" hidden checked>
+                        <input form="contactSave" name="gender" id='male' type="radio" value="male"> М
+                        <input form="contactSave" name="gender" id='female' type="radio" value="female"> Ж
+                        <input form="contactSave" name="gender" id='unknown' type="radio" value="unknown" hidden checked>
                     </label>
                 </div>
             </div>
@@ -116,9 +117,7 @@
                 </label>
                 <input form="contactSave" type="submit" class="pageButton stretch" value="Cохранить">
                 <br>
-                <button class="pageButton stretch">
-                    <a style="text-decoration: none;" class="visitedLink" href="../index.html">Отмена</a>
-                </button>
+                <button class="pageButton stretch" style="text-decoration: none" id="cancelEdit">Отмена</button>
             </div>
         </div>
         <div class="pagePanel">
