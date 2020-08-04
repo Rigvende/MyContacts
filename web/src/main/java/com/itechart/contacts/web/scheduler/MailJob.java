@@ -40,6 +40,7 @@ public class MailJob implements Job {
             String header = HEADER + LocalDate.now() ;
             String body = message.toString();
             service.service(MAIL, header, body);
+            LOGGER.log(Level.INFO, "Daily birthday list is send");
         } catch (DaoException | ClassNotFoundException | ServiceException e) {
             LOGGER.log(Level.WARN, "Error while sending birthdays by e-mail has occurred. ", e);
         } finally {

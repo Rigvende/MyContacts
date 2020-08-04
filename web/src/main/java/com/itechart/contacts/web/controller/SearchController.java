@@ -33,6 +33,7 @@ public class SearchController extends HttpServlet {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println(json);
+            LOGGER.log(Level.INFO, "User uses filter for searching contacts");
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");

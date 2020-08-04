@@ -73,11 +73,13 @@ public class ContactsController extends HttpServlet {
 //                updatePhotoService.service(photo);
 //                updateAttachmentService.service(attachments);
 //                updatePhoneService.service(phones);
+//        LOGGER.log(Level.INFO, "Contact # " + id + " was updated");
 //            } else { //создать
 //                updateContactService.service(contactId);
 //                updatePhotoService.service(photo);
 //                updateAttachmentService.service(attachments);
 //                updatePhoneService.service(phones);
+//        LOGGER.log(Level.INFO, "New contact was created");
 //            }
 //        } catch (ServiceException e) {
 //            LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
@@ -101,7 +103,6 @@ public class ContactsController extends HttpServlet {
                     .forJob("job1", "group1")
                     .build();
             scheduler.scheduleJob(job, trigger);
-            System.out.println("Job");//fixme
         } catch (SchedulerException e) {
             e.printStackTrace();
         }

@@ -57,6 +57,7 @@ public class MailController extends HttpServlet {
                     StringValidator.isValidHeader(subject) &&
                     StringValidator.isValidMessage(body)) {
                 mailService.service(to, subject, body);
+                LOGGER.log(Level.INFO, "User sends email");
             }
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");

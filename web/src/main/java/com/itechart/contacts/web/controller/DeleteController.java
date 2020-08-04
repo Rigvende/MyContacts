@@ -29,18 +29,15 @@ public class DeleteController extends HttpServlet {
         String ids = request.getParameter("ids");
         long[] deleteIds = parseId(ids);
         try {
-            boolean isDeleted = service.service(deleteIds);
-            System.out.println(isDeleted);
-            if (!isDeleted) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                        "Что-то пошло не так...");
-            }
+            service.service(deleteIds);
+            LOGGER.log(Level.INFO, "User deletes contacts: " + ids);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of deleting contacts failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         }
     }
 
+    //метод возвращает массив айди для удаления
     private long[] parseId(String data) {
         String[] ids = data.split(SPACE);
         int size = ids.length;
