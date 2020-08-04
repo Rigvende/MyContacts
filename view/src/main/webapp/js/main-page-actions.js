@@ -1,7 +1,8 @@
 // function for main page generation
 
 "use strict";
-var checkboxes = [];
+
+var checkboxes = []; //массив всех чекбоксов
 
 //заполнение таблицы и пагинация
 function fillTable(contacts) {
@@ -91,9 +92,8 @@ function loadContacts() {
 //загрузка таблицы при старте:
 loadContacts();
 
-
+///////////////////////////////////////////////////////////////
 //кнопки меню:
-
 //создать
 var createContact = document.querySelector('#createContact');
 createContact.addEventListener('click', function () {
@@ -129,38 +129,44 @@ var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEditMail = document.querySelector('#errorEditMail');
 var deleteMsg = document.querySelector('#deleteMsg');
 var modalContent = document.querySelectorAll('.modalContent');
-var counter = 0; //счетчик нажатых чекбоксов
+var checkCounter = 0; //счетчик нажатых чекбоксов
 
+//счетчик заполненных чекбоксов
 function checkCheckboxes() {
     checkboxes = document.querySelectorAll(".checkbox");
     checkboxes.forEach(box => {
         box.addEventListener('change', event => {
             if (event.target.checked) {
-                counter++;
+                checkCounter++;
             } else {
-                counter--;
+                checkCounter--;
             }
         })
     })
 }
+
+//поменять фон для сообщений об ошибках
 function changeBackground() {
     modalContent.forEach(modal => {
         modal.style.backgroundColor = 'Chocolate';
     })
-
 }
+
+///////////////////////////////////////////////////
 //обработка нажатия кнопок, для которых нужны чекбоксы:
 
 //ПОЧТА
 function handleEmail() {
     var checkId = '';
-    switch (counter) {
+    switch (checkCounter) {
         case 1:
             checkboxes.forEach(box => {
                 if (box.checked) {
                     checkId = box.value;
+                    box.checked = false;
                 }
             })
+            checkCounter = 0;
             document.location.href = "html/mailForm.html?id=" + checkId;
             break;
         case 0:
@@ -173,16 +179,19 @@ function handleEmail() {
     }
 }
 
+/////////////////////////////////////////////////////
 //РЕДАКТИРОВАНИЕ
 function handleEdit() {
-    switch (counter) {
+    switch (checkCounter) {
         case 1:
             var checkId = '';
             checkboxes.forEach(box => {
                 if (box.checked) {
                     checkId = box.value;
+                    box.checked = false;
                 }
             })
+            checkCounter = 0;
             document.location.href = "html/contactForm.html?id=" + checkId;
             break;
         case 0:
@@ -196,12 +205,14 @@ function handleEdit() {
     }
 }
 
+///////////////////////////////////////////////
 //УДАЛЕНИЕ
 //массив айдишников для удаления
 var checkIds = [];
 
+//нажатие кнопки меню
 function handleDelete() {
-    if (counter > 0) {
+    if (checkCounter > 0) {
         checkboxes.forEach(box => {
             if (box.checked) {
                 checkIds.push(box.value);
@@ -214,6 +225,7 @@ function handleDelete() {
     }
 }
 
+//нажатие кнопки подтверждения
 function deleteContact(event) {
     event.preventDefault();
     var request = new XMLHttpRequest();
@@ -224,13 +236,13 @@ function deleteContact(event) {
     ids = 'ids=' + encodeURIComponent(ids);
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            counter = 0;
+            checkCounter = 0;
             checkIds = [];
             deleteMsg.querySelector('p').innerHTML = success;
             deleteMsg.style.display = 'block';
         }
         else if (this.status === 404 || this.status === 500) {
-            counter = 0;
+            checkCounter = 0;
             checkIds = [];
             changeBackground();
             deleteMsg.querySelector('p').innerHTML = fail;
@@ -251,6 +263,7 @@ oks.forEach(ok => {
     ok.addEventListener('click', loadContacts);
 })
 
+//////////////////////////////////////////////////////////////
 //закрытие модальных окошек
 var closeBtn = document.querySelectorAll('.close');
 

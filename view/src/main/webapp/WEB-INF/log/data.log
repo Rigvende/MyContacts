@@ -211,3 +211,11 @@ javax.mail.internet.AddressException: Illegal address
 04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 102 
 04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 106 
 04-08 13:37 INFO  web.controller.DeleteController - User deletes contacts: 107 108 
+04-08 13:51 INFO  domain.service.GetContactsService - User gets concrete contact info
+04-08 13:53 INFO  domain.service.GetContactsService - User gets concrete contact info
+04-08 13:53 INFO  domain.service.GetContactsService - User gets concrete contact info
+04-08 14:09 INFO  web.controller.DeleteController - User deletes contacts: 103 104 
+04-08 14:24 INFO  domain.service.GetContactsService - User gets concrete contact info
+04-08 14:27 INFO  domain.service.GetContactsService - User gets concrete contact info
+04-08 14:30 INFO  domain.service.GetContactsService - User gets contact info: 1
+04-08 14:30 INFO  domain.service.GetContactsService - User gets contact info: 64

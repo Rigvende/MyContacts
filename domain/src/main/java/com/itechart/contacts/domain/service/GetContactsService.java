@@ -42,7 +42,7 @@ public class GetContactsService {
             photoDao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
             phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
             attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
-            if (!parameter.equals("")) {
+            if (parameter !=null && !parameter.equals("")) {
                 long id = Long.parseLong(parameter);
                 Contact contact = (Contact) contactDao.findEntityById(id);
                 if (contact != null) {
@@ -54,8 +54,8 @@ public class GetContactsService {
                     createAttachmentsJson(alist, json);
                     createPhonesJson(plist, json);
                     createCoreJson(contact, json);
-                    LOGGER.log(Level.INFO, "User gets concrete contact info");
-                    return json.toString();
+                    LOGGER.log(Level.INFO, "User gets contact info: " + id);
+                    return json.toString().substring(0, json.length() - 2);
                 } else {
                     return "{}";
                 }

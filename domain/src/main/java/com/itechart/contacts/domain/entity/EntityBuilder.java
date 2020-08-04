@@ -26,7 +26,7 @@ public class EntityBuilder {
         AbstractEntity attachment;
         try {
             long id = resultSet.getLong("id_attachment");
-            String path = PathParser.parse(resultSet.getString("attachment_path"));
+            String path = resultSet.getString("attachment_path");
             String name = resultSet.getString("attachment_name");
             LocalDate date = DateConverter.convertToLocalDate(resultSet.getDate("load_date"));
             String comments = resultSet.getString("comments");
@@ -135,8 +135,8 @@ public class EntityBuilder {
         AbstractEntity photo;
         try {
             long id = resultSet.getLong("id_photo");
-            String path = PathParser.parse(resultSet.getString("photo_path"));
-            String name = PathParser.parse(resultSet.getString("photo_name"));
+            String path = resultSet.getString("photo_path");
+            String name = resultSet.getString("photo_name");
             photo = new Photo(id, path, name);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build attachment. Error has occurred. ", e);

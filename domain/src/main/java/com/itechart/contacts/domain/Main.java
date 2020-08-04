@@ -104,7 +104,7 @@ public class Main {
 //            List<AbstractEntity> alist = attachmentDao.findByContactId(id);
 //            List<AbstractEntity> plist = phoneDao.findByContactId(id);
 //            StringBuilder json = new StringBuilder("{\n");
-//            json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue() + "")).append(",\n");
+//            json.append("\"gender\": ").append(JSONObject.quote(contact.getGender().getValue())).append(",\n");
 //            json.append("\"citizenship\": ").append(JSONObject.quote(contact.getCitizenship())).append(",\n");
 //            json.append("\"status\": ").append(JSONObject.quote(contact.getFamilyStatus())).append(",\n");
 //            json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append("\n");
