@@ -110,6 +110,7 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PHOTO)) {
             preparedStatement.setString(1, photo.getPath());
             preparedStatement.setString(2, photo.getName());
+            preparedStatement.setLong(3, photo.getPhotoId());
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;

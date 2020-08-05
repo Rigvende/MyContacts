@@ -111,8 +111,8 @@ public class GetContactsService {
 
     //вся информация по телефонам
     private void createPhonesJson(List<AbstractEntity> list, StringBuilder json) {
+        json.append("\"phones\": [\n");
         if (!list.isEmpty()) {
-            json.append("\"phones\": [\n");
             for (AbstractEntity entity : list) {
                 Phone phone = (Phone) entity;
                 json.append("{\n\"id_phone\": ").append(JSONObject.numberToString(phone.getPhoneId())).append(",\n");
@@ -123,14 +123,14 @@ public class GetContactsService {
                 json.append("\"p_comments\": ").append(JSONObject.quote(phone.getComments())).append("},\n");
             }
             json.replace(json.length() - 3 , json.length(), "\n}\n");
-            json.append("],\n");
         }
+        json.append("],\n");
     }
 
     //вся информация по приложениям
     private void createAttachmentsJson(List<AbstractEntity> list, StringBuilder json) {
+        json.append("\"attachments\": [\n");
         if (!list.isEmpty()) {
-            json.append("\"attachments\": [\n");
             for (AbstractEntity entity : list) {
                 Attachment attachment = (Attachment) entity;
                 json.append("{\n\"id_attachment\": ").append(JSONObject.numberToString(attachment.getAttachmentId())).append(",\n");
@@ -139,8 +139,8 @@ public class GetContactsService {
                 json.append("\"a_comments\": ").append(JSONObject.quote(attachment.getComments())).append("},\n");
             }
             json.replace(json.length() - 3 , json.length(), "\n}\n");
-            json.append("],\n");
         }
+        json.append("],\n");
     }
 
     //закрываем соединение

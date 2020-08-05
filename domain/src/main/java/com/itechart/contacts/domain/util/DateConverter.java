@@ -13,11 +13,11 @@ public class DateConverter {
     private DateConverter() {}
 
     public static Date convertToSqlDate(LocalDate date) {
-        return Date.valueOf(date);
+        return (date != null) ? Date.valueOf(date) : null;
     }
 
     public static LocalDate convertToLocalDate(Date date) {
-        return date.toLocalDate();
+        return (date != null) ? date.toLocalDate() : null;
     }
 
 }

@@ -64,10 +64,11 @@ public class ContactsController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         Contact contact = RequestParser.createContact(request);
         Photo photo = RequestParser.createPhoto(request);
-//        List<Attachment> attachments;
 //        List<Phone> phones;
+//        List<Attachment> attachments;
         try {
             if (contact.getContactId() != 0L) { //обновить
                 updateContactService.service(contact.getContactId(), contact);
@@ -80,10 +81,9 @@ public class ContactsController extends HttpServlet {
                 //создать папку, загрузить фото
                 photo = (Photo) updatePhotoService.service(photo);
                 contact.setPhotoId(photo.getPhotoId());
-                updateContactService.service(contact);
-
-//                updateAttachmentService.service(attachments);
+                Contact d = (Contact) updateContactService.service(contact);
 //                updatePhoneService.service(phones);
+//                updateAttachmentService.service(attachments);
                 LOGGER.log(Level.INFO, "New contact was created");
             }
         } catch (ServiceException e) {

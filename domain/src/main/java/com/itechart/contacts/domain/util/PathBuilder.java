@@ -26,14 +26,18 @@ public class PathBuilder {
 
     public static String buildPath(Photo photo) {
         if (!photo.getPath().isEmpty() && !photo.getName().isEmpty()) {
-            return (photo.getPath() + "/" + photo.getPhotoId() + "/" + photo.getName());
+            return (photo.getPath() + photo.getName());
         } else {
             return "";
         }
     }
 
     public static String buildPath(Attachment attachment) {
-        return (attachment.getPath() + "/" + attachment.getAttachmentId() + "/" + attachment.getName());
+        if (!attachment.getPath().isEmpty() && !attachment.getName().isEmpty()) {
+            return (attachment.getPath() + attachment.getName());
+        } else {
+            return "";
+        }
     }
 
 }

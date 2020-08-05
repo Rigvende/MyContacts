@@ -1,7 +1,17 @@
 package com.itechart.contacts.domain;
 
+import com.itechart.contacts.domain.dao.DaoFactory;
+import com.itechart.contacts.domain.dao.impl.ContactDao;
+import com.itechart.contacts.domain.dao.impl.PhotoDao;
+import com.itechart.contacts.domain.entity.EntityType;
+import com.itechart.contacts.domain.entity.impl.Contact;
+import com.itechart.contacts.domain.entity.impl.Gender;
+import com.itechart.contacts.domain.entity.impl.Photo;
 import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
+import com.itechart.contacts.domain.service.UpdateAttachmentService;
+import com.itechart.contacts.domain.service.UpdateContactService;
+import com.itechart.contacts.domain.service.UpdatePhotoService;
 import freemarker.template.TemplateException;
 
 import java.io.*;
@@ -194,7 +204,7 @@ public class Main {
 //        StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ");
 //        builder.append("birthday, gender, citizenship, family_status, website, email, work_place, ")
 //                .append("country, city, address, zipcode, id_photo  FROM contacts WHERE ");
-//        String name = "Иван";
+//        String name = "Максим";
 //        if (name != null && !name.isEmpty()) {
 //            builder.append("contact_name = '").append(name).append("' AND ");
 //        }
@@ -270,14 +280,23 @@ public class Main {
 //        System.out.println(json.toString());
 
         /////////////////
-        String x = "C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\css\\style.css";
-        x = x.substring(x.lastIndexOf("\\") + 1);
-        System.out.println(x);
+//        String x = "C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\css\\style.css";
+//        x = x.substring(x.lastIndexOf("\\") + 1);
+//        System.out.println(x);
 
-
-
-
-
+        ///////////////////
+//
+//        Contact contact = new Contact(0, "Максим", "Жуковский", "", null,
+//                Gender.getGender("unknown"), "", "", "", "", "",
+//                "", "", "", "", 0, null);
+//        Photo photo = new Photo(0, "", "user_no_photo.png");
+//        UpdatePhotoService ups = new UpdatePhotoService();
+//        photo = (Photo) ups.service(photo);
+//        System.out.println(photo);
+//        contact.setPhotoId(photo.getPhotoId());
+//        UpdateContactService ucs = new UpdateContactService();
+//        contact = (Contact) ucs.service(contact);
+//        System.out.println(contact);
 
     }
 //

@@ -75,13 +75,13 @@ public class RequestParser {
 
     public static Photo createPhoto(HttpServletRequest request) {
         String name = request.getParameter("photo_name");
-        name = name.substring(name.lastIndexOf("\\") + 1);
+        name = name.substring(name.lastIndexOf("/") + 1);//fixme
         long id = 0L;
         String path = "";
         if (request.getParameter("photoId") != null
                 && !request.getParameter("photoId").isEmpty()) {
             id = Long.parseLong(request.getParameter("photoId"));
-            path = "../images/" + id + "/" + name;
+            path = "../images/photos/" + id + "/";
         }
         return new Photo(id, path, name);
     }

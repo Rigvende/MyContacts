@@ -36,7 +36,6 @@ function autofill() {
                 if (this.readyState === 4 && this.status === 200) {
                     if (this.responseText != null && this.responseText.trim()) {
                         var person = JSON.parse(this.responseText);
-                        alert(this.responseText);
                         idContact.value = id;
                         if (person.photo_path != null && person.photo_path.trim()) {
                             searchImage.src = person.photo_path;
@@ -78,15 +77,17 @@ function autofill() {
                         createTd('<b>Номер</b>', th);
                         createTd('<b>Тип</b>', th);
                         createTd('<b>Комментарий</b>', th);
-                        for (var phone of person.phones) {
-                            tr = document.createElement('tr');
-                            phonesTable.appendChild(tr);
-                            checkbox = '<label><input type="checkbox" value="' + phone.id_phone + '"/></label>';
-                            var phoneNumber = phone.p_country + '(' + phone.p_operator + ')' + phone.p_number;
-                            createTd(checkbox, tr);
-                            createTd(phoneNumber, tr);
-                            createTd(phone.p_type, tr);
-                            createTd(phone.p_comments, tr);
+                        if (person.phones) {
+                            for (var phone of person.phones) {
+                                tr = document.createElement('tr');
+                                phonesTable.appendChild(tr);
+                                checkbox = '<label><input type="checkbox" value="' + phone.id_phone + '"/></label>';
+                                var phoneNumber = phone.p_country + '(' + phone.p_operator + ')' + phone.p_number;
+                                createTd(checkbox, tr);
+                                createTd(phoneNumber, tr);
+                                createTd(phone.p_type, tr);
+                                createTd(phone.p_comments, tr);
+                            }
                         }
 
                         var attachTable = document.querySelector("#attachmentsTable");
@@ -97,14 +98,16 @@ function autofill() {
                         createTd('<b>Имя</b>', th);
                         createTd('<b>Загружено</b>', th);
                         createTd('<b>Комментарий</b>', th);
-                        for (var attach of person.attachments) {
-                            tr = document.createElement('tr');
-                            attachTable.appendChild(tr);
-                            checkbox = '<label><input type="checkbox" value="' + attach.id_attachment + '"/></label>';
-                            createTd(checkbox, tr);
-                            createTd(attach.a_path, tr);
-                            createTd(attach.a_date, tr);
-                            createTd(attach.a_comments, tr);
+                        if (person.attachments) {
+                            for (var attach of person.attachments) {
+                                tr = document.createElement('tr');
+                                attachTable.appendChild(tr);
+                                checkbox = '<label><input type="checkbox" value="' + attach.id_attachment + '"/></label>';
+                                createTd(checkbox, tr);
+                                createTd(attach.a_path, tr);
+                                createTd(attach.a_date, tr);
+                                createTd(attach.a_comments, tr);
+                            }
                         }
                     }
                 }
@@ -202,7 +205,7 @@ form.addEventListener('submit', function (event) {
         postData += '&surname=' + encodeURIComponent(surname);
         postData += '&patronymic=' + encodeURIComponent(patronymic);
         postData += '&birthday=' + encodeURIComponent(birthday);
-        postData += '&gender=' + encodeURIComponent(gender);
+        postData += '&gender=' + gender;
         postData += '&citizenship=' + encodeURIComponent(citizenship);
         postData += '&status=' + encodeURIComponent(status);
         postData += '&website=' + encodeURIComponent(website);

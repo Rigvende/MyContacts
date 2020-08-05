@@ -46,7 +46,13 @@ public class UpdatePhotoService {
         PhotoDao dao = null;
         try {
             dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
-            return dao.create(photo);
+            photo = (Photo) dao.create(photo);
+            photo.setPath("../images/photos/" + photo.getPhotoId() + "/");
+            if (dao.update(photo)) {
+                return photo;
+            } else {
+                return null;
+            }
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot add photo. Error has occurred. ", e);
             throw new ServiceException(e);

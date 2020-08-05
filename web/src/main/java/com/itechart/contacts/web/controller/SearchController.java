@@ -92,7 +92,7 @@ public class SearchController extends HttpServlet {
         }
         String address = request.getParameter("address");
         if (address != null && !address.isEmpty()) {
-            builder.append("address = '").append(address).append("' AND ");
+            builder.append("address LIKE '%").append(address).append("%' AND ");
         }
         builder.append("deleted IS NULL;");
         return builder;
