@@ -314,3 +314,9 @@ javax.mail.internet.AddressException: Illegal address
 05-08 11:23 INFO  web.controller.MailController - User sends email
 05-08 11:27 INFO  web.controller.MailController - User sends email
 05-08 11:43 INFO  web.controller.MailController - User sends email
+05-08 12:07 INFO  web.controller.MailController - User sends email
+05-08 12:17 INFO  web.controller.SearchController - User uses filter for searching contacts
+05-08 12:17 INFO  web.controller.SearchController - User uses filter for searching contacts
+05-08 12:20 INFO  web.controller.SearchController - User uses filter for searching contacts
+05-08 13:39 INFO  domain.service.GetContactsService - User gets contact info: 1
+05-08 13:41 INFO  domain.service.GetContactsService - User gets contact info: 1

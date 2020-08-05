@@ -25,7 +25,7 @@ window.onclick = function (event) {
 
 //загрузка фото по умолчанию, если его нет
 var contactPhoto = document.querySelector('#searchImage');
-var checkedSrc = contactPhoto.getAttribute('src');
+var checkedSrc = contactPhoto.src;
 
 //предпросмотр выбранного фото без сохранения на сервер
 var photoSrc;

@@ -105,6 +105,7 @@ public class GetContactsService {
         json.append("\"website\": ").append(JSONObject.quote(contact.getWebsite())).append(",\n");
         json.append("\"email\": ").append(JSONObject.quote(contact.getEmail())).append(",\n");
         json.append("\"zipcode\": ").append(JSONObject.quote(contact.getZipcode())).append(",\n");
+        json.append("\"idPhoto\": ").append(JSONObject.numberToString(contact.getPhotoId())).append(",\n");
         json.append("\"photo_path\": ").append(JSONObject.quote(PathBuilder.buildPath(photo))).append(",\n");
     }
 

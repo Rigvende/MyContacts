@@ -27,7 +27,7 @@
         <div class="pagePanel">
             <div class="contactColumn">
                 <label for="idField"></label>
-                <input form="contactSave" type="text" id="idField" name="idContact" hidden/>
+                <input form="contactSave" type="text" class="field" id="idField" name="idContact" hidden/>
                 <div class="pageLabel">
                     <label for="surnameField">Фамилия *</label>
                 </div>
@@ -112,10 +112,12 @@
                        placeholder="Введите почтовый индекс.."/>
             </div>
             <div class="contactColumn">
+                <label for="idPhoto"></label>
+                <input form="contactSave" type="text" class="field" id="idPhoto" name="idContact" hidden/>
                 <label class="popupPhoto">
                     <img class="stretch" src="../image/user_no_photo.png" id="searchImage" alt="фото">
                 </label>
-                <input form="contactSave" type="submit" class="pageButton stretch" value="Cохранить">
+                <input form="contactSave" type="submit" class="pageButton stretch" id="saveButton" value="Cохранить">
                 <br>
                 <button class="pageButton stretch" style="text-decoration: none; outline: none" id="cancelEdit">Отмена</button>
             </div>
@@ -266,6 +268,18 @@
         <div class="modalButtons">
             <button type="button" class="pageButton modalBtn small" id="attachmentButton">Добавить</button>
             <button type="button" class="close pageButton modalBtn small">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<!-- скрытое окошко для извещения об отправке -->
+<div id="contactSaveMsg" class="modal">
+    <div class="modalContentMsg">
+        <span class="close closeX">&times;</span>
+        <p></p>
+        <div class="modalButtons">
+            <button type="submit" class="pageButton modalBtn small" id="returnButton">Вернуться к списку</button>
+            <button class="close pageButton modalBtn small">Новое сообщение</button>
         </div>
     </div>
 </div>

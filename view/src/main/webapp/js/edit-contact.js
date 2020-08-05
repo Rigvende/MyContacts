@@ -2,6 +2,29 @@
 
 "use strict";
 
+//форма и поля
+var form = document.querySelector('#contactSave')
+var idContact = document.querySelector('#idField');
+var idPhoto = document.querySelector('#idPhoto');
+var searchImage = document.querySelector('#searchImage');
+var surnameField = document.querySelector('#surnameField');
+var nameField = document.querySelector('#nameField');
+var patronymicField = document.querySelector('#patronymicField');
+var birthdayField = document.querySelector('#birthdayField');
+var genderFields = document.querySelectorAll('input [type="radio"]');
+var statusField = document.querySelector('#statusField');
+var citizenshipField = document.querySelector('#citizenshipField');
+var siteField = document.querySelector('#siteField');
+var emailField = document.querySelector('#emailField');
+var workField = document.querySelector('#workField');
+var countryField = document.querySelector('#countryField');
+var cityField = document.querySelector('#cityField');
+var addressField = document.querySelector('#addressField');
+var zipField = document.querySelector('#zipField');
+var fields = [];
+fields.push(nameField);
+fields.push(surnameField);
+
 //автозаполнение контакта по выбранному чекбоксу
 function autofill() {
     var x = window.location.href.split("?id=");
@@ -13,27 +36,29 @@ function autofill() {
                 if (this.readyState === 4 && this.status === 200) {
                     if (this.responseText != null && this.responseText.trim()) {
                         var person = JSON.parse(this.responseText);
-                        document.querySelector('#idField').value = id;
+                        alert(this.responseText);
+                        idContact.value = id;
                         if (person.photo_path != null && person.photo_path.trim()) {
-                            document.querySelector('#searchImage').src = person.photo_path;
+                            searchImage.src = person.photo_path;
                         }
-                        document.querySelector('#surnameField').value = person.surname;
-                        document.querySelector('#nameField').value = person.name;
-                        document.querySelector('#patronymicField').value = person.patronymic;
-                        document.querySelector('#birthdayField').value = person.birthday;
+                        idPhoto.value = person.idPhoto;
+                        surnameField.value = person.surname;
+                        nameField.value = person.name;
+                        patronymicField.value = person.patronymic;
+                        birthdayField.value = person.birthday;
                         var gender = document.querySelector('#' + person.gender);
                         if (!gender.checked) {
                             gender.checked = true;
                         }
-                        document.querySelector('#statusField').value = person.status;
-                        document.querySelector('#citizenshipField').value = person.citizenship;
-                        document.querySelector('#siteField').value = person.website;
-                        document.querySelector('#emailField').value = person.email;
-                        document.querySelector('#workField').value = person.work;
-                        document.querySelector('#countryField').value = person.country;
-                        document.querySelector('#cityField').value = person.city;
-                        document.querySelector('#addressField').value = person.address;
-                        document.querySelector('#zipField').value = person.zipcode;
+                        statusField.value = person.status;
+                        citizenshipField.value = person.citizenship;
+                        siteField.value = person.website;
+                        emailField.value = person.email;
+                        workField.value = person.work;
+                        countryField.value = person.country;
+                        cityField.value = person.city;
+                        addressField.value = person.address;
+                        zipField.value = person.zipcode;
 
                         var th;
                         var tr;
@@ -98,4 +123,112 @@ cancelEdit.addEventListener('click', function () {
     document.location.href = "../index.html";
 })
 
+//модальное окошко после сохранения данных
+var modalSend = document.querySelector('#contactSaveMsg');
+var modalBack = document.querySelector('.modalContentMsg');
+var success = "Контакт успешно сохранен";
+var fail = "Что-то пошло не так";
+
+var returnBtn = document.querySelector('#returnButton');
+returnBtn.addEventListener('click', function () {
+    document.location.href = "../index.html";
+})
+
+//закрытие модального окошка
+var closeBtn = document.querySelectorAll('.close');
+
+closeBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        modalSend.style.display = "none";
+    })
+})
+
+window.onclick = function (event) {
+    if (event.target === modalSend) {
+        modalSend.style.display = "none";
+    }
+}
+
+var errors;
+
+//редактирование(создание) контакта
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    removeValidation();
+    checkFieldsPresence(form, fields);
+    errors = form.querySelectorAll('.error');
+    if (!errors || errors.length === 0) {
+        var spinnerDiv = document.createElement('div');
+        spinnerDiv.classList.add('spinner');
+        showSpinner(spinnerDiv);
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                spinnerDiv.style.display = 'none';
+                modalSend.querySelector('p').innerHTML = success;
+                modalBack.style.backgroundColor = '#31c3ff';
+                modalSend.style.display = 'block';
+            } else if (this.status === 404 || this.status === 500) {
+                spinnerDiv.style.display = 'none';
+                modalSend.querySelector('p').innerHTML = fail;
+                modalBack.style.backgroundColor = 'Chocolate';
+                modalSend.style.display = 'block';
+            }
+        }
+        var id = idContact.value;
+        var name = nameField.value;
+        var surname = surnameField.value;
+        var patronymic = patronymicField.value;
+        var birthday = birthdayField.value;
+        var gender = 'unknown';
+        genderFields.forEach(field => {
+            if (field.checked) {
+                gender = field.value;
+            }
+        })
+        var citizenship = citizenshipField.value;
+        var status = statusField.value;
+        var website = siteField.value;
+        var email = emailField.value;
+        var work = workField.value;
+        var country = countryField.value;
+        var city = cityField.value;
+        var location = addressField.value;
+        var zipcode = zipField.value;
+        var photoId = idPhoto.value;
+        var photo_name = searchImage.src;
+        var postData = 'id=' + id;
+        postData += '&name=' + encodeURIComponent(name);
+        postData += '&surname=' + encodeURIComponent(surname);
+        postData += '&patronymic=' + encodeURIComponent(patronymic);
+        postData += '&birthday=' + encodeURIComponent(birthday);
+        postData += '&gender=' + encodeURIComponent(gender);
+        postData += '&citizenship=' + encodeURIComponent(citizenship);
+        postData += '&status=' + encodeURIComponent(status);
+        postData += '&website=' + encodeURIComponent(website);
+        postData += '&email=' + encodeURIComponent(email);
+        postData += '&work=' + encodeURIComponent(work);
+        postData += '&country=' + encodeURIComponent(country);
+        postData += '&city=' + encodeURIComponent(city);
+        postData += '&location=' + encodeURIComponent(location);
+        postData += '&zipcode=' + encodeURIComponent(zipcode);
+        postData += '&photoId=' + encodeURIComponent(photoId);
+        postData += '&photo_name=' + encodeURIComponent(photo_name);
+        request.open("POST", "http://localhost:8080/view_war/contacts/", true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send(postData);
+    }
+})
+
 //валидация полей
+// var errors;
+//
+// function validate() {
+//     removeValidation();
+//     var form = document.querySelector('#searchForm');
+//     var fields = form.querySelectorAll('.field');
+//     checkInappropriate(form, fields);
+//     errors = form.querySelectorAll('.error');
+// }
+//
+

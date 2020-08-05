@@ -264,10 +264,15 @@ public class Main {
 //        dao.exit();
 
 ///////////////////////////////
-        StringBuilder json = new StringBuilder("dfsfsf, sdfdsfs, sddfsfs, },");
-        json.replace(json.length() - 5 , json.length(), "\n}\n");
-        json.append("]\n");
-        System.out.println(json.toString());
+//        StringBuilder json = new StringBuilder("dfsfsf, sdfdsfs, sddfsfs, },");
+//        json.replace(json.length() - 5 , json.length(), "\n}\n");
+//        json.append("]\n");
+//        System.out.println(json.toString());
+
+        /////////////////
+        String x = "C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\css\\style.css";
+        x = x.substring(x.lastIndexOf("\\") + 1);
+        System.out.println(x);
 
 
 

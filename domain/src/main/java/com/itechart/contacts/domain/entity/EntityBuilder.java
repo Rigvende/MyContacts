@@ -6,10 +6,8 @@ import com.itechart.contacts.domain.util.DateConverter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -20,6 +18,7 @@ import java.time.LocalDate;
 public class EntityBuilder {
 
     private final static Logger LOGGER = LogManager.getLogger();
+    private EntityBuilder(){}
 
     public static AbstractEntity createAttachment(ResultSet resultSet) throws DaoException {
         AbstractEntity attachment;
@@ -36,15 +35,6 @@ public class EntityBuilder {
             throw new DaoException(e);
         }
         return attachment;
-    }
-
-    public static AbstractEntity createAttachment(HttpServletRequest request) {
-        String name = request.getParameter("attachment");
-        String path = "C:\\attachments\\" + name + "_" + new Timestamp(System.currentTimeMillis());
-        LocalDate date = LocalDate.now();
-        String comments = request.getParameter("comments");
-        long contactId = Long.parseLong(request.getParameter("contactId")); //сначала создать контакт, потом получить его айди, потом передать в аттачмент
-        return new Attachment(0L, path, name, date, comments, contactId);
     }
 
     public static AbstractEntity createContact(ResultSet resultSet) throws DaoException {
@@ -81,27 +71,6 @@ public class EntityBuilder {
         return contact;
     }
 
-    public static AbstractEntity createContact(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String patronymic = request.getParameter("patronymic");
-        LocalDate birthday = LocalDate.parse(request.getParameter("birthday"));
-        Gender gender = Gender.getGender(request.getParameter("gender"));
-        String citizenship = request.getParameter("citizenship");
-        String familyStatus = request.getParameter("status");
-        String website = request.getParameter("website");
-        String email = request.getParameter("email");
-        String work = request.getParameter("work");
-        String country = request.getParameter("country");
-        String city = request.getParameter("city");
-        String location = request.getParameter("location");
-        String zipcode = request.getParameter("zipcode");
-        long photoId = Long.parseLong(request.getParameter("photoId"));
-        return new Contact(0L, name, surname, patronymic, birthday, gender,
-                citizenship, familyStatus, website, email, work,
-                country, city, location, zipcode, photoId, null);
-    }
-
     public static AbstractEntity createPhone(ResultSet resultSet) throws DaoException {
         AbstractEntity phone;
         try {
@@ -120,16 +89,6 @@ public class EntityBuilder {
         return phone;
     }
 
-    public static AbstractEntity createPhone(HttpServletRequest request) {
-        String countryCode = request.getParameter("p_code");
-        String operatorCode = request.getParameter("p_operator");
-        String number = request.getParameter("number");
-        String comments = request.getParameter("p_comments");
-        PhoneType type = PhoneType.getPhoneType(request.getParameter("p_type"));
-        long contactId = Long.parseLong(request.getParameter("contactId")); //сначала создать контакт, потом получить его айди, потом передать в телефон
-        return new Phone(0L, countryCode, operatorCode, number, type, comments, contactId);
-    }
-
     public static AbstractEntity createPhoto(ResultSet resultSet) throws DaoException {
         AbstractEntity photo;
         try {
@@ -142,12 +101,6 @@ public class EntityBuilder {
             throw new DaoException(e);
         }
         return photo;
-    }
-
-    public static AbstractEntity createPhoto(HttpServletRequest request) {
-        String path = request.getParameter("photo_path");
-        String name = request.getParameter("photo_name");
-        return new Photo(0L, path, name);
     }
 
 }
