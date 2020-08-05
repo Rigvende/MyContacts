@@ -87,13 +87,18 @@ form.addEventListener('submit', function (event) {
     validateEmail();
     errors = form.querySelectorAll('.error');
     if (!errors || errors.length === 0) {
+        var spinnerDiv = document.createElement('div');
+        showSpinner(spinnerDiv);
         var request = new XMLHttpRequest();
         request.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
+                spinnerDiv.style.display = 'none';
                 modalSend.querySelector('p').innerHTML = success;
                 modalBack.style.backgroundColor = '#31c3ff';
                 modalSend.style.display = 'block';
+                form.reset();
             } else if (this.status === 404 || this.status === 500) {
+                spinnerDiv.style.display = 'none';
                 modalSend.querySelector('p').innerHTML = fail;
                 modalBack.style.backgroundColor = 'Chocolate';
                 modalSend.style.display = 'block';
@@ -111,6 +116,22 @@ form.addEventListener('submit', function (event) {
     }
 })
 
+//показ спиннера во время отправки сообщения
+function showSpinner(spinnerDiv) {
+    var pageContainer = document.querySelector('.pageContainer');
+    var spinner = document.createElement('img');
+    spinner.src = '../image/spinner.svg';
+    spinnerDiv.appendChild(spinner);
+    var spinnerMsg = document.createElement('label');
+    spinnerMsg.textContent = 'Сообщение отправляется...';
+    spinnerDiv.appendChild(spinnerMsg);
+    spinnerDiv.style.cssText = `display: flex; justify-content: center; background-color: chocolate;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 18px;
+    color: white; max-width: 300px`;
+    pageContainer.insertAdjacentElement('afterbegin', spinnerDiv);
+}
+
+//очистка ошибок
 var removeValidation = function () {
     errors = form.querySelectorAll('.error');
     for (var i = 0; i < errors.length; i++) {
@@ -118,6 +139,7 @@ var removeValidation = function () {
     }
 }
 
+//генерация ошибок
 var generateError = function (text) {
     var error = document.createElement('div');
     error.className = 'error';
@@ -126,6 +148,7 @@ var generateError = function (text) {
     return error;
 }
 
+//проверка заполненности полей
 var checkFieldsPresence = function () {
     for (var i = 0; i < fields.length; i++) {
         if (!fields[i].value) {
@@ -135,6 +158,7 @@ var checkFieldsPresence = function () {
     }
 }
 
+//проверка email
 function validateEmail() {
     var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
     if (!regex.test(mail.value) || mail.length < 10 || mail.length > 255) {

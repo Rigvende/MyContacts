@@ -13,6 +13,11 @@
     padding: 30px;
 }
 
+input [type='submit'], button {
+    text-decoration: none;
+    outline: none;
+}
+
 .footer {
     display: block;
     text-align: right;
