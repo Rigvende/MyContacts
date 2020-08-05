@@ -97,3 +97,5 @@ var cancelEdit = document.querySelector('#cancelEdit');
 cancelEdit.addEventListener('click', function () {
     document.location.href = "../index.html";
 })
+
+//валидация полей

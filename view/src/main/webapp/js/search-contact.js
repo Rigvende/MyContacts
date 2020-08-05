@@ -110,3 +110,5 @@ function clearFilter() {
 //нажатие на кнопку поиска по полям
 var searchBtn = document.querySelector('#searchBtn');
 searchBtn.addEventListener('click', searchContacts);
+
+//валидация полей

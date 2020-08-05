@@ -77,17 +77,18 @@ window.onclick = function (event) {
     }
 }
 
-//валидация полей и отправка
+//валидация полей и отправка сообщения
 var errors;
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     removeValidation();
-    checkFieldsPresence();
-    validateEmail();
+    checkFieldsPresence(form, fields);
+    validateEmail(mail);
     errors = form.querySelectorAll('.error');
     if (!errors || errors.length === 0) {
         var spinnerDiv = document.createElement('div');
+        spinnerDiv.classList.add('spinner');
         showSpinner(spinnerDiv);
         var request = new XMLHttpRequest();
         request.onreadystatechange = function () {
@@ -115,54 +116,3 @@ form.addEventListener('submit', function (event) {
         request.send(postData);
     }
 })
-
-//показ спиннера во время отправки сообщения
-function showSpinner(spinnerDiv) {
-    var pageContainer = document.querySelector('.pageContainer');
-    var spinner = document.createElement('img');
-    spinner.src = '../image/spinner.svg';
-    spinnerDiv.appendChild(spinner);
-    var spinnerMsg = document.createElement('label');
-    spinnerMsg.textContent = 'Сообщение отправляется...';
-    spinnerDiv.appendChild(spinnerMsg);
-    spinnerDiv.style.cssText = `display: flex; justify-content: center; background-color: chocolate;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 18px;
-    color: white; max-width: 300px`;
-    pageContainer.insertAdjacentElement('afterbegin', spinnerDiv);
-}
-
-//очистка ошибок
-var removeValidation = function () {
-    errors = form.querySelectorAll('.error');
-    for (var i = 0; i < errors.length; i++) {
-        errors[i].remove();
-    }
-}
-
-//генерация ошибок
-var generateError = function (text) {
-    var error = document.createElement('div');
-    error.className = 'error';
-    error.style.color = 'Chocolate';
-    error.innerHTML = text;
-    return error;
-}
-
-//проверка заполненности полей
-var checkFieldsPresence = function () {
-    for (var i = 0; i < fields.length; i++) {
-        if (!fields[i].value) {
-            var error = generateError('Заполните это поле');
-            form[i].parentElement.insertBefore(error, fields[i]);
-        }
-    }
-}
-
-//проверка email
-function validateEmail() {
-    var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
-    if (!regex.test(mail.value) || mail.length < 10 || mail.length > 255) {
-        var error = generateError('Неподходящий e-mail');
-        mail.parentElement.insertBefore(error, mail);
-    }
-}

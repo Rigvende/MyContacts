@@ -23,6 +23,19 @@ input [type='submit'], button {
     text-align: right;
 }
 
+.spinner {
+    display: flex;
+    justify-content: center;
+    border: 3px solid darkgray;
+    color: #0099cc;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .buttonLink {
     text-decoration: none;
     border-radius: 30px;
