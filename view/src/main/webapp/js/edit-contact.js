@@ -11,7 +11,6 @@ var surnameField = document.querySelector('#surnameField');
 var nameField = document.querySelector('#nameField');
 var patronymicField = document.querySelector('#patronymicField');
 var birthdayField = document.querySelector('#birthdayField');
-var genderFields = document.querySelectorAll('input [type="radio"]');
 var statusField = document.querySelector('#statusField');
 var citizenshipField = document.querySelector('#citizenshipField');
 var siteField = document.querySelector('#siteField');
@@ -178,50 +177,51 @@ form.addEventListener('submit', function (event) {
                 modalSend.style.display = 'block';
             }
         }
-        var id = idContact.value;
-        var name = nameField.value;
-        var surname = surnameField.value;
-        var patronymic = patronymicField.value;
-        var birthday = birthdayField.value;
-        var gender = 'unknown';
-        genderFields.forEach(field => {
-            if (field.checked) {
-                gender = field.value;
-            }
-        })
-        var citizenship = citizenshipField.value;
-        var status = statusField.value;
-        var website = siteField.value;
-        var email = emailField.value;
-        var work = workField.value;
-        var country = countryField.value;
-        var city = cityField.value;
-        var location = addressField.value;
-        var zipcode = zipField.value;
-        var photoId = idPhoto.value;
-        var photo_name = searchImage.src;
-        var postData = 'id=' + id;
-        postData += '&name=' + encodeURIComponent(name);
-        postData += '&surname=' + encodeURIComponent(surname);
-        postData += '&patronymic=' + encodeURIComponent(patronymic);
-        postData += '&birthday=' + encodeURIComponent(birthday);
-        postData += '&gender=' + gender;
-        postData += '&citizenship=' + encodeURIComponent(citizenship);
-        postData += '&status=' + encodeURIComponent(status);
-        postData += '&website=' + encodeURIComponent(website);
-        postData += '&email=' + encodeURIComponent(email);
-        postData += '&work=' + encodeURIComponent(work);
-        postData += '&country=' + encodeURIComponent(country);
-        postData += '&city=' + encodeURIComponent(city);
-        postData += '&location=' + encodeURIComponent(location);
-        postData += '&zipcode=' + encodeURIComponent(zipcode);
-        postData += '&photoId=' + encodeURIComponent(photoId);
-        postData += '&photo_name=' + encodeURIComponent(photo_name);
+        var postData = createPostData();
         request.open("POST", "http://localhost:8080/view_war/contacts/", true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send(postData);
     }
 })
+
+//формирование данных запроса
+function createPostData() {
+    var id = idContact.value;
+    var name = nameField.value;
+    var surname = surnameField.value;
+    var patronymic = patronymicField.value;
+    var birthday = birthdayField.value;
+    var gender = document.querySelector('input[name="gender"]:checked').value;
+    var citizenship = citizenshipField.value;
+    var status = statusField.value;
+    var website = siteField.value;
+    var email = emailField.value;
+    var work = workField.value;
+    var country = countryField.value;
+    var city = cityField.value;
+    var location = addressField.value;
+    var zipcode = zipField.value;
+    var photoId = idPhoto.value;
+    var photo_name = searchImage.src;
+    var postData = 'id=' + id;
+    postData += '&name=' + encodeURIComponent(name);
+    postData += '&surname=' + encodeURIComponent(surname);
+    postData += '&patronymic=' + encodeURIComponent(patronymic);
+    postData += '&birthday=' + encodeURIComponent(birthday);
+    postData += '&gender=' + gender;
+    postData += '&citizenship=' + encodeURIComponent(citizenship);
+    postData += '&status=' + encodeURIComponent(status);
+    postData += '&website=' + encodeURIComponent(website);
+    postData += '&email=' + encodeURIComponent(email);
+    postData += '&work=' + encodeURIComponent(work);
+    postData += '&country=' + encodeURIComponent(country);
+    postData += '&city=' + encodeURIComponent(city);
+    postData += '&location=' + encodeURIComponent(location);
+    postData += '&zipcode=' + encodeURIComponent(zipcode);
+    postData += '&photoId=' + encodeURIComponent(photoId);
+    postData += '&photo_name=' + encodeURIComponent(photo_name);
+    return postData;
+}
 
 //валидация полей
 // var errors;

@@ -201,7 +201,7 @@ table tr:first-child {
     background-color: rgba(0,0,0,0.4);
 }
 
-.modalContent {
+.modalContent, .modalContentMsg {
     background-color: #31c3ff;
     color: white;
     font-size: 18px;
@@ -218,7 +218,7 @@ table tr:first-child {
     margin-top: 5%;
 }
 
-.modalContent p {
+.modalContent p, .modalContentMsg p {
     font-size: 18px;
 }
 

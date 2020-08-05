@@ -28,6 +28,7 @@ public class SearchController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String query = buildQuery(request).toString();
+            System.out.println(query);
             String json = searchService.service(query);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
@@ -44,7 +45,7 @@ public class SearchController extends HttpServlet {
     private StringBuilder buildQuery(HttpServletRequest request) {
         StringBuilder builder = new StringBuilder("SELECT id_contact, contact_name, surname, patronymic, ");
         builder.append("birthday, gender, citizenship, family_status, website, email, work_place, ")
-                .append("country, city, address, zipcode, id_photo  FROM contacts WHERE ");
+                .append("country, city, address, zipcode, id_photo FROM contacts WHERE ");
         String name = request.getParameter("contactName");
         if (name != null && !name.isEmpty()) {
             builder.append("contact_name = '").append(name).append("' AND ");
@@ -90,7 +91,7 @@ public class SearchController extends HttpServlet {
         if (city != null && !city.isEmpty()) {
             builder.append("city = '").append(city).append("' AND ");
         }
-        String address = request.getParameter("address");
+        String address = request.getParameter("street");
         if (address != null && !address.isEmpty()) {
             builder.append("address LIKE '%").append(address).append("%' AND ");
         }

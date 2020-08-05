@@ -40,7 +40,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             "SELECT id_contact, contact_name, surname, patronymic, " +
             "birthday, gender, citizenship, family_status, website, email, work_place, " +
             "country, city, address, zipcode, id_photo " +
-            "FROM contacts WHERE deleted IS NULL;";
+            "FROM contacts WHERE deleted IS NULL ORDER BY surname;";
     private final static String SQL_FIND_CONTACT_BY_ID =
             "SELECT id_contact, contact_name, surname, patronymic, " +
             "birthday, gender, citizenship, family_status, website, email, work_place, " +

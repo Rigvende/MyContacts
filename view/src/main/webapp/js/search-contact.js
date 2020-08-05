@@ -101,7 +101,7 @@ function clearFilter() {
     clearCondition.forEach(condition => {
         condition.checked = condition.value === 'strict';
     })
-    var clearGender = document.querySelectorAll('input[name="gender"');
+    var clearGender = document.querySelectorAll('input[name="gender"]');
     clearGender.forEach(gender => {
         gender.checked = gender.value === 'unknown';
     })
