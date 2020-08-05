@@ -13,7 +13,7 @@
     padding: 30px;
 }
 
-input [type='submit'], button {
+input [type="submit"], input [type="button"], button {
     text-decoration: none;
     outline: none;
 }

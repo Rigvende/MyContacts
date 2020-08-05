@@ -28,7 +28,6 @@ public class SearchController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String query = buildQuery(request).toString();
-            System.out.println(query);
             String json = searchService.service(query);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
