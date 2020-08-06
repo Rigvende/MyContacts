@@ -70,15 +70,17 @@ public class ContactsController extends HttpServlet {
         request.setCharacterEncoding(UTF_8);
         Contact contact = RequestParser.createContact(request);
         Photo photo = RequestParser.createPhoto(request);
-//        List<Phone> phones;
-//        List<Attachment> attachments;
+//        List<Phone> phones; //fixme
+//        List<Attachment> attachments; //todo
         try {
             if (contact.getContactId() != 0L) { //обновить
                 updateContactService.service(contact.getContactId(), contact);
                 //удалить старое фото, загрузить новое
-                updatePhotoService.service(photo.getPhotoId(), photo.getName());
+                if (photo.getPhotoId() != 0L) {
+                    updatePhotoService.service(photo.getPhotoId(), photo.getName());
 //                updateAttachmentService.service(attachments);
 //                updatePhoneService.service(phones);
+                }
                 LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
             } else { //создать
                 //создать папку, загрузить фото, получить имя (если фото не пустое), иначе просто сделать запись в бд

@@ -457,7 +457,7 @@ function deleteRows(table, checkboxes) {
 }
 
 
-//валидация полей
+//валидация полей //todo
 // var errors;
 //
 // function validate() {
