@@ -57,7 +57,6 @@ var checkInappropriate = function (form, fields) {
 //проверка email
 function validateEmail(mail) {
     var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
-    alert(mail.value.length);
     if (!regex.test(mail.value) || mail.value.length < 10 || mail.value.length > 255) {
         var error = generateError('Неподходящий e-mail');
         mail.parentElement.insertBefore(error, mail);

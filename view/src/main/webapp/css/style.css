@@ -137,22 +137,34 @@ input [type="submit"], input [type="button"], button {
 /*отрисовка таблицы контактов
 ----------------------------*/
 
-table {
+#contactsList, #phonesTable, #attachmentsTable {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-table td {
+#contactsList td,
+#phonesTable td,
+#attachmentsTable td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2;}
+#contactsList tr:nth-child(even),
+#phonesTable tr:nth-child(even),
+#attachmentsTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-table tr:hover {background-color: #ddd;}
+#contactsList tr:hover,
+#phonesTable tr:hover,
+#attachmentsTable tr:hover {
+    background-color: #ddd;
+}
 
-table tr:first-child {
+#contactsList tr:first-child,
+#phonesTable tr:first-child,
+#attachmentsTable tr:first-child {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
@@ -211,7 +223,7 @@ table tr:first-child {
     border: 1px solid white;
     border-radius: 10px;
     width: 30%;
-    min-width: 300px;
+    min-width: 350px;
 }
 
 .searchModal {

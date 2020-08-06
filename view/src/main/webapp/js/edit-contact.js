@@ -111,7 +111,7 @@ function autofill() {
                     }
                 }
             }
-            request.open('GET', 'http://localhost:8080/view_war/contacts/' + id);
+            request.open('GET', '../contacts/' + id);
             request.send();
         }
     }
@@ -178,7 +178,7 @@ form.addEventListener('submit', function (event) {
             }
         }
         var postData = createPostData();
-        request.open("POST", "http://localhost:8080/view_war/contacts/", true);
+        request.open("POST", "../contacts/", true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send(postData);
     }

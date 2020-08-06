@@ -44,7 +44,7 @@ function autofill() {
                 mail.value = receiver.email;
             }
         }
-        request.open("GET", "http://localhost:8080/view_war/mail/" + id, true);
+        request.open("GET", "../mail/" + id, true);
         request.send();
     }
 }
@@ -111,7 +111,7 @@ form.addEventListener('submit', function (event) {
         var postData = 'to=' + to;
         postData += '&subject=' + encodeURIComponent(subject);
         postData += '&body=' + encodeURIComponent(body);
-        request.open("POST", "http://localhost:8080/view_war/mail/", true);
+        request.open("POST", "../mail/", true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send(postData);
     }

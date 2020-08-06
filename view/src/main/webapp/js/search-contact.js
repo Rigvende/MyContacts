@@ -86,7 +86,7 @@ function searchContacts(event) {
             clearFilter();
         }
     };
-    var url = "http://localhost:8080/view_war/search?" + data;
+    var url = "search?" + data;
     searchRequest.open("GET", url, true);
     searchRequest.send();
 }

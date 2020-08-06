@@ -85,7 +85,7 @@ function loadContacts() {
             fillTable(contacts);
         }
     };
-    request.open("GET", "http://localhost:8080/view_war/contacts/", true);
+    request.open("GET", "contacts/", true);
     request.send();
 }
 
@@ -249,7 +249,7 @@ function deleteContact(event) {
             deleteMsg.style.display = 'block';
         }
     }
-    request.open("post", "http://localhost:8080/view_war/delete", true);
+    request.open("post", "delete", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(ids);
     deleteModal.style.display = 'none';
