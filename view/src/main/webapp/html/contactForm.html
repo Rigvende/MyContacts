@@ -36,7 +36,7 @@
                 <div class="pageLabel">
                     <label for="nameField">Имя *</label>
                 </div>
-                <input form="contactSave" type="text" class="field" id="nameField" name="сontactName"
+                <input form="contactSave" type="text" class="field" id="nameField" name="contactName"
                        placeholder="Введите имя.."/>
                 <div class="pageLabel">
                     <label for="patronymicField">Отчество</label>
@@ -54,7 +54,7 @@
                 <div class="pageLabel">
                     <label for="genderField">Пол</label>
                 </div>
-                <div id="genderField">
+                <div id="genderField" class="field" >
                     <label>
                         <input form="contactSave" name="gender" id='male' type="radio" value="male"> М
                         <input form="contactSave" name="gender" id='female' type="radio" value="female"> Ж
@@ -108,12 +108,12 @@
                 <div class="pageLabel">
                     <label for="zipField">Индекс</label>
                 </div>
-                <input form="contactSave" type="text" class="field" id="zipField" name="address"
+                <input form="contactSave" type="text" class="field" id="zipField" name="zipcode"
                        placeholder="Введите почтовый индекс.."/>
             </div>
             <div class="contactColumn">
                 <label for="idPhoto"></label>
-                <input form="contactSave" type="text" class="field" id="idPhoto" name="idContact" hidden/>
+                <input form="contactSave" type="text" class="field" id="idPhoto" name="idPhoto" hidden/>
                 <label class="popupPhoto">
                     <img class="stretch" src="../image/user_no_photo.png" id="searchImage" alt="фото">
                 </label>
@@ -159,7 +159,7 @@
         <br>
         <p style="font-size: 18px">Загрузить новое фото:</p>
         <label>
-            <input form="contactSave" id="photo" name="picture" size="100" accept="image/*" type="file"/>
+            <input class="field" form="contactSave" id="photo" name="picture" size="100" accept="image/*" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">
@@ -181,7 +181,7 @@
                     Код страны
                 </td>
                 <td><label>
-                    <input form="contactSave" id="phoneCountry" type="text" name="countryCode" value=""/>
+                    <input form="contactSave" class="field" id="phoneCountry" type="text" name="countryCode" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -189,7 +189,7 @@
                     Код оператора
                 </td>
                 <td><label>
-                    <input form="contactSave" id="phoneOperator" type="text" name="operatorCode" value=""/>
+                    <input form="contactSave" class="field" id="phoneOperator" type="text" name="operatorCode" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -197,7 +197,7 @@
                     Номер
                 </td>
                 <td><label>
-                    <input form="contactSave" id="phoneNumber" type="text" name="number" value=""/>
+                    <input form="contactSave" class="field" id="phoneNumber" type="text" name="number" value=""/>
                 </label></td>
             </tr>
             <tr>
@@ -205,7 +205,7 @@
                     Тип
                 </td>
                 <td><label>
-                    <select form="contactSave" id="phoneType">
+                    <select form="contactSave" class="field" id="phoneType" name="phoneType">
                         <option>иной</option>
                         <option>домашний</option>
                         <option>рабочий</option>
@@ -218,7 +218,7 @@
                     Комментарий
                 </td>
                 <td><label>
-                    <input form="contactSave" id="phoneComment" type="text" name="phoneComment" value=""/>
+                    <input form="contactSave" class="field" id="phoneComment" type="text" name="phoneComment" value=""/>
                 </label></td>
             </tr>
         </table>
@@ -242,13 +242,13 @@
                     Комментарий
                 </td>
                 <td><label>
-                    <input form="contactSave" id="attachmentComment" type="text" name="attachmentComment" value=""/>
+                    <input form="contactSave" class="field" id="attachmentComment" type="text" name="attachmentComment" value=""/>
                 </label></td>
             </tr>
         </table>
         <br>
         <label>
-            <input form="contactSave" id="attachment" name="attachment" size="1000" type="file"/>
+            <input form="contactSave" class="field" id="attachment" name="attachment" size="1000" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">

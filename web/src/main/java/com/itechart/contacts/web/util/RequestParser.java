@@ -41,7 +41,6 @@ public class RequestParser {
         } else {
             birthday = null;
         }
-        System.out.println(request.getParameter("gender"));
         Gender gender = Gender.getGender(request.getParameter("gender"));
         String citizenship = request.getParameter("citizenship");
         String familyStatus = request.getParameter("status");
@@ -77,7 +76,7 @@ public class RequestParser {
     public static Photo createPhoto(HttpServletRequest request) {
         String name = request.getParameter("photo_name");
         if (name != null) {
-            name = name.substring(name.lastIndexOf("/") + 1);//fixme
+            name = name.substring(name.lastIndexOf("\\") + 1);
         } else {
             name = "";
         }

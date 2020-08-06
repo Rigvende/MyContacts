@@ -64,9 +64,7 @@ public class ContactsController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         Contact contact = RequestParser.createContact(request);
-        System.out.println(contact);
         Photo photo = RequestParser.createPhoto(request);
-        System.out.println(photo);
 //        List<Phone> phones;
 //        List<Attachment> attachments;
         try {

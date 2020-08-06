@@ -1,7 +1,10 @@
 //скрипт для редактирования контакта
 
 "use strict";
-
+var x = document.querySelectorAll('.field');
+x.forEach(d => {
+    console.log(d.name + " " + d.value);
+})
 //форма и поля
 var form = document.querySelector('#contactSave')
 var idContact = document.querySelector('#idField');
@@ -38,6 +41,8 @@ function autofill() {
                         idContact.value = id;
                         if (person.photo_path != null && person.photo_path.trim()) {
                             searchImage.src = person.photo_path;
+                        } else {
+                            searchImage.src = "../image/user_no_photo.png";
                         }
                         idPhoto.value = person.idPhoto;
                         surnameField.value = person.surname;
@@ -202,13 +207,13 @@ function createPostData() {
     var location = addressField.value;
     var zipcode = zipField.value;
     var photoId = idPhoto.value;
-    var photo_name = searchImage.src;
+    // var photo_name = searchImage.src; //имя фото будет при загрузке на сервере
     var postData = 'id=' + id;
     postData += '&name=' + encodeURIComponent(name);
     postData += '&surname=' + encodeURIComponent(surname);
     postData += '&patronymic=' + encodeURIComponent(patronymic);
     postData += '&birthday=' + encodeURIComponent(birthday);
-    postData += '&gender=' + gender;
+    postData += '&gender=' + encodeURIComponent(gender);
     postData += '&citizenship=' + encodeURIComponent(citizenship);
     postData += '&status=' + encodeURIComponent(status);
     postData += '&website=' + encodeURIComponent(website);
@@ -219,7 +224,7 @@ function createPostData() {
     postData += '&location=' + encodeURIComponent(location);
     postData += '&zipcode=' + encodeURIComponent(zipcode);
     postData += '&photoId=' + encodeURIComponent(photoId);
-    postData += '&photo_name=' + encodeURIComponent(photo_name);
+    // postData += '&photo_name=' + encodeURIComponent(photo_name);
     return postData;
 }
 

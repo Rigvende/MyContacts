@@ -1262,3 +1262,15 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'address' c
 06-08 11:52 INFO  web.controller.ContactsController - New contact was created
 06-08 11:56 INFO  web.controller.ContactsController - New contact was created
 06-08 11:56 INFO  web.controller.DeleteController - User deletes contacts: 140 139 138 
+06-08 12:18 INFO  web.controller.ContactsController - New contact was created
+06-08 12:33 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:34 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:37 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:37 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:40 INFO  web.controller.SearchController - User uses filter for searching contacts
+06-08 12:49 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:49 INFO  domain.service.GetContactsService - User gets contact info: 3
+06-08 12:49 INFO  domain.service.GetContactsService - User gets contact info: 1
+06-08 12:49 INFO  domain.service.GetContactsService - User gets contact info: 104
+06-08 12:50 INFO  web.controller.ContactsController - New contact was created
+06-08 12:50 INFO  domain.service.GetContactsService - User gets contact info: 142
