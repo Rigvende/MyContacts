@@ -1,10 +1,7 @@
 //скрипт для редактирования контакта
 
 "use strict";
-var x = document.querySelectorAll('.field');
-x.forEach(d => {
-    console.log(d.name + " " + d.value);
-})
+
 //форма и поля
 var th;
 var tr;
@@ -92,7 +89,7 @@ function autofill() {
                                 tr = document.createElement('tr');
                                 phonesTable.appendChild(tr);
                                 checkbox = '<label><input type="checkbox" value="' + phone.id_phone + '"/></label>';
-                                var phoneNumber = phone.p_country + '(' + phone.p_operator + ')' + phone.p_number;
+                                var phoneNumber = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
                                 createTd(checkbox, tr);
                                 createTd(phoneNumber, tr);
                                 createTd(phone.p_type, tr);
@@ -159,6 +156,10 @@ closeBtn.forEach(btn => {
         popupAttachment.style.display = "none";
         popupPhone.style.display = "none";
         popupPhoto.style.display = "none";
+        addPhoneBtn.removeEventListener('click', editPhones);
+        addPhoneBtn.addEventListener('click', addPhone);
+        addAttachBtn.removeEventListener('click', editAttachments);
+        addAttachBtn.addEventListener('click', addAttachment);
     })
 })
 
@@ -171,6 +172,10 @@ window.onclick = function (event) {
         popupAttachment.style.display = "none";
         popupPhoto.style.display = "none";
         modalSend.style.display = "none";
+        addPhoneBtn.removeEventListener('click', editPhones);
+        addPhoneBtn.addEventListener('click', addPhone);
+        addAttachBtn.removeEventListener('click', editAttachments);
+        addAttachBtn.addEventListener('click', addAttachment);
     }
 }
 ////////////////////////////////////////////////
@@ -258,6 +263,7 @@ var checkedSrc = contactPhoto.src;
 
 //предпросмотр выбранного фото без сохранения на сервер
 var photoSrc;
+
 function readURL() {
     if (this.files && this.files[0]) {
         var reader = new FileReader();
@@ -286,6 +292,8 @@ var createAttachment = document.querySelector('#createAttachment');
 var editAttachment = document.querySelector('#editAttachment');
 var deleteAttachment = document.querySelector('#deleteAttachment');
 var ATable = document.querySelector('#attachmentsTable');
+var attachmentComment = document.querySelector("#attachmentComment");
+var attachment = document.querySelector('#attachment');
 
 createAttachment.addEventListener('click', () => {
     popupAttachment.style.display = "block";
@@ -298,25 +306,64 @@ deleteAttachment.addEventListener('click', () => {
 //добавляем новое приложение
 var addAttachBtn = document.querySelector('#attachmentButton');
 
-addAttachBtn.addEventListener('click', function () {
-    var attachmentComment = document.querySelector("#attachmentComment");
-    var attachment = document.querySelector('#attachment');
-//создаем hidden html с полями
-    tr = document.createElement('tr');
-    attachTable.appendChild(tr);
-    checkbox = '<label><input type="checkbox" class="checkbox" value=""/></label>';
+function getToday() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     today = yyyy + "-" + mm + "-" + dd;
+    return today;
+}
+
+function addAttachment() {
+//создаем hidden html с полями
+    tr = document.createElement('tr');
+    attachTable.appendChild(tr);
+    checkbox = '<label><input type="checkbox" class="checkbox" value=""/></label>';
+    var today = getToday();
     createTd(checkbox, tr);
     createTd(attachment.value, tr);
     createTd(today, tr);
     createTd(attachmentComment.value, tr);
     attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
     popupAttachment.style.display = 'none';
+}
+
+addAttachBtn.addEventListener('click', addAttachment)
+
+var chboxAttachment;
+
+//редактирование по чекбоксу
+editAttachment.addEventListener('click', () => {
+    var checkedBoxes = [];
+    attachmentCheckboxes.forEach(box => {
+        if (box.checked) {
+            checkedBoxes.push(box);
+        }
+    });
+    if (checkedBoxes.length === 1) {
+        chboxAttachment = checkedBoxes[0];
+        var tr = chboxAttachment.closest('tr');
+        var tds = tr.querySelectorAll('td');
+        attachment.innerHTML = tds[1].innerHTML;
+        attachmentComment.value = tds[3].innerHTML;
+        popupAttachment.style.display = 'block';
+        addAttachBtn.removeEventListener('click', addAttachment);
+        addAttachBtn.addEventListener('click', editAttachments);
+    }
 })
+
+function editAttachments() {
+    var tr = chboxAttachment.closest('tr');
+    var tds = tr.querySelectorAll('td');
+    tds[1].innerHTML = attachment.value;
+    tds[2].innerHTML = getToday();
+    tds[3].innerHTML = attachmentComment.value;
+    popupAttachment.style.display = 'none';
+    chboxAttachment.checked = false;
+    addPhoneBtn.removeEventListener('click', editAttachments);
+    addPhoneBtn.addEventListener('click', addAttachment);
+}
 
 ////////////////////////////////
 //обработка телефонов
@@ -325,6 +372,12 @@ var createPhone = document.querySelector('#createPhone');
 var editPhone = document.querySelector('#editPhone');
 var deletePhone = document.querySelector('#deletePhone');
 var PTable = document.querySelector('#phonesTable');
+
+var phoneCountry = document.querySelector("#phoneCountry");
+var phoneOperator = document.querySelector("#phoneOperator");
+var phoneNumber = document.querySelector("#phoneNumber");
+var phoneType = document.querySelector("#phoneType");
+var phoneComment = document.querySelector("#phoneComment");
 
 createPhone.addEventListener('click', () => {
     popupPhone.style.display = "block";
@@ -337,24 +390,59 @@ deletePhone.addEventListener('click', () => {
 //добавляем новый телефон
 var addPhoneBtn = document.querySelector('#phoneButton');
 
-addPhoneBtn.addEventListener('click', function () {
-    var phoneCountry = document.querySelector("#phoneCountry");
-    var phoneOperator = document.querySelector("#phoneOperator");
-    var phoneNumber = document.querySelector("#phoneNumber");
-    var phoneType = document.querySelector("#phoneType");
-    var phoneComment = document.querySelector("#phoneComment");
+function addPhone() {
 //создаем hidden html с полями
     tr = document.createElement('tr');
     phonesTable.appendChild(tr);
     checkbox = '<label><input type="checkbox" class="checkbox" value=""/></label>';
-    var number = phoneCountry.value + '(' + phoneOperator.value + ')' + phoneNumber.value;
+    var number = phoneCountry.value + '/' + phoneOperator.value + '/' + phoneNumber.value;
     createTd(checkbox, tr);
     createTd(number, tr);
     createTd(phoneType.value, tr);
     createTd(phoneComment.value, tr);
     phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
     popupPhone.style.display = 'none';
+}
+
+addPhoneBtn.addEventListener('click', addPhone);
+
+var chboxPhoto;
+
+//редактирование по чекбоксу
+editPhone.addEventListener('click', () => {
+    var checkedBoxes = [];
+    phoneCheckboxes.forEach(box => {
+        if (box.checked) {
+            checkedBoxes.push(box);
+        }
+    });
+    if (checkedBoxes.length === 1) {
+        chboxPhoto = checkedBoxes[0];
+        var tr = chboxPhoto.closest('tr');
+        var tds = tr.querySelectorAll('td');
+        var splitNumber = tds[1].innerHTML.split("/");
+        phoneCountry.value = splitNumber[0];
+        phoneOperator.value = splitNumber[1];
+        phoneNumber.value = splitNumber[2];
+        phoneType.value = tds[2].innerHTML;
+        phoneComment.value = tds[3].innerHTML;
+        popupPhone.style.display = 'block';
+        addPhoneBtn.removeEventListener('click', addPhone);
+        addPhoneBtn.addEventListener('click', editPhones);
+    }
 })
+
+function editPhones() {
+    var tr = chboxPhoto.closest('tr');
+    var tds = tr.querySelectorAll('td');
+    tds[1].innerHTML = phoneCountry.value + '/' + phoneOperator.value + '/' + phoneNumber.value;
+    tds[2].innerHTML = phoneType.value;
+    tds[3].innerHTML = phoneComment.value;
+    popupPhone.style.display = 'none';
+    chboxPhoto.checked = false;
+    addPhoneBtn.removeEventListener('click', editPhones);
+    addPhoneBtn.addEventListener('click', addPhone);
+}
 
 //удаление строк таблиц по чекбоксам
 function deleteRows(table, checkboxes) {

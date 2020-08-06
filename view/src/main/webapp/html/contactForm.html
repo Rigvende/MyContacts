@@ -175,6 +175,9 @@
         <span class="close closeX">&times;</span>
         <br>
         <p style="font-size: 18px">Введите данные телефона:</p>
+        <label>
+            <input form="contactSave" type="text" name="phoneId" value="" hidden>
+        </label>
         <table>
             <tr>
                 <td>
@@ -222,6 +225,9 @@
                 </label></td>
             </tr>
         </table>
+        <label>
+            <input form="contactSave" type="text" name="phoneStatus" value="" hidden>
+        </label>
         <br><br>
         <div class="modalButtons">
             <input type="button" class="pageButton modalBtn small" id="phoneButton" value="Добавить">
@@ -236,6 +242,9 @@
         <span class="close closeX">&times;</span>
         <br>
         <p style="font-size: 18px">Укажите данные приложения:</p>
+        <label>
+            <input form="contactSave" type="text" name="attachmentId" value="" hidden>
+        </label>
         <table>
             <tr>
                 <td>
@@ -251,6 +260,9 @@
             <input form="contactSave" class="field" id="attachment" name="attachment" size="1000" type="file"/>
         </label>
         <br><br>
+        <label>
+            <input form="contactSave" type="text" name="attachmentStatus" value="" hidden>
+        </label>
         <div class="modalButtons">
             <input type="button" class="pageButton modalBtn small" id="attachmentButton" value="Добавить">
             <input type="button" class="close pageButton modalBtn small" value="Отмена">

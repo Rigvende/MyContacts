@@ -218,7 +218,7 @@ input [type="submit"], input [type="button"], button {
     color: white;
     font-size: 18px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 30px;
     border: 1px solid white;
     border-radius: 10px;
