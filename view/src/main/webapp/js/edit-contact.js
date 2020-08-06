@@ -23,6 +23,8 @@ var countryField = document.querySelector('#countryField');
 var cityField = document.querySelector('#cityField');
 var addressField = document.querySelector('#addressField');
 var zipField = document.querySelector('#zipField');
+
+//обязательные для заполнения поля
 var fields = [];
 fields.push(nameField);
 fields.push(surnameField);
@@ -207,7 +209,6 @@ function createPostData() {
     var location = addressField.value;
     var zipcode = zipField.value;
     var photoId = idPhoto.value;
-    // var photo_name = searchImage.src; //имя фото будет при загрузке на сервере
     var postData = 'id=' + id;
     postData += '&name=' + encodeURIComponent(name);
     postData += '&surname=' + encodeURIComponent(surname);
@@ -224,7 +225,6 @@ function createPostData() {
     postData += '&location=' + encodeURIComponent(location);
     postData += '&zipcode=' + encodeURIComponent(zipcode);
     postData += '&photoId=' + encodeURIComponent(photoId);
-    // postData += '&photo_name=' + encodeURIComponent(photo_name);
     return postData;
 }
 

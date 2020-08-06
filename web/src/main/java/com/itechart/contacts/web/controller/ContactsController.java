@@ -81,7 +81,7 @@ public class ContactsController extends HttpServlet {
 //                updatePhoneService.service(phones);
                 LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
             } else { //создать
-                //создать папку, загрузить фото
+                //создать папку, загрузить фото, получить имя (если фото не пустое), иначе просто сделать запись в бд
                 photo = (Photo) updatePhotoService.service(photo);
                 contact.setPhotoId(photo.getPhotoId());
                 contact = (Contact) updateContactService.service(contact);
