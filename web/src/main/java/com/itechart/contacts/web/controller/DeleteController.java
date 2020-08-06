@@ -45,7 +45,6 @@ public class DeleteController extends HttpServlet {
         for (int i = 0; i < parsed.length; i++) {
             if (StringValidator.isValidId(ids[i])) {
                 parsed[i] = Long.parseLong(ids[i]);
-                System.out.println(parsed[i]);
             }
         }
         return parsed;

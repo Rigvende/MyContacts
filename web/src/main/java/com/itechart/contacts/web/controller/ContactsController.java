@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -36,7 +34,7 @@ public class ContactsController extends HttpServlet {
 
     private static final long serialVersionUID = 8362021663142387750L;
     private final static Logger LOGGER = LogManager.getLogger();
-    private final static String CONTEXT = "/view_war/contacts/"; //artifact war, context /view_war fixme
+    private final static String CONTEXT = "/view_war/contacts/"; //artifact war, context /view_war
     private final GetContactsService getContactsService = new GetContactsService();
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
@@ -66,7 +64,9 @@ public class ContactsController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         Contact contact = RequestParser.createContact(request);
+        System.out.println(contact);
         Photo photo = RequestParser.createPhoto(request);
+        System.out.println(photo);
 //        List<Phone> phones;
 //        List<Attachment> attachments;
         try {
