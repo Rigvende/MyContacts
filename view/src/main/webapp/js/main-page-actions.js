@@ -174,7 +174,8 @@ function handleEmail() {
             document.location.href = "html/mailForm.html?id=" + checkId;
             break;
         case 0:
-            document.location.href = "html/mailForm.html?id=" + checkId;
+            changeBackground();
+            errDeleteEdit.style.display = 'block';
             break;
         default:
             changeBackground();

@@ -35,6 +35,11 @@ public class ContactsController extends HttpServlet {
     private static final long serialVersionUID = 8362021663142387750L;
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String CONTEXT = "/view_war/contacts/"; //artifact war, context /view_war
+    private final static String UTF_8 = "UTF-8";
+    private final static String TYPE = "text/html; charset=UTF-8";
+    private final static String JOB = "job1";
+    private final static String GROUP = "group1";
+    private final static String TRIGGER = "trigger1";
     private final GetContactsService getContactsService = new GetContactsService();
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
@@ -50,8 +55,8 @@ public class ContactsController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
-        response.setCharacterEncoding("UTF-8");  //response in ISO-8859-1, very bad for db data
-        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding(UTF_8);  //response in ISO-8859-1, very bad for db data
+        response.setContentType(TYPE);
         try (PrintWriter out = response.getWriter()) {
             String json = getContactsService.service(id);
             out.println(json);
@@ -62,7 +67,7 @@ public class ContactsController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding(UTF_8);
         Contact contact = RequestParser.createContact(request);
         Photo photo = RequestParser.createPhoto(request);
 //        List<Phone> phones;
@@ -79,7 +84,7 @@ public class ContactsController extends HttpServlet {
                 //создать папку, загрузить фото
                 photo = (Photo) updatePhotoService.service(photo);
                 contact.setPhotoId(photo.getPhotoId());
-                Contact d = (Contact) updateContactService.service(contact);
+                contact = (Contact) updateContactService.service(contact);
 //                updatePhoneService.service(phones);
 //                updateAttachmentService.service(attachments);
                 LOGGER.log(Level.INFO, "New contact was created");
@@ -98,12 +103,12 @@ public class ContactsController extends HttpServlet {
             scheduler = sf.getScheduler();
             scheduler.start();
             JobDetail job = newJob(MailJob.class)
-                    .withIdentity("job1", "group1")
+                    .withIdentity(JOB, GROUP)
                     .build();
             CronTrigger trigger = newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(17, 20))
-                    .forJob("job1", "group1")
+                    .withIdentity(TRIGGER, GROUP)
+                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(13, 0))
+                    .forJob(JOB, GROUP)
                     .build();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {

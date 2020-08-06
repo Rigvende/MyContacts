@@ -74,13 +74,12 @@ public class MailService {
     }
 
     //get data from db for e-mailing confirmation
-    public String service(long id) throws ServiceException {
-        String json;
+    public Contact service(long id) throws ServiceException {
+        Contact contact ;
         ContactDao dao = null;
         try {
             dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-            String email = dao.findEmailById(id);
-            json = createMailJson(email);
+            contact = (Contact) dao.findEntityById(id);
         } catch (DaoException | ClassNotFoundException e) {
             LOGGER.log(Level.ERROR, "Error while sending work confirmation by e-mail has occurred. ", e);
             throw new ServiceException(e);
@@ -89,18 +88,7 @@ public class MailService {
                 dao.exit();
             }
         }
-        return json;
-    }
-
-    private String createMailJson(String email) {
-        StringBuilder json = new StringBuilder("{\n");
-        if (email == null || email.isEmpty()) {
-            json.append("\"email\": ").append(JSONObject.quote("Адрес отсутствует. Обновите данные контакта.")).append("\n");
-        } else {
-            json.append("\"email\": ").append(JSONObject.quote(email)).append("\n");
-        }
-        json.append("}\n");
-        return json.toString();
+        return contact;
     }
 
 }

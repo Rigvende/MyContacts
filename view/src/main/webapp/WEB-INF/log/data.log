@@ -1274,3 +1274,5 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'address' c
 06-08 12:49 INFO  domain.service.GetContactsService - User gets contact info: 104
 06-08 12:50 INFO  web.controller.ContactsController - New contact was created
 06-08 12:50 INFO  domain.service.GetContactsService - User gets contact info: 142
+06-08 13:47 INFO  web.controller.MailController - User sends email
+06-08 14:54 INFO  web.controller.MailController - User sends email

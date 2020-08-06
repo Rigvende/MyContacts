@@ -22,16 +22,17 @@ public class SearchController extends HttpServlet {
 
     private static final long serialVersionUID = 7649477230906914706L;
     private final static Logger LOGGER = LogManager.getLogger();
+    private final static String UTF_8 = "UTF-8";
+    private final static String TYPE = "text/html; charset=UTF-8";
     private final SearchService searchService = new SearchService();
 
     //выполняем поиск контактов по полученным данным
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
+        try (PrintWriter out = response.getWriter()) {
             String query = buildQuery(request).toString();
             String json = searchService.service(query);
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
+            response.setCharacterEncoding(UTF_8);
+            response.setContentType(TYPE);
             out.println(json);
             LOGGER.log(Level.INFO, "User uses filter for searching contacts");
         } catch (ServiceException e) {

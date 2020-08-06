@@ -9,11 +9,7 @@ var mail = document.querySelector('#emailField');
 var header = document.querySelector("#headerField");
 var textarea = document.querySelector("#messageField");
 
-//автозаполнение полей при выборе шаблона
-var templates = {
-    "template 1": "Поздравляю с днём рожденья! Желаю счастья, здоровья и успехов в делах!",
-    "template 2": "Привет! Давно не виделись! Может быть, ты не против встретиться в ближайшее время?"
-}
+var templates;
 
 var choice = document.querySelector('#templateField');
 choice.addEventListener('change', function () {
@@ -35,17 +31,25 @@ cancelMail.addEventListener('click', function () {
 
 //автозаполнение емэйла по чекбоксу
 function autofill() {
-    var id = window.location.href.split("?")[1].split("=")[1];
-    if (id != null && id.trim()) {
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var receiver = JSON.parse(this.responseText);
-                mail.value = receiver.email;
+    var x = window.location.href.split("?id=");
+    if (x.length === 2) {
+        var id = x[1];
+        if (id != null && id.trim()) {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    var receiver = JSON.parse(this.responseText);
+                    if (receiver.email != null && receiver.email.trim()) {
+                        mail.value = receiver.email;
+                    } else {
+                        mail.value = "Адрес отстутствует. Обновите данные контакта.";
+                    }
+                    templates = receiver.templates;
+                }
             }
+            request.open("GET", "../mail/" + id, true);
+            request.send();
         }
-        request.open("GET", "../mail/" + id, true);
-        request.send();
     }
 }
 
