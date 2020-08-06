@@ -6,7 +6,13 @@ x.forEach(d => {
     console.log(d.name + " " + d.value);
 })
 //форма и поля
-var form = document.querySelector('#contactSave')
+var th;
+var tr;
+var checkbox;
+var form = document.querySelector('#contactSave');
+var phonesTable = document.querySelector("#phonesTable");
+var attachTable = document.querySelector("#attachmentsTable");
+
 var idContact = document.querySelector('#idField');
 var idPhoto = document.querySelector('#idPhoto');
 var searchImage = document.querySelector('#searchImage');
@@ -28,6 +34,13 @@ var zipField = document.querySelector('#zipField');
 var fields = [];
 fields.push(nameField);
 fields.push(surnameField);
+
+//создание ряда таблицы
+function createTd(text, tr) {
+    var td = document.createElement('td');
+    td.innerHTML = text;
+    tr.appendChild(td);
+}
 
 //автозаполнение контакта по выбранному чекбоксу
 function autofill() {
@@ -65,17 +78,6 @@ function autofill() {
                         addressField.value = person.address;
                         zipField.value = person.zipcode;
 
-                        var th;
-                        var tr;
-                        var checkbox;
-
-                        function createTd(text, tr) {
-                            var td = document.createElement('td');
-                            td.innerHTML = text;
-                            tr.appendChild(td);
-                        }
-
-                        var phonesTable = document.querySelector("#phonesTable");
                         phonesTable.innerHTML = '';
                         th = document.createElement('tr');
                         phonesTable.appendChild(th);
@@ -96,7 +98,6 @@ function autofill() {
                             }
                         }
 
-                        var attachTable = document.querySelector("#attachmentsTable");
                         attachTable.innerHTML = '';
                         th = document.createElement('tr');
                         attachTable.appendChild(th);
@@ -227,6 +228,42 @@ function createPostData() {
     postData += '&photoId=' + encodeURIComponent(photoId);
     return postData;
 }
+
+//добавляем новый телефон
+var addPhoneBtn = document.querySelector('#phoneButton');
+addPhoneBtn.addEventListener('click', function () {
+    var phoneCountry = document.querySelector("#phoneCountry");
+    var phoneOperator = document.querySelector("#phoneOperator");
+    var phoneNumber = document.querySelector("#phoneNumber");
+    var phoneType = document.querySelector("#phoneType");
+    var phoneComment = document.querySelector("#phoneComment");
+//создаем hidden html с полями
+    tr = document.createElement('tr');
+    phonesTable.appendChild(tr);
+    checkbox = '<label><input type="checkbox" value=""/></label>';
+    var number = phoneCountry.value + '(' + phoneOperator.value + ')' + phoneNumber.value;
+    createTd(checkbox, tr);
+    createTd(number, tr);
+    createTd(phoneType.value, tr);
+    createTd(phoneComment.value, tr);
+    popupPhone.style.display = 'none';
+})
+
+//добавляем новое приложение
+var addAttachBtn = document.querySelector('#attachmentButton');
+addAttachBtn.addEventListener('click', function () {
+
+    var attachmentComment = document.querySelector("#attachmentComment");
+//создаем hidden html с полями
+    tr = document.createElement('tr');
+    attachTable.appendChild(tr);
+    checkbox = '<label><input type="checkbox" value=""/></label>';
+    createTd(checkbox, tr);
+    createTd("../attachments/", tr);
+    createTd(new Date(), tr);
+    createTd(attachmentComment.value, tr);
+    popupAttachment.style.display = 'none';
+})
 
 //валидация полей
 // var errors;
