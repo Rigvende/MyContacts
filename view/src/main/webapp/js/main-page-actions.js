@@ -78,9 +78,13 @@ function fillTable(contacts) {
 
 //генерация таблички с контактами с пагинацией:
 function loadContacts() {
+    var spinnerDiv = document.createElement('div');
+    spinnerDiv.classList.add('spinner');
+    showSpinner(spinnerDiv);
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            spinnerDiv.style.display = 'none';
             var contacts = JSON.parse(this.responseText);
             fillTable(contacts);
         }
@@ -298,4 +302,16 @@ window.onclick = function (event) {
         loadContacts();
         hideModals();
     }
+}
+
+//показ спиннера во время формирования таблицы контактов
+function showSpinner(spinnerDiv) {
+    var content = document.querySelector('.content');
+    var spinner = document.createElement('img');
+    spinner.src = 'image/spinner.svg';
+    spinnerDiv.appendChild(spinner);
+    var spinnerMsg = document.createElement('label');
+    spinnerMsg.textContent = 'Ожидайте...';
+    spinnerDiv.appendChild(spinnerMsg);
+    content.insertAdjacentElement('afterbegin', spinnerDiv);
 }

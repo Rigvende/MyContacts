@@ -129,7 +129,7 @@ cancelEdit.addEventListener('click', function () {
 var modalSend = document.querySelector('#contactSaveMsg');
 var modalBack = document.querySelector('.modalContentMsg');
 var success = "Контакт успешно сохранен";
-var fail = "Что-то пошло не так";
+var fail = "Что-то пошло не так...";
 
 var returnBtn = document.querySelector('#returnButton');
 returnBtn.addEventListener('click', function () {
