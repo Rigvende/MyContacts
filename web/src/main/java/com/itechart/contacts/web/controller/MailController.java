@@ -47,6 +47,8 @@ public class MailController extends HttpServlet {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
         cfg.setDefaultEncoding(UTF_8);
         cfg.setServletContextForTemplateLoading(getServletContext(), TEMPLATES);
+        response.setCharacterEncoding(UTF_8);
+        response.setContentType(TYPE);
         try (Writer out = response.getWriter()){
             if (!id.isEmpty() && StringValidator.isValidId(id)) {
                 long contactId = Long.parseLong(id);
@@ -54,8 +56,6 @@ public class MailController extends HttpServlet {
                 Map<String, Object> root = new HashMap<>();
                 root.put(CONTACT, contact);
                 Template temp = cfg.getTemplate(MAIL);
-                response.setCharacterEncoding(UTF_8);
-                response.setContentType(TYPE);
                 temp.process(root, out);
             }
         } catch (TemplateException | ServiceException e) {

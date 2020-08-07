@@ -109,7 +109,7 @@ public class ContactsController extends HttpServlet {
                     .build();
             CronTrigger trigger = newTrigger()
                     .withIdentity(TRIGGER, GROUP)
-                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(13, 0))
+                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(13, 30))
                     .forJob(JOB, GROUP)
                     .build();
             scheduler.scheduleJob(job, trigger);
