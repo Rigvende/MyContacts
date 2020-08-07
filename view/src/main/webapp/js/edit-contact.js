@@ -2,7 +2,7 @@
 
 "use strict";
 
-//форма и поля
+//форма
 var th;
 var tr;
 var checkbox;
@@ -11,7 +11,7 @@ var attachmentCheckboxes = [];
 var form = document.querySelector('#contactSave');
 var phonesTable = document.querySelector("#phonesTable");
 var attachTable = document.querySelector("#attachmentsTable");
-
+//поля
 var idContact = document.querySelector('#idField');
 var idPhoto = document.querySelector('#idPhoto');
 var searchImage = document.querySelector('#searchImage');
@@ -28,7 +28,6 @@ var countryField = document.querySelector('#countryField');
 var cityField = document.querySelector('#cityField');
 var addressField = document.querySelector('#addressField');
 var zipField = document.querySelector('#zipField');
-
 //обязательные для заполнения поля
 var fields = [];
 fields.push(nameField);
@@ -73,6 +72,7 @@ function autofill() {
                         idContact.value = id;
                         if (person.photo_path != null && person.photo_path.trim()) {
                             searchImage.src = person.photo_path;
+                            idPhoto.value = person.idPhoto;
                         } else {
                             searchImage.src = "../image/user_no_photo.png";
                         }
@@ -187,8 +187,7 @@ window.onclick = function (event) {
 var errors;
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    removeValidation();
-    checkFieldsPresence(form, fields);
+    validate();
     errors = form.querySelectorAll('.error');
     if (!errors || errors.length === 0) {
         var spinnerDiv = document.createElement('div');
@@ -233,6 +232,7 @@ function createPostData() {
     var location = addressField.value;
     var zipcode = zipField.value;
     var photoId = idPhoto.value;
+
     var postData = 'id=' + id;
     postData += '&name=' + encodeURIComponent(name);
     postData += '&surname=' + encodeURIComponent(surname);
@@ -249,6 +249,12 @@ function createPostData() {
     postData += '&location=' + encodeURIComponent(location);
     postData += '&zipcode=' + encodeURIComponent(zipcode);
     postData += '&photoId=' + encodeURIComponent(photoId);
+    var photoPath;
+    var photoName;//fixme
+    if (photoId) {
+        photoPath = "../image/photos/" + photoId + "/";
+        postData += '&photo_path=' + encodeURIComponent(photoPath);
+    }
     return postData;
 }
 
@@ -467,16 +473,12 @@ function deleteRows(table, checkboxes) {
     }
 }
 
-
-//валидация полей //todo
-// var errors;
-//
-// function validate() {
-//     removeValidation();
-//     var form = document.querySelector('#searchForm');
-//     var fields = form.querySelectorAll('.field');
-//     checkInappropriate(form, fields);
-//     errors = form.querySelectorAll('.error');
-// }
-//
-
+//валидация полей
+function validate() {
+    removeValidation();
+    checkFieldsPresence(form, fields);
+    if (emailField.value !== null && emailField.value.trim()) {
+        validateEmail(emailField);
+    }
+    //todo
+}

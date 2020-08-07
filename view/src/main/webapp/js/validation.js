@@ -62,14 +62,73 @@ function validateEmail(mail) {
         mail.parentElement.insertBefore(error, mail);
     }
 }
-//
-// private final static String CHECK_NAME = "^([A-z-А-я]){1,45}$";
-// private final static String CHECK_DATA = "^([-)(\",\\w\\s/]){1,45}$";
-// private final static String CHECK_EMAIL = "^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
-// private final static String CHECK_WEB = "([-\\w]+\\.)?([-\\w]+)\\.\\w+(?:\\.\\w+)?/?.*";
-// private final static String CHECK_ZIP = "^[\\d]([-\\d]){3,9}$";
-// private final static String CHECK_CODE = "^([-+\\d]){2,5}$";
-// private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
-// private final static String CHECK_ID = "[\\d]+";
-// private final static int HEADER_LENGTH = 255;
-// private final static int MESSAGE_LENGTH = 1000;
+
+//проверка имени, фамилии
+function validateName(name) {
+    var regex = /^([-\sA-zА-я]){1,45}$/;
+    if (!regex.test(name.value)) {
+        var error = generateError('Неподходящее сочетание символов');
+        name.parentElement.insertBefore(error, name);
+    }
+}
+
+//проверка сайта
+function validateSite(site) {
+    var regex = /([-\w]+.)?([-\w]+).\w+(?:.\w+)?\/?.*/;
+    if (!regex.test(site.value) || site.value.length > 255) {
+        var error = generateError('Неподходящий сайт');
+        site.parentElement.insertBefore(error, site);
+    }
+}
+
+//проверка полей
+function validateData(data) {
+    var regex = /^([-)(.,\w\s/]){1,45}$/;
+    if (!regex.test(data.value)) {
+        var error = generateError('Неподходящие данные (символы)');
+        data.parentElement.insertBefore(error, data);
+    }
+}
+
+//проверка индекса
+function validateZip(zip) {
+    var regex = /^[\d]([-\d]){3,9}/;
+    if (!regex.test(zip.value)) {
+        var error = generateError('Неподходящие данные (символы)');
+        zip.parentElement.insertBefore(error, zip);
+    }
+}
+
+//проверка телефонных кодов
+function validateCode(code) {
+    var regex = /^([-+\d]){2,5}$/;
+    if (!regex.test(code.value)) {
+        var error = generateError('Неподходящие данные (символы)');
+        code.parentElement.insertBefore(error, code);
+    }
+}
+
+//проверка телефонного номера
+function validateNumber(number) {
+    var regex = /^[\d]([-\d]){4,9}$/;
+    if (!regex.test(number.value)) {
+        var error = generateError('Неподходящие данные (символы)');
+        number.parentElement.insertBefore(error, number);
+    }
+}
+
+//проверка длины коммента
+function validateLength(text) {
+    if (text.value.length > 255) {
+        var error = generateError('Длина текста превышает 255 символов');
+        text.parentElement.insertBefore(error, text);
+    }
+}
+
+//проверка длины сообщения
+function validateLengthMail(text) {
+    if (text.value.length > 1000) {
+        var error = generateError('Длина сообщения превышает 1000 символов');
+        text.parentElement.insertBefore(error, text);
+    }
+}
