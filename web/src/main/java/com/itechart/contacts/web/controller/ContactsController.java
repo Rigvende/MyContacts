@@ -42,14 +42,14 @@ public class ContactsController extends HttpServlet {
     private final static String TRIGGER = "trigger1";
     private final GetContactsService getContactsService = new GetContactsService();
     private final UpdateContactService updateContactService = new UpdateContactService();
-    private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
-    private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
+//    private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
+//    private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
-//    @Override //todo раскомментить
-//    public void init() {
-//        setScheduler();
-//    }
+    @Override
+    public void init() {
+        setScheduler();
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

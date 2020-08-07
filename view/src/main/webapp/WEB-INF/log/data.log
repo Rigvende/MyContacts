@@ -1506,3 +1506,4 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 07-08 12:24 INFO  domain.service.GetContactsService - User gets contact info: 1
 07-08 12:24 INFO  web.controller.ContactsController - New contact was created
 07-08 12:27 INFO  web.controller.ContactsController - New contact was created
+07-08 13:10 INFO  domain.service.GetContactsService - User gets contact info: 1

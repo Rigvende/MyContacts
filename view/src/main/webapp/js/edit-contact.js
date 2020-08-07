@@ -463,7 +463,6 @@ function editPhones() {
 //удаление строк таблиц по чекбоксам
 function deleteRows(table, checkboxes) {
     var i = checkboxes.length;
-    alert(checkboxes.length);
     while (i-- && i >= 0) {
         var chbox = checkboxes[i];
         if (chbox.checked === true) {
