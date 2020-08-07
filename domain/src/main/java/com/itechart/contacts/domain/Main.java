@@ -16,6 +16,7 @@ import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) throws DaoException, SQLException, ClassNotFoundException, ServiceException, IOException, TemplateException {
@@ -56,7 +57,7 @@ public class Main {
 //        photoDao.exit();
 //        ContactDao contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
 //        Contact contact = new Contact(0, "Ольга", "Петренко", "Ивановна",
-//                LocalDate.of(2000,5, 6), Gender.WOMAN, "РБ",
+//                LocalDate.of(2000,5, 6), Gender.FEMALE, "РБ",
 //                "не замужем", "", "olga@yandex.by", "БПС-Сбербанк",
 //                "РБ", "Минск", "Каменногорская 20-10", "220036",
 //                photo.getPhotoId(), null);
@@ -297,6 +298,14 @@ public class Main {
 //        UpdateContactService ucs = new UpdateContactService();
 //        contact = (Contact) ucs.service(contact);
 //        System.out.println(contact);
+//        Contact contact = new Contact(1, "Иван", "Петров", "Иванович",
+//                LocalDate.of(2000, 1, 1), Gender.MALE, "aa",
+//                "женат", "www.petrov.com", "petrov@tut.by", "I-Tech-Art",
+//                "РБ", "Минск", "Руссиянова, 20-15", "220000", 1, null);
+////
+//        ContactDao dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+//        System.out.println(dao.update(contact));
+//        dao.exit();
 
     }
 //
@@ -308,5 +317,6 @@ public class Main {
 //        }
 //        return false;
 //    }
+
 
 }

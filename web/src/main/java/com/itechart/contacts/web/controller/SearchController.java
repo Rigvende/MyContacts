@@ -28,11 +28,11 @@ public class SearchController extends HttpServlet {
 
     //выполняем поиск контактов по полученным данным
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding(UTF_8);
+        response.setContentType(TYPE);
         try (PrintWriter out = response.getWriter()) {
             String query = buildQuery(request).toString();
             String json = searchService.service(query);
-            response.setCharacterEncoding(UTF_8);
-            response.setContentType(TYPE);
             out.println(json);
             LOGGER.log(Level.INFO, "User uses filter for searching contacts");
         } catch (ServiceException e) {

@@ -33,7 +33,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
     private final static String SQL_UPDATE_CONTACT =
             "UPDATE contacts " +
             "SET contact_name = ?, surname = ?, patronymic = ?, birthday = ?, " +
-            "gender = ?, citizenship = ?, family_status = ?, website = ?, email = ?, work_place = ? " +
+            "gender = ?, citizenship = ?, family_status = ?, website = ?, email = ?, work_place = ?, " +
             "country = ?, city = ?, address = ?, zipcode = ? " +
             "WHERE id_contact = ?;";
     private static final String SQL_FIND_ALL_CONTACTS =

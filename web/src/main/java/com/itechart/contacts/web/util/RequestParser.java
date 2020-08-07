@@ -85,7 +85,7 @@ public class RequestParser {
         if (request.getParameter("photoId") != null
                 && !request.getParameter("photoId").isEmpty()) {
             id = Long.parseLong(request.getParameter("photoId"));
-            path = "../images/photos/" + id + "/";
+            path = "../image/photos/" + id + "/";
         }
         return new Photo(id, path, name);
     }

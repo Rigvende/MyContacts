@@ -41,8 +41,26 @@ function createTd(text, tr) {
     tr.appendChild(td);
 }
 
+function createTableHead () {
+    phonesTable.innerHTML = '';
+    th = document.createElement('tr');
+    phonesTable.appendChild(th);
+    createTd('<b>#</b>', th);
+    createTd('<b>Номер</b>', th);
+    createTd('<b>Тип</b>', th);
+    createTd('<b>Комментарий</b>', th);
+    attachTable.innerHTML = '';
+    th = document.createElement('tr');
+    attachTable.appendChild(th);
+    createTd('<b>#</b>', th);
+    createTd('<b>Имя</b>', th);
+    createTd('<b>Загружено</b>', th);
+    createTd('<b>Комментарий</b>', th);
+}
+
 //автозаполнение контакта по выбранному чекбоксу
 function autofill() {
+    createTableHead();
     var x = window.location.href.split("?id=");
     if (x.length === 2) {
         var id = x[1];
@@ -77,18 +95,11 @@ function autofill() {
                         addressField.value = person.address;
                         zipField.value = person.zipcode;
 
-                        phonesTable.innerHTML = '';
-                        th = document.createElement('tr');
-                        phonesTable.appendChild(th);
-                        createTd('<b>#</b>', th);
-                        createTd('<b>Номер</b>', th);
-                        createTd('<b>Тип</b>', th);
-                        createTd('<b>Комментарий</b>', th);
                         if (person.phones) {
                             for (var phone of person.phones) {
                                 tr = document.createElement('tr');
                                 phonesTable.appendChild(tr);
-                                checkbox = '<label><input type="checkbox" value="' + phone.id_phone + '"/></label>';
+                                checkbox = '<label><input type="checkbox" class="checkbox" value="' + phone.id_phone + '"/></label>';
                                 var phoneNumber = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
                                 createTd(checkbox, tr);
                                 createTd(phoneNumber, tr);
@@ -96,30 +107,23 @@ function autofill() {
                                 createTd(phone.p_comments, tr);
                             }
                         }
-                        phoneCheckboxes = phonesTable.querySelectorAll('input [type="checkbox"]');
+                        phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
 
-                        attachTable.innerHTML = '';
-                        th = document.createElement('tr');
-                        attachTable.appendChild(th);
-                        createTd('<b>#</b>', th);
-                        createTd('<b>Имя</b>', th);
-                        createTd('<b>Загружено</b>', th);
-                        createTd('<b>Комментарий</b>', th);
                         if (person.attachments) {
                             for (var attach of person.attachments) {
                                 tr = document.createElement('tr');
                                 attachTable.appendChild(tr);
-                                checkbox = '<label><input type="checkbox" value="' + attach.id_attachment + '"/></label>';
+                                checkbox = '<label><input type="checkbox" class="checkbox" value="' + attach.id_attachment + '"/></label>';
                                 createTd(checkbox, tr);
                                 createTd(attach.a_path, tr);
                                 createTd(attach.a_date, tr);
                                 createTd(attach.a_comments, tr);
                             }
                         }
-                        attachmentCheckboxes = attachTable.querySelectorAll('input [type="checkbox"]');
-                        alert(attachmentCheckboxes.length);
+                        attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
                     }
                 }
+
             }
             request.open('GET', '../contacts/' + id);
             request.send();
@@ -301,6 +305,8 @@ createAttachment.addEventListener('click', () => {
 
 deleteAttachment.addEventListener('click', () => {
     deleteRows(ATable, attachmentCheckboxes);
+    attachmentCheckboxes = [];
+    attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
 })
 
 //добавляем новое приложение
@@ -325,6 +331,7 @@ function addAttachment() {
     createTd(attachment.value, tr);
     createTd(today, tr);
     createTd(attachmentComment.value, tr);
+    attachmentCheckboxes = [];
     attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
     popupAttachment.style.display = 'none';
 }
@@ -385,6 +392,8 @@ createPhone.addEventListener('click', () => {
 
 deletePhone.addEventListener('click', () => {
     deleteRows(PTable, phoneCheckboxes);
+    phoneCheckboxes = [];
+    phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
 })
 
 //добавляем новый телефон
@@ -400,6 +409,7 @@ function addPhone() {
     createTd(number, tr);
     createTd(phoneType.value, tr);
     createTd(phoneComment.value, tr);
+    phoneCheckboxes = [];
     phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
     popupPhone.style.display = 'none';
 }
@@ -447,10 +457,11 @@ function editPhones() {
 //удаление строк таблиц по чекбоксам
 function deleteRows(table, checkboxes) {
     var i = checkboxes.length;
-    while (i--) {
+    alert(checkboxes.length);
+    while (i-- && i >= 0) {
         var chbox = checkboxes[i];
         if (chbox.checked === true) {
-            var tr = chbox.parentNode.parentNode;
+            var tr = chbox.closest('tr');
             table.deleteRow(tr.rowIndex);
         }
     }
