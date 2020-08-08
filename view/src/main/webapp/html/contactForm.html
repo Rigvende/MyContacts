@@ -13,8 +13,8 @@
 <div class="header" style="min-width: 1100px">
     <h1>Данные контакта</h1>
     <div style="text-align: right; font-size: 18px">
-        На этой странице можно создать новый контакт <br>
-        (или отредактировать уже существующий)<br>
+        Здесь можно добавить<br>
+        или изменить данные контакта<br>
         <hr>
         После ввода данных не забудьте<br>
         нажать кнопку "Сохранить"
@@ -138,7 +138,7 @@
             </div>
             <div class="contactColumn" style="padding-left: 30px; width: 50%">
                 <div class="subheader">
-                    <h3>СПИСОК ПРИЛОЖЕНИЙ</h3>
+                    <h3>СПИСОК ВЛОЖЕНИЙ</h3>
                     <div class="tableButtons">
                         <input type="button" class="popupAttachment pageButton small" id="createAttachment" value="Добавить">
                         <input type="button" class="popupAttachment pageButton small" id="editAttachment" value="Изменить">
@@ -236,12 +236,12 @@
     </div>
 </div>
 
-<!-- скрытое окошко для загрузки приложения -->
+<!-- скрытое окошко для загрузки вложения -->
 <div id="messageAttachment" class="modal">
     <div class="modalContent">
         <span class="close closeX">&times;</span>
         <br>
-        <p style="font-size: 18px">Укажите данные приложения:</p>
+        <p style="font-size: 18px">Укажите данные вложения:</p>
         <label>
             <input form="contactSave" type="text" name="attachmentId" value="" hidden>
         </label>
@@ -270,7 +270,7 @@
     </div>
 </div>
 
-<!-- скрытое окошко для извещения об отправке -->
+<!-- скрытое окошко для извещения о сохранении -->
 <div id="contactSaveMsg" class="modal">
     <div class="modalContentMsg">
         <span class="close closeX">&times;</span>

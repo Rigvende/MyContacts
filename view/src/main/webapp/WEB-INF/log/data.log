@@ -1507,3 +1507,22 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 07-08 12:24 INFO  web.controller.ContactsController - New contact was created
 07-08 12:27 INFO  web.controller.ContactsController - New contact was created
 07-08 13:10 INFO  domain.service.GetContactsService - User gets contact info: 1
+07-08 13:25 INFO  web.controller.MailController - User sends email
+07-08 13:30 INFO  web.scheduler.MailJob - Daily birthday list is send
+07-08 13:44 INFO  domain.service.GetContactsService - User gets contact info: 64
+07-08 13:53 INFO  domain.service.GetContactsService - User gets contact info: 64
+07-08 13:54 INFO  web.controller.DeleteController - User deletes contacts: 64 
+07-08 13:55 INFO  web.controller.DeleteController - User deletes contacts: 114 106 112 
+07-08 13:56 INFO  web.controller.MailController - User sends email
+07-08 13:58 INFO  web.controller.SearchController - User uses filter for searching contacts
+07-08 14:01 INFO  web.controller.ContactsController - New contact was created
+07-08 14:01 INFO  domain.service.GetContactsService - User gets contact info: 146
+07-08 14:01 INFO  domain.service.GetContactsService - User gets contact info: 146
+07-08 14:01 INFO  web.controller.ContactsController - Contact # 146 was updated
+07-08 14:02 INFO  domain.service.GetContactsService - User gets contact info: 146
+07-08 14:13 INFO  domain.service.GetContactsService - User gets contact info: 146
+07-08 14:13 INFO  domain.service.GetContactsService - User gets contact info: 1
+07-08 14:29 INFO  domain.service.GetContactsService - User gets contact info: 103
+07-08 14:30 INFO  domain.service.GetContactsService - User gets contact info: 1
+07-08 14:32 INFO  web.controller.DeleteController - User deletes contacts: 109 
+07-08 14:33 INFO  web.controller.MailController - User sends email
