@@ -4,7 +4,7 @@
 
 //форма и поля
 var form = document.querySelector('#mailForm')
-var fields = form.querySelectorAll('.field');
+// var fields = form.querySelectorAll('.field');
 var mail = document.querySelector('#emailField');
 var header = document.querySelector("#headerField");
 var textarea = document.querySelector("#messageField");
@@ -83,12 +83,18 @@ window.onclick = function (event) {
 
 //валидация полей и отправка сообщения
 var errors;
+function validate() {
+    removeValidation();
+    checkFieldPresence(mail);
+    checkFieldPresence(header);
+    checkFieldPresence(textarea);
+    validateEmail(mail);
+    validateLengthMail(textarea);
+}
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    removeValidation();
-    checkFieldsPresence(form, fields);
-    validateEmail(mail);
+    validate();
     errors = form.querySelectorAll('.error');
     if (!errors || errors.length === 0) {
         var spinnerDiv = document.createElement('div');

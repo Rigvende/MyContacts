@@ -31,71 +31,95 @@ var generateError = function (text) {
     return error;
 }
 
-//проверка заполненности полей
-var checkFieldsPresence = function (form, fields) {
-    for (var i = 0; i < fields.length; i++) {
-        if (!fields[i].value) {
-            var error = generateError('Заполните это поле');
-            form[i].parentElement.insertBefore(error, fields[i]);
+//проверка заполненности обязательного поля
+function checkFieldPresence (field) {
+    if (!field.value) {
+        var error = generateError('Заполните это поле');
+        field.parentElement.insertBefore(error, field);
+        return false;
+    }
+    return true;
+}
+
+//проверка имени, фамилии
+function validateName(name) {
+    validateMiniLength(name);
+    if (checkFieldPresence(name)) {
+        var regex = /^[A-Za-zА-Яа-яЁё]+([\s-]+[A-Za-zА-Яа-яЁё]+)?$/;
+        if (!regex.test(name.value)) {
+            var error = generateError('Неподходящие данные (символы)');
+            name.parentElement.insertBefore(error, name);
         }
     }
 }
 
-//проверка на неподходящие знаки
-var checkInappropriate = function (form, fields) {
-    var inappropriate = [';', '\"', '\'', '\`'];
-    for (var i = 0; i < fields.length; i++) {
-        for (var k = 0; k < inappropriate.length; k++) {
-            if (fields[i].value.indexOf(inappropriate[k]) !== -1) {
-                var error = generateError('Поле содержит неподходящий знак препинания');
-                form[i].parentElement.insertBefore(error, fields[i]);
-            }
+//проверка отчества
+function validatePatronymic(patronymic) {
+    validateMiniLength(patronymic);
+    if (patronymic.value !== null && patronymic.value.trim()) {
+        var regex = /^([A-Za-zА-Яа-яЁё]){1,45}$/;
+        if (!regex.test(patronymic.value)) {
+            var error = generateError('Неподходящие данные (символы)');
+            patronymic.parentElement.insertBefore(error, patronymic);
+        }
+    }
+}
+
+//проверка даты
+function validateBirthday(birthday) {
+    var birth = Date.parse(birthday.value);
+    var dateStart = new Date(1920, 1, 1);
+    var dateEnd = new Date();
+    if (birth < dateStart || birth > dateEnd) {
+        var error = generateError('Неподходящая дата рождения');
+        birthday.parentElement.insertBefore(error, birthday);
+    }
+}
+
+//проверка сайта
+function validateSite(site) {
+    validateLength(site);
+    if (site.value !== null && site.value.trim()) {
+        var regex = /([-\w]+.)?([-\w]+).\w+(?:.\w+)?\/?.*/;
+        if (!regex.test(site.value) || site.value.length < 5) {
+            var error = generateError('Неподходящие данные (символы)');
+            site.parentElement.insertBefore(error, site);
         }
     }
 }
 
 //проверка email
 function validateEmail(mail) {
-    var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
-    if (!regex.test(mail.value) || mail.value.length < 10 || mail.value.length > 255) {
-        var error = generateError('Неподходящий e-mail');
-        mail.parentElement.insertBefore(error, mail);
-    }
-}
-
-//проверка имени, фамилии
-function validateName(name) {
-    var regex = /^([-\sA-zА-я]){1,45}$/;
-    if (!regex.test(name.value)) {
-        var error = generateError('Неподходящее сочетание символов');
-        name.parentElement.insertBefore(error, name);
-    }
-}
-
-//проверка сайта
-function validateSite(site) {
-    var regex = /([-\w]+.)?([-\w]+).\w+(?:.\w+)?\/?.*/;
-    if (!regex.test(site.value) || site.value.length > 255) {
-        var error = generateError('Неподходящий сайт');
-        site.parentElement.insertBefore(error, site);
+    validateLength(mail);
+    if (mail.value !== null && mail.value.trim()) {
+        var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
+        if (!regex.test(mail.value) || mail.value.length < 10) {
+            var error = generateError('Неподходящие данные для e-mail');
+            mail.parentElement.insertBefore(error, mail);
+        }
     }
 }
 
 //проверка полей
 function validateData(data) {
-    var regex = /^([-)(.,\w\s/]){1,45}$/;
-    if (!regex.test(data.value)) {
-        var error = generateError('Неподходящие данные (символы)');
-        data.parentElement.insertBefore(error, data);
+    validateMiniLength(data);
+    if (data.value !== null && data.value.trim()) {
+        var regex = /^([-)\\(.,\w\s\/]){1,45}$/;
+        if (!regex.test(data.value)) {
+            var error = generateError('Неподходящие данные (символы) или превышена длина');
+            data.parentElement.insertBefore(error, data);
+        }
     }
 }
 
 //проверка индекса
 function validateZip(zip) {
-    var regex = /^[\d]([-\d]){3,9}/;
-    if (!regex.test(zip.value)) {
-        var error = generateError('Неподходящие данные (символы)');
-        zip.parentElement.insertBefore(error, zip);
+    if (zip.value !== null && zip.value.trim()) {
+        var regex = /^[\d]+[-]?[\d]+$/;
+        if (!regex.test(zip.value) || zip.value.length < 5 || zip.value.length > 9) {
+            var error = generateError('Неподходящие данные (символы) или превышена длина');
+            zip.parentElement.insertBefore(error, zip);
+        }
     }
 }
 
@@ -120,7 +144,15 @@ function validateNumber(number) {
 //проверка длины коммента
 function validateLength(text) {
     if (text.value.length > 255) {
-        var error = generateError('Длина текста превышает 255 символов');
+        var error = generateError('Длина строки превышает 255 символов');
+        text.parentElement.insertBefore(error, text);
+    }
+}
+
+//проверка длины коммента
+function validateMiniLength(text) {
+    if (text.value.length > 45) {
+        var error = generateError('Длина строки превышает 45 символов');
         text.parentElement.insertBefore(error, text);
     }
 }

@@ -40,7 +40,7 @@ function createTd(text, tr) {
     tr.appendChild(td);
 }
 
-function createTableHead () {
+function createTableHead() {
     phonesTable.innerHTML = '';
     th = document.createElement('tr');
     phonesTable.appendChild(th);
@@ -472,12 +472,43 @@ function deleteRows(table, checkboxes) {
     }
 }
 
-//валидация полей
+//валидация полей основной части
 function validate() {
     removeValidation();
-    checkFieldsPresence(form, fields);
-    if (emailField.value !== null && emailField.value.trim()) {
-        validateEmail(emailField);
+    // checkFieldsPresence(form, fields);
+    validateName(nameField);
+    validateName(surnameField);
+    validatePatronymic(patronymicField);
+    validateBirthday(birthdayField);
+    validateEmail(emailField);
+    validateSite(siteField);
+    validateData(workField);
+    validateData(statusField);
+    validateData(citizenshipField);
+    validateData(countryField);
+    validateData(cityField);
+    validateData(addressField);
+    validateZip(zipField);
+}
+
+//валидация телефона
+function validatePhone() {
+    errors = popupPhone.querySelectorAll('.error');
+    for (var i = 0; i < errors.length; i++) {
+        errors[i].remove();
     }
-    //todo
+    validateCode(phoneCountry);
+    validateCode(phoneOperator);
+    validateNumber(phoneNumber);
+    validateLength(phoneComment);
+}
+
+//валидация вложения
+function validateAttachment() {
+    errors = popupAttachment.querySelectorAll('.error');
+    for (var i = 0; i < errors.length; i++) {
+        errors[i].remove();
+    }
+    validateSize(attachment);
+    validateLength(attachmentComment);
 }

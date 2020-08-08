@@ -72,7 +72,7 @@ public class MailController extends HttpServlet {
         String body = request.getParameter(BODY);
         try {
             if (StringValidator.isValidEmail(to) &&
-                    StringValidator.isValidHeader(subject) &&
+                    StringValidator.isValidTextLength(subject) &&
                     StringValidator.isValidMessage(body)) {
                 mailService.service(to, subject, body);
                 LOGGER.log(Level.INFO, "User sends email");
