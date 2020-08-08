@@ -1,6 +1,8 @@
 package com.itechart.contacts.web.validator;
 
 import com.itechart.contacts.domain.entity.impl.Gender;
+import com.itechart.contacts.domain.entity.impl.PhoneType;
+import com.itechart.contacts.web.util.Status;
 
 import java.math.BigInteger;
 import java.util.regex.Matcher;
@@ -25,6 +27,9 @@ public class StringValidator {
     private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
     private final static String CHECK_ID = "[\\d]+";
     private final static String CHECK_BIRTHDAY = "^([\\d]){4}-([\\d]){1,2}-([\\d]){1,2}$";
+    private final static String CHECK_PATH_PHOTO = "^\\.\\./image/photos/[\\d]+/$";
+    private final static String CHECK_PATH_FILE = "^\\.\\./attachments/[\\d]+/$";
+    private final static String CHECK_FILE_NAME = "^[-\\w\\s_]+\\.([\\w]){2,4}$";
     private final static int MINI_TEXT_LENGTH = 45;
     private final static int TEXT_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;
@@ -33,7 +38,7 @@ public class StringValidator {
     public static boolean isValidName(String name) {
         Pattern pattern = Pattern.compile(CHECK_NAME);
         Matcher matcher = pattern.matcher(name);
-        return matcher.find() && name.length() <= 45;
+        return matcher.find() && isValidMiniText(name);
     }
 
     //patronymic
@@ -112,6 +117,43 @@ public class StringValidator {
         return gender.equals(Gender.MALE.getValue())
                 || gender.equals(Gender.FEMALE.getValue())
                 || gender.equals(Gender.UNKNOWN.getValue());
+    }
+
+    //phone type
+    public static boolean isValidType(String type) {
+        return type.equals(PhoneType.HOME.getValue())
+                || type.equals(PhoneType.MOBILE.getValue())
+                || type.equals(PhoneType.OTHER.getValue())
+                || type.equals(PhoneType.WORK.getValue());
+    }
+
+    //status
+    public static boolean isValidStatus(String status) {
+        return status.isEmpty()
+                || status.equals(Status.NEW.getValue())
+                || status.equals(Status.UPDATED.getValue())
+                || status.equals(Status.DELETED.getValue());
+    }
+
+    //file name
+    public static boolean isValidFileName(String name) {
+        Pattern pattern = Pattern.compile(CHECK_FILE_NAME);
+        Matcher matcher = pattern.matcher(name);
+        return name.isEmpty() || (matcher.find() && isValidMiniText(name));
+    }
+
+    //photo path
+    public static boolean isValidPhotoPath(String path) {
+        Pattern pattern = Pattern.compile(CHECK_PATH_PHOTO);
+        Matcher matcher = pattern.matcher(path);
+        return path.isEmpty() || (matcher.find() && isValidTextLength(path));
+    }
+
+    //file path
+    public static boolean isValidFilePath(String path) {
+        Pattern pattern = Pattern.compile(CHECK_PATH_FILE);
+        Matcher matcher = pattern.matcher(path);
+        return path.isEmpty() ||(matcher.find() && isValidTextLength(path));
     }
 
     //long field
