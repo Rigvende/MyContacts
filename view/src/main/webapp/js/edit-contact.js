@@ -189,7 +189,7 @@ function setNone() {
     addPhoneBtn.addEventListener('click', addPhone);
     addAttachBtn.removeEventListener('click', editAttachments);
     addAttachBtn.addEventListener('click', addAttachment);
-    errors = [];
+    removeValidation();
 }
 
 ////////////////////////////////////////////////
