@@ -1,18 +1,27 @@
 package com.itechart.contacts.web.util;
 
-import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.entity.impl.*;
+import com.itechart.contacts.web.validator.DateValidator;
+import com.itechart.contacts.web.validator.StringValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+/**
+ * Class for parsing request data and creating entities using this data.
+ *
+ * @author Marianna Patrusova
+ * @version 1.0
+ */
 public class RequestParser {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    private RequestParser() {}
+    private RequestParser() {
+    }
 
     public static Attachment createAttachment(HttpServletRequest request) {
         String name = request.getParameter("attachment");
@@ -24,24 +33,12 @@ public class RequestParser {
     }
 
     public static Contact createContact(HttpServletRequest request) {
-        long id;
-        if (request.getParameter("id") != null
-                && !request.getParameter("id").isEmpty()) {
-            id = Long.parseLong(request.getParameter("id"));
-        } else {
-            id = 0L;
-        }
+        String contactId = request.getParameter("id");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String patronymic = request.getParameter("patronymic");
-        LocalDate birthday;
-        if (request.getParameter("birthday") != null
-                && !request.getParameter("birthday").isEmpty()) {
-            birthday = LocalDate.parse(request.getParameter("birthday"));
-        } else {
-            birthday = null;
-        }
-        Gender gender = Gender.getGender(request.getParameter("gender"));
+        String requestBirthday = request.getParameter("birthday");
+        String requestGender = request.getParameter("gender");
         String citizenship = request.getParameter("citizenship");
         String familyStatus = request.getParameter("status");
         String website = request.getParameter("website");
@@ -51,16 +48,48 @@ public class RequestParser {
         String city = request.getParameter("city");
         String location = request.getParameter("location");
         String zipcode = request.getParameter("zipcode");
-        long photoId;
-        if (request.getParameter("photoId") != null
-                && !request.getParameter("photoId").isEmpty()) {
-            photoId = Long.parseLong(request.getParameter("photoId"));
-        } else {
-            photoId = 0L;
+        String requestPhotoId = request.getParameter("photoId");
+        if (validateContact(contactId, name, surname, patronymic, requestBirthday, requestGender, citizenship,
+                            familyStatus, website, email, work, country, city, location, zipcode, requestPhotoId)) {
+            long id;
+            if (contactId != null && !contactId.isEmpty()) {
+                id = Long.parseLong(contactId);
+            } else {
+                id = 0L;
+            }
+            LocalDate birthday;
+            if (requestBirthday != null && !requestBirthday.isEmpty()
+                    && DateValidator.isValidDate(LocalDate.parse(requestBirthday))) {
+                birthday = LocalDate.parse(requestBirthday);
+            } else {
+                birthday = null;
+            }
+            Gender gender = Gender.getGender(requestGender);
+            long photoId;
+            if (requestPhotoId != null && !requestPhotoId.isEmpty()) {
+                photoId = Long.parseLong(requestPhotoId);
+            } else {
+                photoId = 0L;
+            }
+            return new Contact(id, name, surname, patronymic, birthday, gender,
+                    citizenship, familyStatus, website, email, work,
+                    country, city, location, zipcode, photoId, null);
         }
-        return new Contact(id, name, surname, patronymic, birthday, gender,
-                citizenship, familyStatus, website, email, work,
-                country, city, location, zipcode, photoId, null);
+        return null;
+    }
+
+    private static boolean validateContact(String id, String name, String surname, String patronymic,
+                                           String birthday, String gender, String citizenship, String familyStatus,
+                                           String website, String email, String work, String country,
+                                           String city, String location, String zipcode, String photoId) {
+        return StringValidator.isValidId(id) && StringValidator.isValidName(name)
+                && StringValidator.isValidName(surname) && StringValidator.isValidPatronymic(patronymic)
+                && StringValidator.isValidDate(birthday) && StringValidator.isValidGender(gender)
+                && StringValidator.isValidData(citizenship) && StringValidator.isValidData(familyStatus)
+                && StringValidator.isValidWebsite(website) && StringValidator.isValidEmail(email)
+                && StringValidator.isValidData(work) && StringValidator.isValidData(country)
+                && StringValidator.isValidData(city) && StringValidator.isValidData(location)
+                && StringValidator.isValidZipcode(zipcode) && StringValidator.isValidId(photoId);
     }
 
     public static Phone createPhone(HttpServletRequest request) {
@@ -85,7 +114,6 @@ public class RequestParser {
         if (request.getParameter("photoId") != null
                 && !request.getParameter("photoId").isEmpty()) {
             id = Long.parseLong(request.getParameter("photoId"));
-//            path = "../image/photos/" + id + "/";
             path = request.getParameter("photo_path");
         }
         return new Photo(id, path, name);

@@ -57,7 +57,7 @@ function validateName(name) {
 function validatePatronymic(patronymic) {
     validateMiniLength(patronymic);
     if (patronymic.value !== null && patronymic.value.trim()) {
-        var regex = /^([A-Za-zА-Яа-яЁё]){1,45}$/;
+        var regex = /^[A-Za-zА-Яа-яЁё]+$/;
         if (!regex.test(patronymic.value)) {
             var error = generateError('Неподходящие данные (символы)');
             patronymic.parentElement.insertBefore(error, patronymic);
@@ -104,9 +104,9 @@ function validateEmail(mail) {
 function validateData(data) {
     validateMiniLength(data);
     if (data.value !== null && data.value.trim()) {
-        var regex = /^([-)\\(.,\w\s\/]){1,45}$/;
+        var regex = /^[-)\\(.,A-Za-zА-Яа-яЁё\d\s\/]+$/;
         if (!regex.test(data.value)) {
-            var error = generateError('Неподходящие данные (символы) или превышена длина');
+            var error = generateError('Неподходящие данные (символы)');
             data.parentElement.insertBefore(error, data);
         }
     }

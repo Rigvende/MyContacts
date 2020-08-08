@@ -1,5 +1,7 @@
 package com.itechart.contacts.web.validator;
 
+import com.itechart.contacts.domain.entity.impl.Gender;
+
 import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,14 +16,16 @@ public class StringValidator {
     private StringValidator(){}
 
     private final static String CHECK_NAME = "^[A-Za-zА-Яа-яЁё]+([\\s-]+[A-Za-zА-Яа-яЁё]+)?$";
-    private final static String CHECK_PATRONYMIC = "^([A-Za-zА-Яа-яЁё]){1,45}$";
-    private final static String CHECK_DATA = "^([-)(.,\\w\\s/\\\\]){1,45}$";
+    private final static String CHECK_PATRONYMIC = "^[A-Za-zА-Яа-яЁё]+$";
+    private final static String CHECK_DATA = "^[-)\\\\(.,A-Za-zА-Яа-яЁё\\d\\s/]+$";
     private final static String CHECK_EMAIL = "^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
     private final static String CHECK_WEB = "([-\\w]+\\.)?([-\\w]+)\\.\\w+(?:\\.\\w+)?/?.*";
     private final static String CHECK_ZIP = "^[\\d]+[-]?[\\d]+$";
     private final static String CHECK_CODE = "^([-+\\d]){2,4}$";
     private final static String CHECK_NUMBER = "^[\\d]([-\\d]){4,9}$";
     private final static String CHECK_ID = "[\\d]+";
+    private final static String CHECK_BIRTHDAY = "^([\\d]){4}-([\\d]){1,2}-([\\d]){1,2}$";
+    private final static int MINI_TEXT_LENGTH = 45;
     private final static int TEXT_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;
 
@@ -36,14 +40,14 @@ public class StringValidator {
     public static boolean isValidPatronymic(String patronymic) {
         Pattern pattern = Pattern.compile(CHECK_PATRONYMIC);
         Matcher matcher = pattern.matcher(patronymic);
-        return matcher.find();
+        return patronymic.isEmpty() || (matcher.find() && isValidMiniText(patronymic));
     }
 
     //citizenship, family_status, work_place, country, city, address
     public static boolean isValidData(String data) {
         Pattern pattern = Pattern.compile(CHECK_DATA);
         Matcher matcher = pattern.matcher(data);
-        return data.isEmpty() || matcher.find();
+        return data.isEmpty() || (matcher.find() && isValidMiniText(data));
     }
 
     //email
@@ -86,11 +90,6 @@ public class StringValidator {
         return comment.isEmpty() || isValidTextLength(comment);
     }
 
-    //attachment_name
-    public static boolean isValidAttachment(String name) {
-        return name.length() <= 45;
-    }
-
     //id
     public static boolean isValidId(String number) {
         Pattern pattern = Pattern.compile(CHECK_ID);
@@ -98,12 +97,32 @@ public class StringValidator {
         if (matcher.find()) {
             return new BigInteger(number).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0;
         }
-        return false;
+        return number.isEmpty();
     }
 
-    //Mail header
+    //birthday
+    public static boolean isValidDate(String birthday) {
+        Pattern pattern = Pattern.compile(CHECK_BIRTHDAY);
+        Matcher matcher = pattern.matcher(birthday);
+        return birthday.isEmpty() || matcher.find();
+    }
+
+    //gender
+    public static boolean isValidGender(String gender) {
+        return gender.equals(Gender.MALE.getValue())
+                || gender.equals(Gender.FEMALE.getValue())
+                || gender.equals(Gender.UNKNOWN.getValue());
+    }
+
+    //long field
     public static boolean isValidTextLength(String header) {
         return header.length() < TEXT_LENGTH;
+    }
+
+
+    //short field
+    public static boolean isValidMiniText(String field) {
+        return field.length() < MINI_TEXT_LENGTH;
     }
 
     //message

@@ -1533,3 +1533,17 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 1
 08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 1
 08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 3
+08-08 21:41 INFO  web.controller.ContactsController - New contact was created
+08-08 21:54 INFO  web.controller.ContactsController - New contact was created
+08-08 21:56 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 21:56 INFO  domain.service.GetContactsService - User gets contact info: 3
+08-08 21:57 INFO  domain.service.GetContactsService - User gets contact info: 3
+08-08 22:01 INFO  web.controller.ContactsController - New contact was created
+08-08 22:01 INFO  domain.service.GetContactsService - User gets contact info: 149
+08-08 22:02 INFO  web.controller.ContactsController - Contact # 149 was updated
+08-08 22:07 INFO  domain.service.GetContactsService - User gets contact info: 148
+08-08 22:32 INFO  domain.service.GetContactsService - User gets contact info: 149
+08-08 22:32 INFO  web.controller.ContactsController - Contact # 149 was updated
+08-08 22:32 INFO  domain.service.GetContactsService - User gets contact info: 149
+08-08 22:32 INFO  web.controller.ContactsController - Contact # 149 was updated
+08-08 22:32 INFO  web.controller.DeleteController - User deletes contacts: 148 149 
