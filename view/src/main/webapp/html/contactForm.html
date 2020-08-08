@@ -159,7 +159,7 @@
         <br>
         <p style="font-size: 18px">Загрузить новое фото:</p>
         <label>
-            <input class="field" form="contactSave" id="photo" name="picture" size="100" accept="image/*" type="file"/>
+            <input class="field" form="contactSave" id="photo" name="picture" size="1000" accept="image/*" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">
@@ -278,6 +278,30 @@
         <div class="modalButtons">
             <input type="button" class="pageButton modalBtn small" id="returnButton" value="К списку">
             <input type="button" class="close pageButton modalBtn small" value="Остаться">
+        </div>
+    </div>
+</div>
+
+<!-- скрытое окошко для отсутствующего чекбокса для удаления и редактирования -->
+<div id="errorDeleteEdit" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p>Невозможно выполнить действие!</p>
+        <p>>> не выбрана строка таблицы</p>
+        <div class="modalButtons">
+            <input type="button" class="close pageButton modalBtn small" value="ОК">
+        </div>
+    </div>
+</div>
+
+<!-- скрытое окошко для лишних чекбоксов для почты и редактирования -->
+<div id="errorEdit" class="modal">
+    <div class="modalContent">
+        <span class="close closeX">&times;</span>
+        <p>Невозможно выполнить действие!</p>
+        <p>>> выбрано больше одной строки таблицы'</p>
+        <div class="modalButtons">
+            <input type="button" class="close pageButton modalBtn small" value="OK">
         </div>
     </div>
 </div>

@@ -18,11 +18,6 @@ input [type="submit"], input [type="button"], button {
     outline: none;
 }
 
-.footer {
-    display: block;
-    text-align: right;
-}
-
 .spinner {
     display: flex;
     justify-content: center;

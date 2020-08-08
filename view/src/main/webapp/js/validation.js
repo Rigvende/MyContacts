@@ -164,3 +164,12 @@ function validateLengthMail(text) {
         text.parentElement.insertBefore(error, text);
     }
 }
+
+//проверка размера файла
+function validateSize(file) {
+    alert(file.files[0].size);
+    if (file.files[0].size > 5000 * 1024) {
+        var error = generateError('Размер файла превышает 5 мБ');
+        file.parentElement.insertBefore(error, file);
+    }
+}

@@ -1526,3 +1526,10 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 07-08 14:30 INFO  domain.service.GetContactsService - User gets contact info: 1
 07-08 14:32 INFO  web.controller.DeleteController - User deletes contacts: 109 
 07-08 14:33 INFO  web.controller.MailController - User sends email
+08-08 18:42 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:46 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:48 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:50 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 1
+08-08 18:51 INFO  domain.service.GetContactsService - User gets contact info: 3
