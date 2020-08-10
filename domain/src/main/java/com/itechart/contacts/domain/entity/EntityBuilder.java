@@ -18,6 +18,7 @@ import java.time.LocalDate;
 public class EntityBuilder {
 
     private final static Logger LOGGER = LogManager.getLogger();
+
     private EntityBuilder(){}
 
     public static AbstractEntity createAttachment(ResultSet resultSet) throws DaoException {

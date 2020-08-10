@@ -98,6 +98,7 @@ public class PhoneDao extends AbstractDao<AbstractEntity> {
             preparedStatement.setString(3, phone.getNumber());
             preparedStatement.setString(4, phone.getType().getValue());
             preparedStatement.setString(5, phone.getComments());
+            preparedStatement.setLong(6, phone.getPhoneId());
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;

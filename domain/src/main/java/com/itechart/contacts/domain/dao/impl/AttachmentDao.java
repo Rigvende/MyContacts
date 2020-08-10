@@ -95,6 +95,7 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ATTACHMENT)) {
             preparedStatement.setString(1, attachment.getName());
             preparedStatement.setString(2, attachment.getComments());
+            preparedStatement.setLong(3, attachment.getAttachmentId());
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;

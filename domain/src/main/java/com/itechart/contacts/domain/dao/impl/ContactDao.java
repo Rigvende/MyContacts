@@ -50,7 +50,7 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             "SELECT contact_name, surname, patronymic " +
             "FROM contacts WHERE deleted IS NULL AND birthday LIKE ?;";
 
-    public ContactDao(Connection connection) throws DaoException, ClassNotFoundException {
+    public ContactDao(Connection connection) {
         super(connection);
     }
 
