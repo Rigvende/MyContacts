@@ -35,7 +35,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
- * Class for contacts operations controller.
+ * Class for contacts operations controller (create, update, show contacts + files uploading).
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -64,6 +64,7 @@ public class ContactsController extends HttpServlet {
         setScheduler();
     }
 
+    //show contacts or concrete contact
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Connection connection = DbcpManager.getConnection();
@@ -85,6 +86,8 @@ public class ContactsController extends HttpServlet {
         }
     }
 
+    //create or update contacts
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Connection connection = DbcpManager.getConnection();
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -172,35 +175,6 @@ public class ContactsController extends HttpServlet {
         server_dir = new File(dirPath + id + "/");  //fixme copy file to server dir
         FileUtils.copyFileToDirectory(file, server_dir); //otherwise we can't see picture after loading
     }
-//        request.setCharacterEncoding(UTF_8);
-//        Contact contact = RequestParser.createContact(request);
-//        Photo photo = RequestParser.createPhoto(request);
-////        List<Phone> phones; //fixme
-////        List<Attachment> attachments; //todo
-//        try {
-//            if (contact.getContactId() != 0L) { //обновить
-//                updateContactService.service(contact.getContactId(), contact);
-//                //удалить старое фото, загрузить новое
-//                if (photo.getPhotoId() != 0L) {
-//                    updatePhotoService.service(photo.getPhotoId(), photo.getName());
-////                updateAttachmentService.service(attachments);
-////                updatePhoneService.service(phones);
-//                }
-//                LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
-//            } else { //создать
-//                //создать папку, загрузить фото, получить имя (если фото не пустое), иначе просто сделать запись в бд
-//                photo = (Photo) updatePhotoService.service(photo);
-//                contact.setPhotoId(photo.getPhotoId());
-//                contact = (Contact) updateContactService.service(contact);
-////                updatePhoneService.service(phones);
-////                updateAttachmentService.service(attachments);
-//                LOGGER.log(Level.INFO, "New contact was created");
-//            }
-//        } catch (ServiceException e) {
-//            LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
-//            response.sendError(500);
-//        }
-
 
     //set background task - daily birthdays checking
     private void setScheduler() {
