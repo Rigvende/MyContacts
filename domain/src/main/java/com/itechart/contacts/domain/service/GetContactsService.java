@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -33,16 +34,16 @@ public class GetContactsService {
      * Method: find contacts.
      * @return json with contact's data
      */
-    public String service(String parameter) throws ServiceException {
-        ContactDao contactDao = null;
-        PhotoDao photoDao = null;
-        PhoneDao phoneDao = null;
-        AttachmentDao attachmentDao = null;
+    public String service(Connection connection, String parameter) throws ServiceException {
+        ContactDao contactDao;
+        PhotoDao photoDao;
+        PhoneDao phoneDao;
+        AttachmentDao attachmentDao;
         try {
-            contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
-            photoDao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
-            phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
-            attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
+            contactDao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT, connection);
+            photoDao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO, connection);
+            phoneDao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE, connection);
+            attachmentDao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
             if (parameter !=null && !parameter.equals("")) {
                 long id = Long.parseLong(parameter);
                 Contact contact = (Contact) contactDao.findEntityById(id);
@@ -74,8 +75,6 @@ public class GetContactsService {
             LOGGER.log(Level.ERROR,
                     "Exception in GetContactsService class while finding contact has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            closeDaos(attachmentDao, contactDao, photoDao, phoneDao);
         }
     }
 
@@ -141,23 +140,6 @@ public class GetContactsService {
             json.replace(json.length() - 3 , json.length(), "\n}\n");
         }
         json.append("],\n");
-    }
-
-    //закрываем соединение
-    private void closeDaos(AttachmentDao attachmentDao, ContactDao contactDao,
-                           PhotoDao photoDao, PhoneDao phoneDao) {
-        if (contactDao != null) {
-            contactDao.exit();
-        }
-        if (photoDao != null) {
-            photoDao.exit();
-        }
-        if (phoneDao != null) {
-            phoneDao.exit();
-        }
-        if (attachmentDao != null) {
-            attachmentDao.exit();
-        }
     }
 
 }

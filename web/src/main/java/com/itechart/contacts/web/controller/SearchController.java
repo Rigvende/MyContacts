@@ -1,7 +1,9 @@
 package com.itechart.contacts.web.controller;
 
+import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.SearchService;
+import com.itechart.contacts.domain.util.DbcpManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Class for searching operations controller.
@@ -28,16 +32,20 @@ public class SearchController extends HttpServlet {
 
     //выполняем поиск контактов по полученным данным
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Connection connection = take();
         response.setCharacterEncoding(UTF_8);
         response.setContentType(TYPE);
         try (PrintWriter out = response.getWriter()) {
             String query = buildQuery(request).toString();
-            String json = searchService.service(query);
+            String json = searchService.service(query, connection);
             out.println(json);
+            connection.commit();
             LOGGER.log(Level.INFO, "User uses filter for searching contacts");
-        } catch (ServiceException e) {
+        } catch (ServiceException | SQLException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
+        } finally {
+            exit(connection);
         }
     }
 
@@ -97,6 +105,53 @@ public class SearchController extends HttpServlet {
         }
         builder.append("deleted IS NULL;");
         return builder;
+    }
+
+    //get connection from pool
+    private Connection take() {
+        Connection connection = null;
+        try {
+            connection = DbcpManager.getConnection();
+            AutoCommitDisable(connection);
+        } catch (DaoException | ClassNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
+        }
+        return connection;
+    }
+
+    //return connection to pool
+    private void exit(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection closing is failed", e);
+            }
+        }
+    }
+
+    //rollback connection
+    private void rollBack(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
+            }
+        }
+    }
+
+    //disable auto-commit for rollback opportunity
+    private void AutoCommitDisable(Connection connection) throws DaoException {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
+            throw new DaoException(e);
+        }
     }
 
 }

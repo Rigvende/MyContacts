@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -22,11 +23,11 @@ public class SearchService {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    public String service(String query) throws ServiceException {
+    public String service(String query, Connection connection) throws ServiceException {
         List<AbstractEntity> filterResult;
         ContactDao dao = null;
         try {
-            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+            dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT, connection);
             filterResult = dao.findAllByFilter(query);
             if (filterResult.size() > 0) {
                 StringBuilder json = new StringBuilder("[\n");
@@ -42,10 +43,6 @@ public class SearchService {
         } catch (DaoException | ClassNotFoundException e) {
             LOGGER.log(Level.ERROR, "Error while filter searching has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 

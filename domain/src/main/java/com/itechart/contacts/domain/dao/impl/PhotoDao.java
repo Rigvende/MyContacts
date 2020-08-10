@@ -8,10 +8,8 @@ import com.itechart.contacts.domain.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +23,7 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String SQL_ADD_PHOTO =
-            "INSERT INTO photos (photo_path, photo_name) " +
-                    "VALUES (?, ?);";
+            "INSERT INTO photos (photo_path, photo_name) VALUES (?, ?);";
     private final static String SQL_DELETE_PHOTO =
             "DELETE FROM photos WHERE id_photo = ?;";
     private final static String SQL_UPDATE_PHOTO =
@@ -36,13 +33,12 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
     private final static String SQL_FIND_PHOTO_BY_ID =
             "SELECT id_photo, photo_path, photo_name FROM photos WHERE id_photo = ?;";
 
-    public PhotoDao() throws DaoException, ClassNotFoundException {
-        super();
+    public PhotoDao(Connection connection) throws DaoException, ClassNotFoundException {
+        super(connection);
     }
 
     @Override
     public AbstractEntity create(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Photo photo = (Photo) entity;
         try (PreparedStatement preparedStatement
                      = connection.prepareStatement(SQL_ADD_PHOTO, Statement.RETURN_GENERATED_KEYS)) {
@@ -56,17 +52,8 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
                     photo = null;
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();                      //rollback whole transaction if smth goes wrong
-            } catch (SQLException ex) {
-                LOGGER.log(Level.ERROR,
-                        "Cannot do rollback in PhotoDao create method. ", e);
-                throw new DaoException(e);
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot add photo. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot add photo. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return photo;
@@ -74,7 +61,6 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public boolean delete(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         boolean isDeleted = false;
         Photo photo = (Photo) entity;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_PHOTO)) {
@@ -84,19 +70,8 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
             if (findEntityById(id) == null) {
                 isDeleted = true;                           //check if photo is really deleted in db
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in PhotoDao delete method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot delete photo. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot delete photo. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isDeleted;
@@ -104,7 +79,6 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public boolean update(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Photo photo = (Photo) entity;
         boolean isUpdated = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PHOTO)) {
@@ -115,19 +89,8 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in PhotoDao update method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot update photo. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot update photo. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isUpdated;
@@ -135,7 +98,6 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public List<AbstractEntity> findAll() throws DaoException {
-        AutoCommitDisable();
         List<AbstractEntity> photos = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_PHOTOS)) {
@@ -144,19 +106,8 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
                     photos.add(photo);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in PhotoDao findAll method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find photo list. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find photo list. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return photos;
@@ -164,7 +115,6 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public AbstractEntity findEntityById(long id) throws DaoException {
-        AutoCommitDisable();
         AbstractEntity photo = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_PHOTO_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -173,19 +123,8 @@ public class PhotoDao extends AbstractDao<AbstractEntity> {
                     photo = EntityBuilder.createPhoto(resultSet);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in PhotoDao findEntityById method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find photo by ID. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find photo by ID. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return photo;

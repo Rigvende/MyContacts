@@ -10,6 +10,7 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.sql.Connection;
 
 /**
  * Class-service for creating / updating photos
@@ -21,12 +22,12 @@ public class UpdatePhotoService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update
-    public String service(long id, String name) throws ServiceException {
+    public String service(long id, String name, Connection connection) throws ServiceException {
         Photo photo;
-        PhotoDao dao = null;
+        PhotoDao dao;
         String oldName;
         try {
-            dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
+            dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO, connection);
             photo = (Photo) dao.findEntityById(id);
             oldName = photo.getName();
             photo.setName(name);
@@ -34,18 +35,14 @@ public class UpdatePhotoService {
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update photo. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 
     //create
-    public AbstractEntity service(Photo photo) throws ServiceException {
-        PhotoDao dao = null;
+    public AbstractEntity service(Photo photo, Connection connection) throws ServiceException {
+        PhotoDao dao;
         try {
-            dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
+            dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO, connection);
             photo = (Photo) dao.create(photo);
             photo.setPath("../image/photos/" + photo.getPhotoId() + "/");
             if (dao.update(photo)) {
@@ -56,10 +53,6 @@ public class UpdatePhotoService {
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot add photo. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 

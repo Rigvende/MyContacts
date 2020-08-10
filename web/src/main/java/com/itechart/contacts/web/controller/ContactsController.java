@@ -2,8 +2,10 @@ package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.entity.impl.Contact;
 import com.itechart.contacts.domain.entity.impl.Photo;
+import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.*;
+import com.itechart.contacts.domain.util.DbcpManager;
 import com.itechart.contacts.web.scheduler.MailJob;
 import com.itechart.contacts.web.util.RequestParser;
 import org.apache.commons.fileupload.FileItem;
@@ -17,7 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,10 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -66,20 +68,27 @@ public class ContactsController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Connection connection = take();
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         response.setCharacterEncoding(UTF_8);  //response in ISO-8859-1, very bad for db data
         response.setContentType(TYPE);
         try (PrintWriter out = response.getWriter()) {
-            String json = getContactsService.service(id);
+            String json = getContactsService.service(connection, id);
             out.println(json);
-        } catch (ServiceException e) {
+            connection.commit();
+        } catch (ServiceException | SQLException e) {
+            rollBack(connection);
+            e.printStackTrace();
             LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
+        } finally {
+            exit(connection);
         }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Connection connection = take();
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
             LOGGER.log(Level.ERROR, "Cannot update contact: data is not multipart form");
@@ -119,25 +128,27 @@ public class ContactsController extends HttpServlet {
             System.out.println(photo);
             try {
                 if (contact != null && contact.getContactId() != 0L) { //обновить
-                    updateContactService.service(contact.getContactId(), contact);
+                    updateContactService.service(contact.getContactId(), contact, connection);
                     if (photo != null && photo.getPhotoId() != 0L) {
-                        updatePhotoService.service(photo.getPhotoId(), photo.getName());
+                        updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection);
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
                 } else { //создать
-                    photo = (Photo) updatePhotoService.service(photo);
+                    photo = (Photo) updatePhotoService.service(photo, connection);
                     System.out.println(photo);
                     if (contact != null) {
                         contact.setPhotoId(photo.getPhotoId());
                     }
-                    contact = (Contact) updateContactService.service(contact);
+                    contact = (Contact) updateContactService.service(contact, connection);
                     System.out.println(contact);
-                    if (photoItem != null) {
-                        writePhoto(photoItem, photo.getPhotoId());
-                    }
+//                    if (photoItem != null) { fixme
+//                        writePhoto(photoItem, photo.getPhotoId());
+//                    }
                     LOGGER.log(Level.INFO, "New contact was created");
                 }
+                connection.commit();
             } catch (Exception e) {
+                rollBack(connection);
                 e.printStackTrace();
                 LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
@@ -146,6 +157,8 @@ public class ContactsController extends HttpServlet {
             e.printStackTrace();
             LOGGER.log(Level.ERROR, "File is oversized.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
+        } finally {
+            exit(connection);
         }
     }
 
@@ -193,25 +206,72 @@ public class ContactsController extends HttpServlet {
 //        }
 
 
-        //set background task - daily birthdays checking
-        private void setScheduler () {
-            SchedulerFactory sf = new StdSchedulerFactory();
-            Scheduler scheduler;
+    //set background task - daily birthdays checking
+    private void setScheduler() {
+        SchedulerFactory sf = new StdSchedulerFactory();
+        Scheduler scheduler;
+        try {
+            scheduler = sf.getScheduler();
+            scheduler.start();
+            JobDetail job = newJob(MailJob.class)
+                    .withIdentity(JOB, GROUP)
+                    .build();
+            CronTrigger trigger = newTrigger()
+                    .withIdentity(TRIGGER, GROUP)
+                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(13, 30))
+                    .forJob(JOB, GROUP)
+                    .build();
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //get connection from pool
+    private Connection take() {
+        Connection connection = null;
+        try {
+            connection = DbcpManager.getConnection();
+            AutoCommitDisable(connection);
+        } catch (DaoException | ClassNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
+        }
+        return connection;
+    }
+
+    //return connection to pool
+    private void exit(Connection connection) {
+        if (connection != null) {
             try {
-                scheduler = sf.getScheduler();
-                scheduler.start();
-                JobDetail job = newJob(MailJob.class)
-                        .withIdentity(JOB, GROUP)
-                        .build();
-                CronTrigger trigger = newTrigger()
-                        .withIdentity(TRIGGER, GROUP)
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(13, 30))
-                        .forJob(JOB, GROUP)
-                        .build();
-                scheduler.scheduleJob(job, trigger);
-            } catch (SchedulerException e) {
+                connection.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection closing is failed", e);
             }
         }
-
     }
+
+    //rollback connection
+    private void rollBack(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
+            }
+        }
+    }
+
+    //disable auto-commit for rollback opportunity
+    private void AutoCommitDisable(Connection connection) throws DaoException {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
+            throw new DaoException(e);
+        }
+    }
+
+}

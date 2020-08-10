@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+
 /**
  * Class-service for creating / updating phones
  * @author Marianna Patrusova
@@ -22,12 +24,12 @@ public class UpdatePhoneService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update
-    public boolean service(long id, String country, String operator,
-                           String number, String type, String comments) throws ServiceException {
+    public boolean service(long id, String country, String operator, String number, String type,
+                           String comments, Connection connection) throws ServiceException {
         Phone phone;
-        PhoneDao dao = null;
+        PhoneDao dao;
         try {
-            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
+            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE, connection);
             phone = (Phone) dao.findEntityById(id);
             phone.setCountryCode(country);
             phone.setOperatorCode(operator);
@@ -39,26 +41,18 @@ public class UpdatePhoneService {
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update phone. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 
     //create
-    public AbstractEntity service(Phone phone) throws ServiceException {
-        PhoneDao dao = null;
+    public AbstractEntity service(Phone phone, Connection connection) throws ServiceException {
+        PhoneDao dao;
         try {
-            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
+            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE, connection);
             return dao.create(phone);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot create phone. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 

@@ -8,3 +8,18 @@
 09-08 23:06 INFO  web.controller.ContactsController - New contact was created
 10-08 10:29 ERROR web.controller.ContactsController - Request process of finding contacts failed.
 10-08 10:38 INFO  domain.service.GetContactsService - User gets contact info: 155
+10-08 11:46 INFO  domain.service.GetContactsService - User gets contact info: 1
+10-08 11:46 INFO  domain.service.GetContactsService - User gets contact info: 2
+10-08 11:46 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+10-08 11:49 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+10-08 11:55 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+10-08 11:58 INFO  web.controller.ContactsController - New contact was created
+10-08 11:58 INFO  web.controller.DeleteController - User deletes contacts: 157 
+10-08 11:59 INFO  domain.service.GetContactsService - User gets contact info: 1
+10-08 11:59 INFO  web.controller.ContactsController - Contact # 1 was updated
+10-08 11:59 INFO  web.controller.ContactsController - Contact # 1 was updated
+10-08 11:59 INFO  domain.service.GetContactsService - User gets contact info: 1
+10-08 12:01 INFO  domain.service.GetContactsService - User gets contact info: 107
+10-08 12:01 INFO  web.controller.SearchController - User uses filter for searching contacts
+10-08 12:02 INFO  web.controller.ContactsController - New contact was created
+10-08 12:02 INFO  web.controller.DeleteController - User deletes contacts: 158 

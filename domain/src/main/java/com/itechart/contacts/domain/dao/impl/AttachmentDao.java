@@ -9,10 +9,8 @@ import com.itechart.contacts.domain.util.DateConverter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,13 +42,12 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             "SELECT id_attachment, attachment_path, attachment_name, load_date, comments, id_contact " +
             "FROM attachments WHERE id_contact = ?;";
 
-    public AttachmentDao() throws DaoException, ClassNotFoundException {
-        super();
+    public AttachmentDao(Connection connection) throws DaoException, ClassNotFoundException {
+        super(connection);
     }
 
     @Override
     public AbstractEntity create(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Attachment attachment = (Attachment) entity;
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement(SQL_ADD_ATTACHMENT, Statement.RETURN_GENERATED_KEYS)) {
@@ -67,17 +64,8 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
                     attachment = null;
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();                      //rollback whole transaction if smth goes wrong
-            } catch (SQLException ex) {
-                LOGGER.log(Level.ERROR,
-                        "Cannot do rollback in AttachmentDao create method. ", e);
-                throw new DaoException(e);
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot add attachment. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot add attachment. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return attachment;
@@ -85,7 +73,6 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public boolean delete(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         boolean isDeleted = false;
         Attachment attachment = (Attachment) entity;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_ATTACHMENT)) {
@@ -95,19 +82,8 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             if (findEntityById(id) == null) {
                 isDeleted = true;                           //check if attachment is really deleted in db
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in AttachmentDao delete method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot delete attachment. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot delete attachment. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isDeleted;
@@ -115,7 +91,6 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public boolean update(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Attachment attachment = (Attachment) entity;
         boolean isUpdated = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ATTACHMENT)) {
@@ -125,19 +100,8 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in AttachmentDao update method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot update attachment. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot update attachment. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isUpdated;
@@ -145,7 +109,6 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public List<AbstractEntity> findAll() throws DaoException {
-        AutoCommitDisable();
         List<AbstractEntity> attachments = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_ATTACHMENTS)) {
@@ -154,19 +117,8 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
                     attachments.add(attachment);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in AttachmentDao findAll method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find attachment list. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find attachment list. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return attachments;
@@ -174,7 +126,6 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public AbstractEntity findEntityById(long id) throws DaoException {
-        AutoCommitDisable();
         AbstractEntity attachment = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ATTACHMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -183,26 +134,14 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
                     attachment = EntityBuilder.createAttachment(resultSet);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in AttachmentDao findEntityById method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find attachment by ID. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find attachment by ID. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return attachment;
     }
 
     public List<AbstractEntity> findByContactId(long id) throws DaoException {
-        AutoCommitDisable();
         List<AbstractEntity> attachments = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_CONTACT_ATTACHMENTS)) {
             preparedStatement.setLong(1, id);
@@ -212,19 +151,8 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
                     attachments.add(attachment);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in AttachmentDao findByContactId method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find attachments by contact's ID. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find attachments by contact's ID. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return attachments;

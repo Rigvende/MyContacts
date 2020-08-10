@@ -50,13 +50,12 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             "SELECT contact_name, surname, patronymic " +
             "FROM contacts WHERE deleted IS NULL AND birthday LIKE ?;";
 
-    public ContactDao() throws DaoException, ClassNotFoundException {
-        super();
+    public ContactDao(Connection connection) throws DaoException, ClassNotFoundException {
+        super(connection);
     }
 
     @Override
     public AbstractEntity create(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Contact contact = (Contact) entity;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_CONTACT, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, contact.getName());
@@ -82,17 +81,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
                     contact = null;
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();                      //rollback whole transaction if smth goes wrong
-            } catch (SQLException ex) {
-                LOGGER.log(Level.ERROR,
-                        "Cannot do rollback in ContactDao create method. ", e);
-                throw new DaoException(e);
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot add contact. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot add contact. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return contact;
@@ -105,7 +95,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public boolean update(AbstractEntity entity) throws DaoException {
-        AutoCommitDisable();
         Contact contact = (Contact) entity;
         boolean isUpdated = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_CONTACT)) {
@@ -128,19 +117,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao update method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot update contact. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot update contact. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isUpdated;
@@ -148,7 +126,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public List<AbstractEntity> findAll() throws DaoException {
-        AutoCommitDisable();
         List<AbstractEntity> contacts = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_CONTACTS)) {
@@ -157,19 +134,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
                     contacts.add(contact);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao findAll method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find contact list. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find contact list. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return contacts;
@@ -177,7 +143,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     @Override
     public AbstractEntity findEntityById(long id) throws DaoException {
-        AutoCommitDisable();
         AbstractEntity contact = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_CONTACT_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -186,19 +151,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
                     contact = EntityBuilder.createContact(resultSet);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao findEntityById method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find contact by ID. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find contact by ID. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return contact;
@@ -206,7 +160,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     //special method for soft deleting (fill field "deleted" in db)
     public boolean softDelete(long id) throws DaoException {
-        AutoCommitDisable();
         boolean isDeleted = false;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DELETED)) {
@@ -216,19 +169,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isDeleted = true;
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao softDelete method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot soft delete contact. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot soft delete contact. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return isDeleted;
@@ -236,7 +178,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     //special method for finding contacts by birthday for email sending
     public List<String> findAllByBirthday() throws DaoException {
-        AutoCommitDisable();
         List<String> contacts = new ArrayList<>();
         LocalDate today = LocalDate.now();
         String date = "%" + today.getMonthValue() + "-" + today.getDayOfMonth();
@@ -250,19 +191,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
                     contacts.add(contact);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao findAllByBirthday method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find birthday list. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find birthday list. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return contacts;
@@ -270,7 +200,6 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
 
     //special method for finding contacts using filter
     public List<AbstractEntity> findAllByFilter(String query) throws DaoException {
-        AutoCommitDisable();
         List<AbstractEntity> contacts = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(query)) {
@@ -279,19 +208,8 @@ public class ContactDao extends AbstractDao<AbstractEntity> {
                     contacts.add(contact);
                 }
             }
-            connection.commit();
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();                  //rollback whole transaction if smth goes wrong
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.ERROR,
-                            "Cannot do rollback in ContactDao findAllByFilter method. ", e);
-                    throw new DaoException(e);
-                }
-            }
-            LOGGER.log(Level.ERROR,
-                    "Cannot find filtered list. Request to table failed. ", e);
+            LOGGER.log(Level.ERROR,"Cannot find filtered list. Request to table failed. ", e);
             throw new DaoException(e);
         }
         return contacts;

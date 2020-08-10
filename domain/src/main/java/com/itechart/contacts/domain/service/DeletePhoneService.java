@@ -9,6 +9,7 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.sql.Connection;
 
 /**
  * Class-service for deleting phones
@@ -19,19 +20,15 @@ public class DeletePhoneService {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    public boolean service (AbstractEntity entity) throws ServiceException {
+    public boolean service (AbstractEntity entity, Connection connection) throws ServiceException {
         boolean isDeleted;
         PhoneDao dao = null;
         try {
-            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE);
+            dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE, connection);
             isDeleted = dao.delete(entity);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot delete phone. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
         return isDeleted;
     }

@@ -10,6 +10,7 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.sql.Connection;
 
 /**
  * Class-service for creating / updating attachments
@@ -21,11 +22,11 @@ public class UpdateAttachmentService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update
-    public boolean service(long id, String name, String comments) throws ServiceException {
+    public boolean service(long id, String name, String comments, Connection connection) throws ServiceException {
         Attachment attachment;
-        AttachmentDao dao = null;
+        AttachmentDao dao;
         try {
-            dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
+            dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
             attachment = (Attachment) dao.findEntityById(id);
             attachment.setComments(comments);
             attachment.setName(name);
@@ -33,26 +34,18 @@ public class UpdateAttachmentService {
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update attachment. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 
     //create
-    public AbstractEntity service(Attachment attachment) throws ServiceException {
-        AttachmentDao dao = null;
+    public AbstractEntity service(Attachment attachment, Connection connection) throws ServiceException {
+        AttachmentDao dao;
         try {
-            dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT);
+            dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
             return dao.create(attachment);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot create attachment. Error has occurred. ", e);
             throw new ServiceException(e);
-        } finally {
-            if (dao != null) {
-                dao.exit();
-            }
         }
     }
 

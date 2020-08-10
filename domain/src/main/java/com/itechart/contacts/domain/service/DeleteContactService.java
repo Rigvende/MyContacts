@@ -8,6 +8,7 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.sql.Connection;
 
 /**
  * Class-service for deleting contacts
@@ -19,11 +20,11 @@ public class DeleteContactService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update = soft delete (set timestamp value in field deleted)
-    public boolean service(long... ids) throws ServiceException {
+    public boolean service(Connection connection, long... ids) throws ServiceException {
         if (ids != null) {
-            ContactDao dao = null;
+            ContactDao dao;
             try {
-                dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT);
+                dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT, connection);
                 boolean flag = false;
                 for (long id : ids) {
                     flag = dao.softDelete(id);
@@ -32,10 +33,6 @@ public class DeleteContactService {
             } catch (ClassNotFoundException | DaoException e) {
                 LOGGER.log(Level.ERROR, "Cannot update contact. Error has occurred. ", e);
                 throw new ServiceException(e);
-            } finally {
-                if (dao != null) {
-                    dao.exit();
-                }
             }
         } else {
             return false;
