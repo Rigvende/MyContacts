@@ -1,4 +1,4 @@
-package com.itechart.contacts.domain.util;
+package com.itechart.contacts.web.util;
 
 import com.itechart.contacts.domain.exception.DaoException;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -9,6 +9,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Class for connection manipulations
+ * @author Marianna Patrusova
+ * @version 1.0
+ */
 public class DbcpManager {
 
     private final static Logger LOGGER = LogManager.getLogger();
@@ -21,7 +26,8 @@ public class DbcpManager {
     private final static String BUNDLE = "connectionDB";
     private final static String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
 
-    public static Connection getConnection() throws DaoException, ClassNotFoundException {
+    //create connection using data source pool
+    public static Connection createConnection() throws DaoException, ClassNotFoundException {
         ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE);
         String user = bundle.getString(USER);
         String pass = bundle.getString(PASS);
@@ -45,6 +51,53 @@ public class DbcpManager {
             throw new DaoException(e);
         }
         return connection;
+    }
+
+    //get connection from pool
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = DbcpManager.createConnection();
+            AutoCommitDisable(connection);
+        } catch (DaoException | ClassNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
+        }
+        return connection;
+    }
+
+    //return connection to pool
+    public static void exit(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection closing is failed", e);
+            }
+        }
+    }
+
+    //rollback connection
+    public static void rollBack(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
+            }
+        }
+    }
+
+    //disable auto-commit for rollback opportunity
+    public static void AutoCommitDisable(Connection connection) throws DaoException {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
+            throw new DaoException(e);
+        }
     }
 
 }

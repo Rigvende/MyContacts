@@ -2,8 +2,6 @@ package com.itechart.contacts.domain.dao;
 
 import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.exception.DaoException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.util.List;
 
@@ -14,10 +12,9 @@ import java.util.List;
  */
 public abstract class AbstractDao<T extends AbstractEntity> {
 
-    private final static Logger LOGGER = LogManager.getLogger();
     protected Connection connection;
 
-    public AbstractDao(Connection connection) throws DaoException, ClassNotFoundException {
+    public AbstractDao(Connection connection) {
         this.connection = connection;
     }
 

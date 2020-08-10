@@ -4,12 +4,10 @@ import com.itechart.contacts.domain.dao.impl.*;
 import com.itechart.contacts.domain.entity.AbstractEntity;
 import com.itechart.contacts.domain.entity.EntityType;
 import com.itechart.contacts.domain.exception.DaoException;
-
 import java.sql.Connection;
 
 /**
  * Class for creating instances of DAOs. "Fabric method" pattern is used
- *
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -20,7 +18,6 @@ public class DaoFactory {
 
     /**
      * Method: create concrete child of AbstractDao
-     *
      * @param entityType is instance {@link EntityType} enum
      * @return {@link AbstractDao<AbstractEntity>}
      */

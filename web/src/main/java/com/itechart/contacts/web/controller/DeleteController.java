@@ -1,9 +1,8 @@
 package com.itechart.contacts.web.controller;
 
-import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.DeleteContactService;
-import com.itechart.contacts.domain.util.DbcpManager;
+import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.validator.StringValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,7 @@ public class DeleteController extends HttpServlet {
     private final DeleteContactService service = new DeleteContactService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Connection connection = take();
+        Connection connection = DbcpManager.getConnection();
         String ids = request.getParameter("ids");
         long[] deleteIds = parseId(ids);
         try {
@@ -38,11 +37,11 @@ public class DeleteController extends HttpServlet {
             connection.commit();
             LOGGER.log(Level.INFO, "User deletes contacts: " + ids);
         } catch (ServiceException | SQLException e) {
-            rollBack(connection);
+            DbcpManager.rollBack(connection);
             LOGGER.log(Level.ERROR, "Request process of deleting contacts failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         } finally {
-            exit(connection);
+            DbcpManager.exit(connection);
         }
     }
 
@@ -57,53 +56,6 @@ public class DeleteController extends HttpServlet {
             }
         }
         return parsed;
-    }
-
-    //get connection from pool
-    private Connection take() {
-        Connection connection = null;
-        try {
-            connection = DbcpManager.getConnection();
-            AutoCommitDisable(connection);
-        } catch (DaoException | ClassNotFoundException e) {
-            e.printStackTrace();
-            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
-        }
-        return connection;
-    }
-
-    //return connection to pool
-    private void exit(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection closing is failed", e);
-            }
-        }
-    }
-
-    //rollback connection
-    private void rollBack(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
-            }
-        }
-    }
-
-    //disable auto-commit for rollback opportunity
-    private void AutoCommitDisable(Connection connection) throws DaoException {
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
-            throw new DaoException(e);
-        }
     }
 
 }

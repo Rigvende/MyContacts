@@ -2,10 +2,9 @@ package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.entity.impl.Contact;
 import com.itechart.contacts.domain.entity.impl.Photo;
-import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.*;
-import com.itechart.contacts.domain.util.DbcpManager;
+import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.scheduler.MailJob;
 import com.itechart.contacts.web.util.RequestParser;
 import org.apache.commons.fileupload.FileItem;
@@ -37,7 +36,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Class for contacts operations controller.
- *
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -68,7 +66,7 @@ public class ContactsController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Connection connection = take();
+        Connection connection = DbcpManager.getConnection();
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         response.setCharacterEncoding(UTF_8);  //response in ISO-8859-1, very bad for db data
@@ -78,17 +76,17 @@ public class ContactsController extends HttpServlet {
             out.println(json);
             connection.commit();
         } catch (ServiceException | SQLException e) {
-            rollBack(connection);
+            DbcpManager.rollBack(connection);
             e.printStackTrace();
             LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         } finally {
-            exit(connection);
+            DbcpManager.exit(connection);
         }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Connection connection = take();
+        Connection connection = DbcpManager.getConnection();
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
             LOGGER.log(Level.ERROR, "Cannot update contact: data is not multipart form");
@@ -148,17 +146,15 @@ public class ContactsController extends HttpServlet {
                 }
                 connection.commit();
             } catch (Exception e) {
-                rollBack(connection);
-                e.printStackTrace();
+                DbcpManager.rollBack(connection);
                 LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
             LOGGER.log(Level.ERROR, "File is oversized.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         } finally {
-            exit(connection);
+            DbcpManager.exit(connection);
         }
     }
 
@@ -224,53 +220,6 @@ public class ContactsController extends HttpServlet {
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
-        }
-    }
-
-    //get connection from pool
-    private Connection take() {
-        Connection connection = null;
-        try {
-            connection = DbcpManager.getConnection();
-            AutoCommitDisable(connection);
-        } catch (DaoException | ClassNotFoundException e) {
-            e.printStackTrace();
-            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
-        }
-        return connection;
-    }
-
-    //return connection to pool
-    private void exit(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection closing is failed", e);
-            }
-        }
-    }
-
-    //rollback connection
-    private void rollBack(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
-            }
-        }
-    }
-
-    //disable auto-commit for rollback opportunity
-    private void AutoCommitDisable(Connection connection) throws DaoException {
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
-            throw new DaoException(e);
         }
     }
 

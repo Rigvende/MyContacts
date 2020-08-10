@@ -1,10 +1,9 @@
 package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.entity.impl.Contact;
-import com.itechart.contacts.domain.exception.DaoException;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.MailService;
-import com.itechart.contacts.domain.util.DbcpManager;
+import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.validator.StringValidator;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -46,7 +45,7 @@ public class MailController extends HttpServlet {
 
     //получаем данные по id из чекбокса
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Connection connection = take();
+        Connection connection = DbcpManager.getConnection();
         String requestUrl = request.getRequestURI();
         String id = requestUrl.substring(CONTEXT.length()); //get contact id from url if exists
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
@@ -65,10 +64,11 @@ public class MailController extends HttpServlet {
                 connection.commit();
             }
         } catch (TemplateException | ServiceException | SQLException e) {
+            DbcpManager.rollBack(connection);
             LOGGER.log(Level.ERROR, "Request process of getting mail info failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, MESSAGE_FAIL);
         } finally {
-            exit(connection);
+            DbcpManager.exit(connection);
         }
     }
 
@@ -90,53 +90,6 @@ public class MailController extends HttpServlet {
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Request process of sending mail failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, MESSAGE_FAIL);
-        }
-    }
-
-    //get connection from pool
-    private Connection take() {
-        Connection connection = null;
-        try {
-            connection = DbcpManager.getConnection();
-            AutoCommitDisable(connection);
-        } catch (DaoException | ClassNotFoundException e) {
-            e.printStackTrace();
-            LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
-        }
-        return connection;
-    }
-
-    //return connection to pool
-    private void exit(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection closing is failed", e);
-            }
-        }
-    }
-
-    //rollback connection
-    private void rollBack(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                LOGGER.log(Level.WARN,"Connection rollback is failed", e);
-            }
-        }
-    }
-
-    //disable auto-commit for rollback opportunity
-    private void AutoCommitDisable(Connection connection) throws DaoException {
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR,"Cannot set autocommit false", e);
-            throw new DaoException(e);
         }
     }
 
