@@ -116,6 +116,8 @@
                 <input form="contactSave" type="text" class="field" id="idPhoto" name="idPhoto" hidden/>
                 <label for="statusPhoto"></label>
                 <input form="contactSave" type="text" class="field" id="statusPhoto" name="photo_status" hidden/>
+                <label for="pathPhoto"></label>
+                <input form="contactSave" type="text" class="field" id="pathPhoto" name="photo_path" hidden/>
                 <label class="popupPhoto">
                     <img class="stretch" src="../image/user_no_photo.png" id="searchImage" alt="фото">
                 </label>
@@ -161,7 +163,7 @@
         <br>
         <p style="font-size: 18px">Загрузить новое фото:</p>
         <label>
-            <input class="field" form="contactSave" id="photo" name="picture" size="1000" accept="image/*" type="file"/>
+            <input class="field" form="contactSave" id="photo" name="picture" size="5000" accept="image/*" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">
@@ -180,8 +182,6 @@
         <label>
             <input form="contactSave" type="text" name="phoneId" value="" hidden>
         </label>
-        <label for="statusPhone"></label>
-        <input form="contactSave" type="text" class="field" id="statusPhone" name="phone_status" hidden/>
         <table>
             <tr>
                 <td>
@@ -249,8 +249,6 @@
         <label>
             <input form="contactSave" type="text" name="attachmentId" value="" hidden>
         </label>
-        <label for="statusAttachment"></label>
-        <input form="contactSave" type="text" class="field" id="statusAttachment" name="attach_status" hidden/>
         <table>
             <tr>
                 <td>
@@ -263,7 +261,7 @@
         </table>
         <br>
         <label>
-            <input form="contactSave" class="field" id="attachment" name="attachment" size="1000" type="file"/>
+            <input form="contactSave" class="field" id="attachment" name="attachment" size="5000" type="file"/>
         </label>
         <br><br>
         <label>

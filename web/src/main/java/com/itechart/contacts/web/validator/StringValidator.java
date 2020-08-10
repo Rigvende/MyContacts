@@ -3,7 +3,6 @@ package com.itechart.contacts.web.validator;
 import com.itechart.contacts.domain.entity.impl.Gender;
 import com.itechart.contacts.domain.entity.impl.PhoneType;
 import com.itechart.contacts.web.util.Status;
-
 import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

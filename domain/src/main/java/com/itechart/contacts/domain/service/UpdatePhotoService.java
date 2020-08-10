@@ -47,7 +47,7 @@ public class UpdatePhotoService {
         try {
             dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO);
             photo = (Photo) dao.create(photo);
-            photo.setPath("../images/photos/" + photo.getPhotoId() + "/");
+            photo.setPath("../image/photos/" + photo.getPhotoId() + "/");
             if (dao.update(photo)) {
                 return photo;
             } else {

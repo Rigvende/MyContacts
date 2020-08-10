@@ -1,0 +1,10 @@
+09-08 22:44 INFO  web.controller.ContactsController - New contact was created
+09-08 22:47 INFO  web.controller.ContactsController - New contact was created
+09-08 22:51 INFO  web.controller.DeleteController - User deletes contacts: 150 
+09-08 22:52 INFO  web.controller.DeleteController - User deletes contacts: 151 
+09-08 22:53 INFO  web.controller.ContactsController - New contact was created
+09-08 22:53 INFO  domain.service.GetContactsService - User gets contact info: 152
+09-08 22:58 INFO  web.controller.ContactsController - New contact was created
+09-08 23:06 INFO  web.controller.ContactsController - New contact was created
+10-08 10:29 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+10-08 10:38 INFO  domain.service.GetContactsService - User gets contact info: 155

@@ -217,56 +217,58 @@ form.addEventListener('submit', function (event) {
                 modalSend.style.display = 'block';
             }
         }
-        var postData = createPostData();
+        // var postData = createPostData();
+        // request.open("POST", "../contacts/", true);
+        // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // request.send(postData);
         request.open("POST", "../contacts/", true);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send(postData);
+        request.send(new FormData(form));
     }
 })
 
 //формирование данных запроса
-function createPostData() {
-    var id = idContact.value;
-    var name = nameField.value;
-    var surname = surnameField.value;
-    var patronymic = patronymicField.value;
-    var birthday = birthdayField.value;
-    var gender = document.querySelector('input[name="gender"]:checked').value;
-    var citizenship = citizenshipField.value;
-    var status = statusField.value;
-    var website = siteField.value;
-    var email = emailField.value;
-    var work = workField.value;
-    var country = countryField.value;
-    var city = cityField.value;
-    var location = addressField.value;
-    var zipcode = zipField.value;
-    var photoId = idPhoto.value;
-
-    var postData = 'id=' + id;
-    postData += '&name=' + encodeURIComponent(name);
-    postData += '&surname=' + encodeURIComponent(surname);
-    postData += '&patronymic=' + encodeURIComponent(patronymic);
-    postData += '&birthday=' + encodeURIComponent(birthday);
-    postData += '&gender=' + encodeURIComponent(gender);
-    postData += '&citizenship=' + encodeURIComponent(citizenship);
-    postData += '&status=' + encodeURIComponent(status);
-    postData += '&website=' + encodeURIComponent(website);
-    postData += '&email=' + encodeURIComponent(email);
-    postData += '&work=' + encodeURIComponent(work);
-    postData += '&country=' + encodeURIComponent(country);
-    postData += '&city=' + encodeURIComponent(city);
-    postData += '&location=' + encodeURIComponent(location);
-    postData += '&zipcode=' + encodeURIComponent(zipcode);
-    postData += '&photoId=' + encodeURIComponent(photoId);
-    var photoPath;
-    var photoName;//fixme
-    if (photoId) {
-        photoPath = "../image/photos/" + photoId + "/";
-        postData += '&photo_path=' + encodeURIComponent(photoPath);
-    }
-    return postData;
-}
+// function createPostData() {
+//     var id = idContact.value;
+//     var name = nameField.value;
+//     var surname = surnameField.value;
+//     var patronymic = patronymicField.value;
+//     var birthday = birthdayField.value;
+//     var gender = document.querySelector('input[name="gender"]:checked').value;
+//     var citizenship = citizenshipField.value;
+//     var status = statusField.value;
+//     var website = siteField.value;
+//     var email = emailField.value;
+//     var work = workField.value;
+//     var country = countryField.value;
+//     var city = cityField.value;
+//     var location = addressField.value;
+//     var zipcode = zipField.value;
+//     var photoId = idPhoto.value;
+//
+//     var postData = 'id=' + id;
+//     postData += '&name=' + encodeURIComponent(name);
+//     postData += '&surname=' + encodeURIComponent(surname);
+//     postData += '&patronymic=' + encodeURIComponent(patronymic);
+//     postData += '&birthday=' + encodeURIComponent(birthday);
+//     postData += '&gender=' + encodeURIComponent(gender);
+//     postData += '&citizenship=' + encodeURIComponent(citizenship);
+//     postData += '&status=' + encodeURIComponent(status);
+//     postData += '&website=' + encodeURIComponent(website);
+//     postData += '&email=' + encodeURIComponent(email);
+//     postData += '&work=' + encodeURIComponent(work);
+//     postData += '&country=' + encodeURIComponent(country);
+//     postData += '&city=' + encodeURIComponent(city);
+//     postData += '&location=' + encodeURIComponent(location);
+//     postData += '&zipcode=' + encodeURIComponent(zipcode);
+//     postData += '&photoId=' + encodeURIComponent(photoId);
+//     var photoPath;
+//     var photoName;//fixme
+//     if (photoId) {
+//         photoPath = "../image/photos/" + photoId + "/";
+//         postData += '&photo_path=' + encodeURIComponent(photoPath);
+//     }
+//     return postData;
+// }
 
 //////////////////////////
 //вызов всплывающего окошка для загрузки фото
@@ -286,19 +288,16 @@ var photoSrc;
 
 function readURL() {
     if (this.files && this.files[0]) {
-
             var reader = new FileReader();
             $(reader).on('load', function (e) {
                 validatePhoto();
                 errors = popupPhoto.querySelectorAll('.error');
-                alert(errors.length);
                 if (!errors || errors.length === 0) {
                     photoSrc = e.target.result;
                     $('#searchImage').attr('src', photoSrc);
                 }
             });
             reader.readAsDataURL(this.files[0]);
-
     }
 }
 

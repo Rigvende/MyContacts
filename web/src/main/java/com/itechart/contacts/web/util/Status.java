@@ -1,5 +1,10 @@
 package com.itechart.contacts.web.util;
 
+/**
+ * Enum for contact data changing flags.
+ * @author Marianna Patrusova
+ * @version 1.0
+ */
 public enum Status {
 
     NEW ("new"),
