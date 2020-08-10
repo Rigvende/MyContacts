@@ -28,7 +28,7 @@ public class StringValidator {
     private final static String CHECK_BIRTHDAY = "^([\\d]){4}-([\\d]){1,2}-([\\d]){1,2}$";
     private final static String CHECK_PATH_PHOTO = "^\\.\\./image/photos/[\\d]+/$";
     private final static String CHECK_PATH_FILE = "^\\.\\./attachments/[\\d]+/$";
-    private final static String CHECK_FILE_NAME = "^[-\\w\\s_]+\\.([\\w]){2,4}$";
+    private final static String CHECK_FILE_NAME = "^[-.\\w\\s_]+\\.([\\w]){2,4}$";
     private final static int MINI_TEXT_LENGTH = 45;
     private final static int TEXT_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;
@@ -99,7 +99,8 @@ public class StringValidator {
         Pattern pattern = Pattern.compile(CHECK_ID);
         Matcher matcher = pattern.matcher(number);
         if (matcher.find()) {
-            return new BigInteger(number).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0;
+            return (new BigInteger(number).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) < 0
+                    && Long.parseLong(number) > 0);
         }
         return number.isEmpty();
     }

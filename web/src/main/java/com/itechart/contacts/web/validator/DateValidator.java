@@ -14,7 +14,7 @@ public class DateValidator {
     //birthday
     public static boolean isValidDate(LocalDate date) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startDate = LocalDate.of(1920, 1, 1);
+        LocalDate startDate = LocalDate.of(LocalDate.now().getYear() - 100, 1, 1);
         return date.compareTo(currentDate) <= 0 && date.compareTo(startDate) >= 0;
     }
 

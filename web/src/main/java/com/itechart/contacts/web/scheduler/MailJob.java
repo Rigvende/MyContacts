@@ -26,8 +26,8 @@ public class MailJob implements Job {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String LETTER = "Сегодня день рождения у ваших контактов: \n";
-    private final static String MAIL = "zvezdo4ka13@yandex.by"; //fixme
-    private final static String HEADER = "Дни рождения ";
+    private final static String MAIL = "zvezdo4ka13@yandex.by"; //fixme задать адрес пользователя приложения
+    private final static String HEADER = "Дни рождения";
 
     @Override
     public void execute(JobExecutionContext context) {
@@ -37,15 +37,17 @@ public class MailJob implements Job {
         try {
             dao = (ContactDao) DaoFactory.createDao(EntityType.CONTACT, connection);
             List<String> birthdayList = dao.findAllByBirthday();
-            for (String person : birthdayList) {
-                message.append(person).append("\n");
+            if (!birthdayList.isEmpty()) {
+                for (String person : birthdayList) {
+                    message.append(person).append("\n");
+                }
+                MailService service = new MailService();
+                String header = HEADER + LocalDate.now();
+                String body = message.toString();
+                service.service(MAIL, header, body);
+                connection.commit();
+                LOGGER.log(Level.INFO, "Daily birthday list is send");
             }
-            MailService service = new MailService();
-            String header = HEADER + LocalDate.now() ;
-            String body = message.toString();
-            service.service(MAIL, header, body);
-            connection.commit();
-            LOGGER.log(Level.INFO, "Daily birthday list is send");
         } catch (DaoException | ClassNotFoundException | ServiceException | SQLException e) {
             DbcpManager.rollBack(connection);
             LOGGER.log(Level.WARN, "Error while sending birthdays by e-mail has occurred. ", e);
