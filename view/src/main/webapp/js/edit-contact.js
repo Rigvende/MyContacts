@@ -40,6 +40,11 @@ var phoneType;
 var phoneComment;
 var phoneId;
 var phoneStatus;
+var attachmentComment;
+var attachmentId;
+var attachmentStatus;
+var attachmentFile;
+
 //обязательные для заполнения поля
 var fields = [];
 fields.push(nameField);
@@ -138,6 +143,40 @@ function addPhoneForm() {
     phoneStatus = divPhone.querySelector('#phoneStatus');
 }
 
+//добавление каждого вложения в скрытую форму
+function addAttachmentForm() {
+    var divAttachment = document.createElement('div');
+    divAttachment.classList.add('divAttachment');
+    divAttachment.setAttribute('id', 'attachment' + ++attachmentCounter);
+    divAttachment.innerHTML = "<label>\n" +
+        "            <input form=\"contactSave\" type=\"text\" id=\"attachmentId\" name=\"attachments[][attachmentId]\" value=\"\" hidden>\n" +
+        "        </label>\n" +
+        "        <table>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Комментарий\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <input form=\"contactSave\" class=\"field\" id=\"attachmentComment\" type=\"text\" name=\"attachments[][attachmentComment]\" value=\"\"/>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "        </table>\n" +
+        "        <br>\n" +
+        "        <label>\n" +
+        "            <input form=\"contactSave\" class=\"field\" id=\"attachmentFile\" name=\"attachments[][file]\" size=\"5000\" type=\"file\"/>\n" +
+        "        </label>\n" +
+        "        <br><br>\n" +
+        "        <label>\n" +
+        "            <input form=\"contactSave\" type=\"text\" id=\"attachmentStatus\" name=\"attachments[][attachmentStatus]\" value=\"\" hidden>\n" +
+        "        </label>";
+    var modalForm = popupAttachment.querySelector('.modalContent').querySelector('.modalForm');
+    modalForm.appendChild(divAttachment);
+    attachmentId = divAttachment.querySelector('#attachmentId');
+    attachmentFile = divAttachment.querySelector('#attachmentFile');
+    attachmentComment = divAttachment.querySelector('#attachmentComment');
+    attachmentStatus = divAttachment.querySelector('#attachmentStatus');
+}
+
 //автозаполнение контакта по выбранному чекбоксу
 function autofill() {
     createTableHead();
@@ -201,6 +240,11 @@ function autofill() {
 
                         if (person.attachments) {
                             for (var attach of person.attachments) {
+                                addAttachmentForm();
+                                attachmentId.value = attach.id_attachment;
+                                attachmentComment.value = attach.a_comments;
+                                attachmentFile.value = attach.a_path;
+
                                 tr = document.createElement('tr');
                                 attachTable.appendChild(tr);
                                 checkbox = '<label><input type="checkbox" class="checkbox" value="'
@@ -216,7 +260,6 @@ function autofill() {
                         attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
                     }
                 }
-
             }
             request.open('GET', '../contacts/' + id);
             request.send();
@@ -247,30 +290,20 @@ returnBtn.addEventListener('click', function () {
 //закрытие модальных окошек
 var closeBtn = document.querySelectorAll('.close');
 
+//по кнопке отмены и крестику
 closeBtn.forEach(btn => {
     btn.addEventListener('click', () => {
         setNone();
         if (btn.closest('.modal') === popupPhone) {
-            popupPhone.querySelectorAll('.divPhone').forEach(div => {
-                if (phoneCounter === +div.id.substring(5)
-                    && div.querySelector('#phoneStatus').value !== 'updated'
-                    && div.querySelector('#phoneStatus').value !== 'deleted') {
-                    div.parentNode.removeChild(div);
-                } else {
-                    div.style.display = 'none';
-                }
-            })
+            closeAddEditPhone();
         }
-        // if (btn.closest('.modal') === popupAttachment) {
-        //     popupAttachment.querySelectorAll('.divPhone').forEach(div => {
-        //         if (phoneCounter === +div.id.substring(10)) {
-        //             div.parentNode.removeChild(div);
-        //         }
-        //     })
-        // }
+        if (btn.closest('.modal') === popupAttachment) {
+            closeAddEditAttachment();
+        }
     })
 })
 
+//по внешнему окну
 window.onclick = function (event) {
     if (event.target === popupPhone
         || event.target === popupAttachment
@@ -280,26 +313,41 @@ window.onclick = function (event) {
         || event.target === errEdit) {
         setNone();
         if (event.target === popupPhone) {
-            popupPhone.querySelectorAll('.divPhone').forEach(div => {
-                if (phoneCounter === +div.id.substring(5)
-                    && div.querySelector('#phoneStatus').value !== 'updated'
-                    && div.querySelector('#phoneStatus').value !== 'deleted') {
-                    div.parentNode.removeChild(div);
-                } else {
-                    div.style.display = 'none';
-                }
-            })
+            closeAddEditPhone();
         }
-        // if(event.target === popupAttachment) {
-        //     popupAttachment.querySelectorAll('.divPhone').forEach(div => {
-        //         if (phoneCounter === +div.id.substring(10)) {
-        //             div.parentNode.removeChild(div);
-        //         }
-        //     })
-        // }
+        if(event.target === popupAttachment) {
+            closeAddEditAttachment();
+        }
     }
 }
 
+//удаление дива телефона при нажатии отмены на окне "добавить"
+function closeAddEditPhone() {
+    popupPhone.querySelectorAll('.divPhone').forEach(div => {
+        if (phoneCounter === +div.id.substring(5)
+            && div.querySelector('#phoneStatus').value !== 'updated'
+            && div.querySelector('#phoneStatus').value !== 'deleted') {
+            div.parentNode.removeChild(div);
+        } else {
+            div.style.display = 'none';
+        }
+    })
+}
+
+//удаление дива вложения при нажатии отмены на окне "добавить"
+function closeAddEditAttachment() {
+    popupAttachment.querySelectorAll('.divAttachment').forEach(div => {
+        if (attachmentCounter === +div.id.substring(10)
+            && div.querySelector('#attachmentStatus').value !== 'updated'
+            && div.querySelector('#attachmentStatus').value !== 'deleted') {
+            div.parentNode.removeChild(div);
+        } else {
+            div.style.display = 'none';
+        }
+    })
+}
+
+//скрытие окошек
 function setNone() {
     popupPhone.style.display = "none";
     popupAttachment.style.display = "none";
@@ -384,16 +432,15 @@ cancel.addEventListener('click', function () {
 })
 
 //////////////////////////////
-//обработка приложений
+//обработка вложений
 var popupAttachment = document.querySelector('#messageAttachment');
 var createAttachment = document.querySelector('#createAttachment');
 var editAttachment = document.querySelector('#editAttachment');
 var deleteAttachment = document.querySelector('#deleteAttachment');
 var ATable = document.querySelector('#attachmentsTable');
-var attachmentComment = document.querySelector("#attachmentComment");
-var attachment = document.querySelector('#attachment');
 
 createAttachment.addEventListener('click', () => {
+    addAttachmentForm();
     popupAttachment.style.display = "block";
 })
 
@@ -403,9 +450,10 @@ deleteAttachment.addEventListener('click', () => {
     attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
 })
 
-//добавляем новое приложение
+//добавляем новое вложение
 var addAttachBtn = document.querySelector('#attachmentButton');
 
+//получить сегодняшнюю дату загрузки
 function getToday() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -422,23 +470,24 @@ function addAttachment(event) {
     if (!errors || errors.length === 0) {
         tr = document.createElement('tr');
         attachTable.appendChild(tr);
-        checkbox = '<label><input type="checkbox" class="checkbox" value=""/></label>';
+        var idChbx = attachmentComment.closest('div').id;
+        checkbox = '<label><input type="checkbox" class="checkbox" id="' + idChbx + '" value=""/></label>';
         var today = getToday();
         createTd(checkbox, tr);
-        createTd(attachment.value, tr);
+        createTd(attachmentFile.value, tr);
         createTd(today, tr);
         createTd(attachmentComment.value, tr);
         attachmentCheckboxes = [];
         attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
+        attachmentComment.closest('div').style.display = 'none';
         popupAttachment.style.display = 'none';
     }
 }
 
 addAttachBtn.addEventListener('click', addAttachment);
 
-var chboxAttachment;
-
 //редактирование по чекбоксу
+var chboxAttachment;
 editAttachment.addEventListener('click', () => {
     var checkedBoxes = [];
     attachmentCheckboxes.forEach(box => {
@@ -449,17 +498,31 @@ editAttachment.addEventListener('click', () => {
     switch (checkedBoxes.length) {
         case 1:
             chboxAttachment = checkedBoxes[0];
-            var tr = chboxAttachment.closest('tr');
-            var tds = tr.querySelectorAll('td');
-            attachment.innerHTML = tds[1].innerHTML;
-            attachmentComment.value = tds[3].innerHTML;
-            popupAttachment.style.display = 'block';
-            addAttachBtn.removeEventListener('click', addAttachment);
-            addAttachBtn.addEventListener('click', editAttachments);
+            var editDiv;
+            var divs = popupAttachment.querySelectorAll('.divAttachment');
+            divs.forEach(div => {
+                if (chboxAttachment.id === div.querySelector('#attachmentId').value || chboxAttachment.id === div.id) {
+                    editDiv = div;
+                }
+            });
+            if (editDiv) {
+                attachmentId = editDiv.querySelector('#attachmentId');
+                attachmentFile = editDiv.querySelector('#attachmentFile');
+                attachmentComment = editDiv.querySelector('#attachmentComment');
+                attachmentStatus = editDiv.querySelector('#attachmentStatus');
+                var tr = chboxAttachment.closest('tr');
+                var tds = tr.querySelectorAll('td');
+                attachmentComment.value = tds[3].innerHTML;
+                attachmentStatus.value = 'updated';
+                alert(attachmentId.value + " " + attachmentComment.value + " " + attachmentStatus.value + " " + attachmentFile.value);
+                popupAttachment.style.display = 'block';
+                editDiv.style.display = 'block';
+                addAttachBtn.removeEventListener('click', addAttachment);
+                addAttachBtn.addEventListener('click', editAttachments);
+            }
             break;
         case 0:
-            errDeleteEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
-            errDeleteEdit.style.display = 'block';
+            showWarning();
             break;
         default:
             errEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
@@ -471,9 +534,10 @@ editAttachment.addEventListener('click', () => {
 function editAttachments() {
     var tr = chboxAttachment.closest('tr');
     var tds = tr.querySelectorAll('td');
-    tds[1].innerHTML = attachment.value;
+    tds[1].innerHTML = attachmentFile.value;
     tds[2].innerHTML = getToday();
     tds[3].innerHTML = attachmentComment.value;
+    attachmentComment.closest('div').style.display = 'none';
     popupAttachment.style.display = 'none';
     chboxAttachment.checked = false;
     addPhoneBtn.removeEventListener('click', editAttachments);
@@ -613,12 +677,12 @@ function checkChoice(checkboxes) {
 function deleteRows(table, checkboxes) {
     var i = checkboxes.length;
     checkChoice(checkboxes);
-    var phoneIds = [];
+    var ids = [];
     while (i-- && i >= 0) {
         var chbox = checkboxes[i];
         if (chbox.checked === true) {
             if (chbox.id.trim()) {
-                phoneIds.push(chbox.id);
+                ids.push(chbox.id);
             }
             var tr = chbox.closest('tr');
             table.deleteRow(tr.rowIndex);
@@ -628,12 +692,12 @@ function deleteRows(table, checkboxes) {
     function deletePhoneForm() {
         var divs = popupPhone.querySelectorAll('.divPhone');
         divs.forEach(div => {
-            for (var i = 0; i < phoneIds.length; i++) {
-                if (phoneIds[i] === div.querySelector('#phoneId').value) {
+            for (var i = 0; i < ids.length; i++) {
+                if (ids[i] === div.querySelector('#phoneId').value) {
                     div.querySelector('#phoneStatus').value = 'deleted';
                     div.removeAttribute('id');
                 }
-                if (phoneIds[i] === div.id) {
+                if (ids[i] === div.id) {
                     div.parentNode.removeChild(div);
                 }
             }
@@ -641,6 +705,23 @@ function deleteRows(table, checkboxes) {
     }
 
     deletePhoneForm();
+
+    function deleteAttachForm() {
+        var divs = popupAttachment.querySelectorAll('.divAttachment');
+        divs.forEach(div => {
+            for (var i = 0; i < ids.length; i++) {
+                if (ids[i] === div.querySelector('#attachmentId').value) {
+                    div.querySelector('#attachmentStatus').value = 'deleted';
+                    div.removeAttribute('id');
+                }
+                if (ids[i] === div.id) {
+                    div.parentNode.removeChild(div);
+                }
+            }
+        })
+    }
+
+    deleteAttachForm();
 }
 
 //валидация полей основной части
@@ -679,8 +760,8 @@ function validateAttachment() {
     for (var i = 0; i < errors.length; i++) {
         errors[i].remove();
     }
-    checkFieldPresence(attachment);
-    validateSize(attachment);
+    checkFieldPresence(attachmentFile);
+    validateSize(attachmentFile);
     validateLength(attachmentComment);
 }
 
