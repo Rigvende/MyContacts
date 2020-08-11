@@ -13,6 +13,8 @@ var phonesTable = document.querySelector("#phonesTable");
 var attachTable = document.querySelector("#attachmentsTable");
 var errDeleteEdit = document.querySelector('#errorDeleteEdit');
 var errEdit = document.querySelector('#errorEdit');
+var phoneCounter = 0;
+var attachmentCounter = 0;
 //поля
 var idContact = document.querySelector('#idField');
 var idPhoto = document.querySelector('#idPhoto');
@@ -31,6 +33,13 @@ var countryField = document.querySelector('#countryField');
 var cityField = document.querySelector('#cityField');
 var addressField = document.querySelector('#addressField');
 var zipField = document.querySelector('#zipField');
+var phoneCountry;
+var phoneOperator;
+var phoneNumber;
+var phoneType;
+var phoneComment;
+var phoneId;
+var phoneStatus;
 //обязательные для заполнения поля
 var fields = [];
 fields.push(nameField);
@@ -58,6 +67,75 @@ function createTableHead() {
     createTd('<b>Имя</b>', th);
     createTd('<b>Загружено</b>', th);
     createTd('<b>Комментарий</b>', th);
+}
+
+//добавление каждого телефона в скрытую форму
+function addPhoneForm() {
+    var divPhone = document.createElement('div');
+    divPhone.classList.add('divPhone');
+    divPhone.setAttribute('id', 'phone' + ++phoneCounter);
+    divPhone.innerHTML = "<label>\n" +
+        "            <input form=\"contactSave\" type=\"text\" id=\"phoneId\" name=\"phones[][phoneId]\" value=\"\" hidden>\n" +
+        "        </label>\n" +
+        "        <table>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Код страны\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneCountry\" type=\"text\" name=\"phones[][countryCode]\" value=\"\"/>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Код оператора\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneOperator\" type=\"text\" name=\"phones[][operatorCode]\" value=\"\"/>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Номер\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneNumber\" type=\"text\" name=\"phones[][number]\" value=\"\"/>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Тип\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <select form=\"contactSave\" class=\"field\" id=\"phoneType\" name=\"phones[][phoneType]\">\n" +
+        "                        <option>иной</option>\n" +
+        "                        <option>домашний</option>\n" +
+        "                        <option>рабочий</option>\n" +
+        "                        <option>мобильный</option>\n" +
+        "                    </select>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "            <tr>\n" +
+        "                <td>\n" +
+        "                    Комментарий\n" +
+        "                </td>\n" +
+        "                <td><label>\n" +
+        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneComment\" type=\"text\" name=\"phones[][phoneComment]\" value=\"\"/>\n" +
+        "                </label></td>\n" +
+        "            </tr>\n" +
+        "        </table>\n" +
+        "        <label>\n" +
+        "            <input form=\"contactSave\" type=\"text\" id=\"phoneStatus\" name=\"phones[][phoneStatus]\" value=\"\" hidden>\n" +
+        "        </label>";
+    var modalForm = popupPhone.querySelector('.modalContent').querySelector('.modalForm');
+    modalForm.appendChild(divPhone);
+    phoneId = divPhone.querySelector('#phoneId');
+    phoneCountry = divPhone.querySelector("#phoneCountry");
+    phoneOperator = divPhone.querySelector("#phoneOperator");
+    phoneNumber = divPhone.querySelector("#phoneNumber");
+    phoneType = divPhone.querySelector("#phoneType");
+    phoneComment = divPhone.querySelector("#phoneComment");
+    phoneStatus = divPhone.querySelector('#phoneStatus');
 }
 
 //автозаполнение контакта по выбранному чекбоксу
@@ -100,13 +178,21 @@ function autofill() {
 
                         if (person.phones) {
                             for (var phone of person.phones) {
+                                addPhoneForm();
+                                phoneCountry.value = phone.p_country;
+                                phoneOperator.value = phone.p_operator;
+                                phoneNumber.value = phone.p_number;
+                                phoneType.value = phone.p_type;
+                                phoneComment.value = phone.p_comments;
+                                phoneId.value = phone.id_phone;
+
                                 tr = document.createElement('tr');
                                 phonesTable.appendChild(tr);
                                 checkbox = '<label><input type="checkbox" class="checkbox" value="'
                                     + phone.id_phone + '"/></label>';
-                                var phoneNumber = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
+                                var phoneNum = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
                                 createTd(checkbox, tr);
-                                createTd(phoneNumber, tr);
+                                createTd(phoneNum, tr);
                                 createTd(phone.p_type, tr);
                                 createTd(phone.p_comments, tr);
                             }
@@ -164,6 +250,24 @@ var closeBtn = document.querySelectorAll('.close');
 closeBtn.forEach(btn => {
     btn.addEventListener('click', () => {
         setNone();
+        if (btn.closest('.modal') === popupPhone) {
+            popupPhone.querySelectorAll('.divPhone').forEach(div => {
+                if (phoneCounter === +div.id.substring(5)
+                    && div.querySelector('#phoneStatus').value !== 'updated'
+                    && div.querySelector('#phoneStatus').value !== 'deleted') {
+                    div.parentNode.removeChild(div);
+                } else {
+                    div.style.display = 'none';
+                }
+            })
+        }
+        // if (btn.closest('.modal') === popupAttachment) {
+        //     popupAttachment.querySelectorAll('.divPhone').forEach(div => {
+        //         if (phoneCounter === +div.id.substring(10)) {
+        //             div.parentNode.removeChild(div);
+        //         }
+        //     })
+        // }
     })
 })
 
@@ -175,6 +279,24 @@ window.onclick = function (event) {
         || event.target === errDeleteEdit
         || event.target === errEdit) {
         setNone();
+        if (event.target === popupPhone) {
+            popupPhone.querySelectorAll('.divPhone').forEach(div => {
+                if (phoneCounter === +div.id.substring(5)
+                    && div.querySelector('#phoneStatus').value !== 'updated'
+                    && div.querySelector('#phoneStatus').value !== 'deleted') {
+                    div.parentNode.removeChild(div);
+                } else {
+                    div.style.display = 'none';
+                }
+            })
+        }
+        // if(event.target === popupAttachment) {
+        //     popupAttachment.querySelectorAll('.divPhone').forEach(div => {
+        //         if (phoneCounter === +div.id.substring(10)) {
+        //             div.parentNode.removeChild(div);
+        //         }
+        //     })
+        // }
     }
 }
 
@@ -217,58 +339,10 @@ form.addEventListener('submit', function (event) {
                 modalSend.style.display = 'block';
             }
         }
-        // var postData = createPostData();
-        // request.open("POST", "../contacts/", true);
-        // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        // request.send(postData);
         request.open("POST", "../contacts/", true);
         request.send(new FormData(form));
     }
 })
-
-//формирование данных запроса
-// function createPostData() {
-//     var id = idContact.value;
-//     var name = nameField.value;
-//     var surname = surnameField.value;
-//     var patronymic = patronymicField.value;
-//     var birthday = birthdayField.value;
-//     var gender = document.querySelector('input[name="gender"]:checked').value;
-//     var citizenship = citizenshipField.value;
-//     var status = statusField.value;
-//     var website = siteField.value;
-//     var email = emailField.value;
-//     var work = workField.value;
-//     var country = countryField.value;
-//     var city = cityField.value;
-//     var location = addressField.value;
-//     var zipcode = zipField.value;
-//     var photoId = idPhoto.value;
-//
-//     var postData = 'id=' + id;
-//     postData += '&name=' + encodeURIComponent(name);
-//     postData += '&surname=' + encodeURIComponent(surname);
-//     postData += '&patronymic=' + encodeURIComponent(patronymic);
-//     postData += '&birthday=' + encodeURIComponent(birthday);
-//     postData += '&gender=' + encodeURIComponent(gender);
-//     postData += '&citizenship=' + encodeURIComponent(citizenship);
-//     postData += '&status=' + encodeURIComponent(status);
-//     postData += '&website=' + encodeURIComponent(website);
-//     postData += '&email=' + encodeURIComponent(email);
-//     postData += '&work=' + encodeURIComponent(work);
-//     postData += '&country=' + encodeURIComponent(country);
-//     postData += '&city=' + encodeURIComponent(city);
-//     postData += '&location=' + encodeURIComponent(location);
-//     postData += '&zipcode=' + encodeURIComponent(zipcode);
-//     postData += '&photoId=' + encodeURIComponent(photoId);
-//     var photoPath;
-//     var photoName;//fixme
-//     if (photoId) {
-//         photoPath = "../image/photos/" + photoId + "/";
-//         postData += '&photo_path=' + encodeURIComponent(photoPath);
-//     }
-//     return postData;
-// }
 
 //////////////////////////
 //вызов всплывающего окошка для загрузки фото
@@ -285,22 +359,20 @@ var checkedSrc = contactPhoto.src;
 
 //предпросмотр выбранного фото без сохранения на сервер
 var photoSrc;
-
 function readURL() {
     if (this.files && this.files[0]) {
-            var reader = new FileReader();
-            $(reader).on('load', function (e) {
-                validatePhoto();
-                errors = popupPhoto.querySelectorAll('.error');
-                if (!errors || errors.length === 0) {
-                    photoSrc = e.target.result;
-                    $('#searchImage').attr('src', photoSrc);
-                }
-            });
-            reader.readAsDataURL(this.files[0]);
+        var reader = new FileReader();
+        $(reader).on('load', function (e) {
+            validatePhoto();
+            errors = popupPhoto.querySelectorAll('.error');
+            if (!errors || errors.length === 0) {
+                photoSrc = e.target.result;
+                $('#searchImage').attr('src', photoSrc);
+            }
+        });
+        reader.readAsDataURL(this.files[0]);
     }
 }
-
 $("#photo").change(readURL);
 
 //сброс выбора к первоначальному фото
@@ -344,7 +416,6 @@ function getToday() {
 }
 
 function addAttachment(event) {
-//создаем hidden html с полями //fixme
     event.preventDefault();
     validateAttachment();
     errors = popupAttachment.querySelectorAll('.error');
@@ -363,7 +434,7 @@ function addAttachment(event) {
     }
 }
 
-addAttachBtn.addEventListener('click', addAttachment)
+addAttachBtn.addEventListener('click', addAttachment);
 
 var chboxAttachment;
 
@@ -416,11 +487,6 @@ var createPhone = document.querySelector('#createPhone');
 var editPhone = document.querySelector('#editPhone');
 var deletePhone = document.querySelector('#deletePhone');
 var PTable = document.querySelector('#phonesTable');
-var phoneCountry = document.querySelector("#phoneCountry");
-var phoneOperator = document.querySelector("#phoneOperator");
-var phoneNumber = document.querySelector("#phoneNumber");
-var phoneType = document.querySelector("#phoneType");
-var phoneComment = document.querySelector("#phoneComment");
 
 //удаляем телефон
 deletePhone.addEventListener('click', () => {
@@ -431,20 +497,20 @@ deletePhone.addEventListener('click', () => {
 
 //добавляем новый телефон
 createPhone.addEventListener('click', () => {
+    addPhoneForm();
     popupPhone.style.display = "block";
 })
 
 var addPhoneBtn = document.querySelector('#phoneButton');
-
 function addPhone(event) {
-//создаем hidden html с полями //fixme
     event.preventDefault();
     validatePhone();
     errors = popupPhone.querySelectorAll('.error');
     if (!errors || errors.length === 0) {
         tr = document.createElement('tr');
         phonesTable.appendChild(tr);
-        checkbox = '<label><input type="checkbox" class="checkbox" value=""/></label>';
+        var idChbx = phoneCountry.closest('div').id;
+        checkbox = '<label><input type="checkbox" class="checkbox" id="' + idChbx + '" value=""/></label>';
         var number = phoneCountry.value + '/' + phoneOperator.value + '/' + phoneNumber.value;
         createTd(checkbox, tr);
         createTd(number, tr);
@@ -452,15 +518,14 @@ function addPhone(event) {
         createTd(phoneComment.value, tr);
         phoneCheckboxes = [];
         phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
+        phoneCountry.closest('div').style.display = 'none';
         popupPhone.style.display = 'none';
     }
 }
-
 addPhoneBtn.addEventListener('click', addPhone);
 
 //редактирование по чекбоксу
 var chboxPhone;
-
 editPhone.addEventListener('click', () => {
     var checkedBoxes = [];
     phoneCheckboxes.forEach(box => {
@@ -471,21 +536,38 @@ editPhone.addEventListener('click', () => {
     switch (checkedBoxes.length) {
         case 1:
             chboxPhone = checkedBoxes[0];
-            var tr = chboxPhone.closest('tr');
-            var tds = tr.querySelectorAll('td');
-            var splitNumber = tds[1].innerHTML.split("/");
-            phoneCountry.value = splitNumber[0];
-            phoneOperator.value = splitNumber[1];
-            phoneNumber.value = splitNumber[2];
-            phoneType.value = tds[2].innerHTML;
-            phoneComment.value = tds[3].innerHTML;
-            popupPhone.style.display = 'block';
-            addPhoneBtn.removeEventListener('click', addPhone);
-            addPhoneBtn.addEventListener('click', editPhones);
+            var editDiv;
+            var divs = popupPhone.querySelectorAll('.divPhone');
+            divs.forEach(div => {
+                if (chboxPhone.id === div.querySelector('#phoneId').value || chboxPhone.id === div.id) {
+                    editDiv = div;
+                }
+            });
+            if (editDiv) {
+                phoneId = editDiv.querySelector('#phoneId');
+                phoneCountry = editDiv.querySelector("#phoneCountry");
+                phoneOperator = editDiv.querySelector("#phoneOperator");
+                phoneNumber = editDiv.querySelector("#phoneNumber");
+                phoneType = editDiv.querySelector("#phoneType");
+                phoneComment = editDiv.querySelector("#phoneComment");
+                phoneStatus = editDiv.querySelector('#phoneStatus');
+                var tr = chboxPhone.closest('tr');
+                var tds = tr.querySelectorAll('td');
+                var splitNumber = tds[1].innerHTML.split("/");
+                phoneCountry.value = splitNumber[0];
+                phoneOperator.value = splitNumber[1];
+                phoneNumber.value = splitNumber[2];
+                phoneType.value = tds[2].innerHTML;
+                phoneComment.value = tds[3].innerHTML;
+                phoneStatus.value = 'updated';
+                popupPhone.style.display = 'block';
+                editDiv.style.display = 'block';
+                addPhoneBtn.removeEventListener('click', addPhone);
+                addPhoneBtn.addEventListener('click', editPhones);
+            }
             break;
         case 0:
-            errDeleteEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
-            errDeleteEdit.style.display = 'block';
+            showWarning();
             break;
         default:
             errEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
@@ -494,32 +576,71 @@ editPhone.addEventListener('click', () => {
     }
 })
 
+//изменение таблицы телефонов при изменении данных
 function editPhones() {
     var tr = chboxPhone.closest('tr');
     var tds = tr.querySelectorAll('td');
     tds[1].innerHTML = phoneCountry.value + '/' + phoneOperator.value + '/' + phoneNumber.value;
     tds[2].innerHTML = phoneType.value;
     tds[3].innerHTML = phoneComment.value;
+    phoneCountry.closest('div').style.display = 'none';
     popupPhone.style.display = 'none';
     chboxPhone.checked = false;
     addPhoneBtn.removeEventListener('click', editPhones);
     addPhoneBtn.addEventListener('click', addPhone);
 }
 
+//окошко предупреждения, если не выбраны чекбоксы
+function showWarning() {
+    errDeleteEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
+    errDeleteEdit.style.display = 'block';
+}
+
+//проверка нажаты ли чекбоксы для редактирования, удаления
+function checkChoice(checkboxes) {
+    var checkedBoxes = [];
+    checkboxes.forEach(box => {
+        if (box.checked) {
+            checkedBoxes.push(box);
+        }
+    });
+    if (checkedBoxes.length === 0) {
+        showWarning(checkedBoxes);
+    }
+}
+
 //удаление строк таблиц по чекбоксам
 function deleteRows(table, checkboxes) {
     var i = checkboxes.length;
-    if (i === 0) {
-        errDeleteEdit.querySelector('.modalContent').style.backgroundColor = 'chocolate';
-        errDeleteEdit.style.display = 'block';
-    }
+    checkChoice(checkboxes);
+    var phoneIds = [];
     while (i-- && i >= 0) {
         var chbox = checkboxes[i];
         if (chbox.checked === true) {
+            if (chbox.id.trim()) {
+                phoneIds.push(chbox.id);
+            }
             var tr = chbox.closest('tr');
             table.deleteRow(tr.rowIndex);
         }
     }
+
+    function deletePhoneForm() {
+        var divs = popupPhone.querySelectorAll('.divPhone');
+        divs.forEach(div => {
+            for (var i = 0; i < phoneIds.length; i++) {
+                if (phoneIds[i] === div.querySelector('#phoneId').value) {
+                    div.querySelector('#phoneStatus').value = 'deleted';
+                    div.removeAttribute('id');
+                }
+                if (phoneIds[i] === div.id) {
+                    div.parentNode.removeChild(div);
+                }
+            }
+        })
+    }
+
+    deletePhoneForm();
 }
 
 //валидация полей основной части

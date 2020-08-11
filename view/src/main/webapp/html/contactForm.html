@@ -179,60 +179,8 @@
         <span class="close closeX">&times;</span>
         <br>
         <p style="font-size: 18px">Введите данные телефона:</p>
-        <label>
-            <input form="contactSave" type="text" name="phoneId" value="" hidden>
-        </label>
-        <table>
-            <tr>
-                <td>
-                    Код страны
-                </td>
-                <td><label>
-                    <input form="contactSave" class="field" id="phoneCountry" type="text" name="countryCode" value=""/>
-                </label></td>
-            </tr>
-            <tr>
-                <td>
-                    Код оператора
-                </td>
-                <td><label>
-                    <input form="contactSave" class="field" id="phoneOperator" type="text" name="operatorCode" value=""/>
-                </label></td>
-            </tr>
-            <tr>
-                <td>
-                    Номер
-                </td>
-                <td><label>
-                    <input form="contactSave" class="field" id="phoneNumber" type="text" name="number" value=""/>
-                </label></td>
-            </tr>
-            <tr>
-                <td>
-                    Тип
-                </td>
-                <td><label>
-                    <select form="contactSave" class="field" id="phoneType" name="phoneType">
-                        <option>иной</option>
-                        <option>домашний</option>
-                        <option>рабочий</option>
-                        <option>мобильный</option>
-                    </select>
-                </label></td>
-            </tr>
-            <tr>
-                <td>
-                    Комментарий
-                </td>
-                <td><label>
-                    <input form="contactSave" class="field" id="phoneComment" type="text" name="phoneComment" value=""/>
-                </label></td>
-            </tr>
-        </table>
-        <label>
-            <input form="contactSave" type="text" name="phoneStatus" value="" hidden>
-        </label>
-        <br><br>
+        <div class="modalForm"></div>
+        <br>
         <div class="modalButtons">
             <input type="button" class="pageButton modalBtn small" id="phoneButton" value="Добавить">
             <input type="button" class="close pageButton modalBtn small" value="Отмена">

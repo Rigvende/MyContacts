@@ -125,19 +125,23 @@ function validateZip(zip) {
 
 //проверка телефонных кодов
 function validateCode(code) {
-    var regex = /^([-+\d]){2,5}$/;
-    if (!regex.test(code.value)) {
-        var error = generateError('Неподходящие данные (символы)');
-        code.parentElement.insertBefore(error, code);
+    if (code.value !== null && code.value.trim()) {
+        var regex = /^([-+\d]){2,5}$/;
+        if (!regex.test(code.value)) {
+            var error = generateError('Неподходящие данные (символы)');
+            code.parentElement.insertBefore(error, code);
+        }
     }
 }
 
 //проверка телефонного номера
 function validateNumber(number) {
-    var regex = /^[\d]([-\d]){4,9}$/;
-    if (!regex.test(number.value)) {
-        var error = generateError('Неподходящие данные (символы)');
-        number.parentElement.insertBefore(error, number);
+    if (number.value !== null && number.value.trim()) {
+        var regex = /^[\d]([-\d]){4,9}$/;
+        if (!regex.test(number.value)) {
+            var error = generateError('Неподходящие данные');
+            number.parentElement.insertBefore(error, number);
+        }
     }
 }
 
