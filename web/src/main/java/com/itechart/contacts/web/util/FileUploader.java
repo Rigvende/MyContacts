@@ -18,13 +18,27 @@ public class FileUploader {
         File fileDir = new File(photoPath + id);
         if (!fileDir.exists()) {
             fileDir.mkdir();
+        } else {
+            for (File file: fileDir.listFiles()) {
+                if (file.isFile()) {
+                    file.delete();
+                }
+            }
         }
-        File file = new File(fileDir + "\\" + fileName);
-        item.write(file);
-        File server_dir;
+        File photo = new File(fileDir + "\\" + fileName);
+        item.write(photo);
         String dirPath = getClass().getResource("/").getPath();
-        server_dir = new File(buildNewDirPath(dirPath) + id + "\\");
-        FileUtils.copyFileToDirectory(file, server_dir);
+        File serverDir = new File(buildNewDirPath(dirPath) + id + "\\");
+        if (!serverDir.exists()) {
+            serverDir.mkdir();
+        } else {
+            for (File file: serverDir.listFiles()) {
+                if (file.isFile()) {
+                    file.delete();
+                }
+            }
+        }
+        FileUtils.copyFileToDirectory(photo, serverDir);
     }
 
     //building the new dir path for copying the loaded file to container

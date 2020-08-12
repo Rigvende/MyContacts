@@ -176,7 +176,7 @@ public class RequestParser {
                 id = Long.parseLong(photoId);
                 path = photoPath;
             }
-            return new Photo(id, path, name);
+            return new Photo(id, path, name, photoStatus);
         } else {
             return null;
         }

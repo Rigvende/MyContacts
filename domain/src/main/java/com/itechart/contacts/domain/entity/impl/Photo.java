@@ -14,12 +14,14 @@ public class Photo extends AbstractEntity {
     private long photoId;
     private String path;
     private String name;
+    private String status;
 
     public Photo() {}
-    public Photo(long photoId, String path, String name) {
+    public Photo(long photoId, String path, String name, String status) {
         this.photoId = photoId;
         this.path = path;
         this.name = name;
+        this.status = status;
     }
 
     public long getPhotoId() {
@@ -39,6 +41,14 @@ public class Photo extends AbstractEntity {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

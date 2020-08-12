@@ -288,15 +288,8 @@ public class Main {
 //        x = x.substring(x.lastIndexOf("\\") + 1);
 //        System.out.println(x);
 
-        String fileName = "0.txt";
-        File file;
-        String filePath = "view\\src\\main\\webapp\\image\\photos\\" + 900;
-        File fileDir = new File(filePath);
-        if (!fileDir.exists()) {
-            fileDir.mkdir();
-        }
-        file = new File(filePath + "\\" + fileName);
-        file.createNewFile();
+        for (File file: new File("C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\image\\photos\\100").listFiles())
+            if (file.isFile()) file.delete();
 
 
 

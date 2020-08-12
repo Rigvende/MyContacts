@@ -8,6 +8,7 @@ import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.scheduler.MailJob;
 import com.itechart.contacts.web.util.FileUploader;
 import com.itechart.contacts.web.util.RequestParser;
+import com.itechart.contacts.web.util.Status;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -121,7 +122,6 @@ public class ContactsController extends HttpServlet {
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;
                         parameters.put("photo_name", item.getName());
-                        System.out.println("photo_name=" + item.getName());
                     } else {
                         parameters.put("file_name" + counter, item.getName());
                         System.out.println("file_name" + counter + item.getName());
@@ -135,8 +135,12 @@ public class ContactsController extends HttpServlet {
                 if (contact != null && contact.getContactId() != 0L) {
                     //ОБНОВИТЬ
                     updateContactService.service(contact.getContactId(), contact, connection);
-                    if (photo != null && photo.getPhotoId() != 0L) {
+                    if (photo != null && photo.getPhotoId() != 0L) {//
                         updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection);
+                        if (photoItem != null && !photo.getName().isEmpty()
+                                && photo.getStatus().equals(Status.UPDATED.getValue())) {
+                            uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
+                        }
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
                 } else {

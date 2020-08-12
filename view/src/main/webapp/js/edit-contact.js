@@ -33,6 +33,7 @@ var countryField = document.querySelector('#countryField');
 var cityField = document.querySelector('#cityField');
 var addressField = document.querySelector('#addressField');
 var zipField = document.querySelector('#zipField');
+var photoStatus;
 var phoneCountry;
 var phoneOperator;
 var phoneNumber;
@@ -418,6 +419,8 @@ function readURL() {
             if (!errors || errors.length === 0) {
                 photoSrc = e.target.result;
                 $('#searchImage').attr('src', photoSrc);
+                photoStatus = document.querySelector("#statusPhoto");
+                photoStatus.value = 'updated';
             }
         });
         reader.readAsDataURL(this.files[0]);

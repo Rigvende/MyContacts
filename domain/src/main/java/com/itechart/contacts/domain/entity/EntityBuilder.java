@@ -96,7 +96,7 @@ public class EntityBuilder {
             long id = resultSet.getLong("id_photo");
             String path = resultSet.getString("photo_path");
             String name = resultSet.getString("photo_name");
-            photo = new Photo(id, path, name);
+            photo = new Photo(id, path, name, null);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build attachment. Error has occurred. ", e);
             throw new DaoException(e);

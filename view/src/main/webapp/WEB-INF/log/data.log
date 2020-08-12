@@ -132,3 +132,62 @@ java.sql.SQLException: No value specified for parameter 3
 12-08 09:41 INFO  web.controller.ContactsController - Contact # 174 was updated
 12-08 09:41 INFO  domain.service.GetContactsService - User gets contact info: 172
 12-08 09:41 INFO  domain.service.GetContactsService - User gets contact info: 174
+12-08 09:56 INFO  web.controller.ContactsController - New contact was created
+12-08 09:56 INFO  domain.service.GetContactsService - User gets contact info: 175
+12-08 09:56 INFO  web.controller.ContactsController - Contact # 175 was updated
+12-08 09:56 INFO  domain.service.GetContactsService - User gets contact info: 175
+12-08 09:57 INFO  web.controller.ContactsController - Contact # 175 was updated
+12-08 09:57 INFO  domain.service.GetContactsService - User gets contact info: 175
+12-08 09:57 INFO  web.controller.ContactsController - Contact # 175 was updated
+12-08 09:57 INFO  domain.service.GetContactsService - User gets contact info: 175
+12-08 10:08 INFO  web.controller.ContactsController - New contact was created
+12-08 10:08 INFO  domain.service.GetContactsService - User gets contact info: 176
+12-08 10:08 INFO  web.controller.ContactsController - Contact # 176 was updated
+12-08 10:08 INFO  domain.service.GetContactsService - User gets contact info: 176
+12-08 10:08 INFO  web.controller.ContactsController - New contact was created
+12-08 10:08 INFO  domain.service.GetContactsService - User gets contact info: 177
+12-08 10:09 INFO  web.controller.ContactsController - Contact # 177 was updated
+12-08 10:09 INFO  domain.service.GetContactsService - User gets contact info: 177
+12-08 10:09 INFO  domain.service.GetContactsService - User gets contact info: 176
+12-08 10:20 INFO  web.controller.ContactsController - New contact was created
+12-08 10:21 INFO  domain.service.GetContactsService - User gets contact info: 175
+12-08 10:21 INFO  web.controller.ContactsController - Contact # 175 was updated
+12-08 10:21 INFO  web.controller.DeleteController - User deletes contacts: 175 
+12-08 10:21 INFO  web.controller.DeleteController - User deletes contacts: 178 
+12-08 10:21 INFO  web.controller.DeleteController - User deletes contacts: 176 
+12-08 10:24 INFO  web.controller.ContactsController - New contact was created
+12-08 10:24 INFO  domain.service.GetContactsService - User gets contact info: 179
+12-08 10:24 INFO  web.controller.ContactsController - Contact # 179 was updated
+12-08 10:25 INFO  domain.service.GetContactsService - User gets contact info: 179
+12-08 10:29 INFO  web.controller.ContactsController - New contact was created
+12-08 10:29 INFO  domain.service.GetContactsService - User gets contact info: 180
+12-08 10:29 INFO  web.controller.ContactsController - Contact # 180 was updated
+12-08 10:31 INFO  domain.service.GetContactsService - User gets contact info: 180
+12-08 10:31 INFO  web.controller.ContactsController - New contact was created
+12-08 10:31 INFO  domain.service.GetContactsService - User gets contact info: 181
+12-08 10:32 INFO  web.controller.ContactsController - Contact # 181 was updated
+12-08 10:32 INFO  domain.service.GetContactsService - User gets contact info: 181
+12-08 10:32 INFO  web.controller.ContactsController - Contact # 181 was updated
+12-08 10:32 INFO  domain.service.GetContactsService - User gets contact info: 181
+12-08 10:35 INFO  web.controller.DeleteController - User deletes contacts: 180 181 
+12-08 10:36 INFO  web.controller.ContactsController - New contact was created
+12-08 10:36 INFO  domain.service.GetContactsService - User gets contact info: 182
+12-08 10:36 INFO  web.controller.ContactsController - Contact # 182 was updated
+12-08 10:36 INFO  domain.service.GetContactsService - User gets contact info: 182
+12-08 10:36 INFO  web.controller.ContactsController - Contact # 182 was updated
+12-08 10:36 INFO  domain.service.GetContactsService - User gets contact info: 182
+12-08 10:36 INFO  web.controller.ContactsController - New contact was created
+12-08 10:36 INFO  domain.service.GetContactsService - User gets contact info: 183
+12-08 10:37 INFO  web.controller.ContactsController - Contact # 183 was updated
+12-08 10:37 INFO  domain.service.GetContactsService - User gets contact info: 183
+12-08 10:57 INFO  web.controller.ContactsController - New contact was created
+12-08 10:57 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 10:57 INFO  web.controller.ContactsController - Contact # 184 was updated
+12-08 10:57 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 10:58 INFO  web.controller.ContactsController - Contact # 184 was updated
+12-08 10:58 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 10:58 INFO  web.controller.ContactsController - Contact # 184 was updated
+12-08 10:58 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 10:59 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 10:59 INFO  web.controller.ContactsController - Contact # 184 was updated
+12-08 10:59 INFO  domain.service.GetContactsService - User gets contact info: 184
