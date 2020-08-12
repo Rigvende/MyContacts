@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Class for file upload operations.

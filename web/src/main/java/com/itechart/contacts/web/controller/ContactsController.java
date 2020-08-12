@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
@@ -108,6 +111,7 @@ public class ContactsController extends HttpServlet {
         factory.setSizeThreshold(1024 * 1024);
         factory.setRepository(new File(extraPath));
         ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setHeaderEncoding(UTF_8);
         upload.setSizeMax(1024 * 1024 * 5);
         try {
             List<FileItem> fileItems = upload.parseRequest(request);
@@ -116,7 +120,7 @@ public class ContactsController extends HttpServlet {
             List<Phone> phones = new ArrayList<>();
             Map<String, String> attachmentParameters = new HashMap<>();
             List<Attachment> attachments = new ArrayList<>();
-            int counter = 1;
+            int counter = 1;//fixme
             FileItem photoItem = null;
             for (FileItem item : fileItems) {
                 if (item.isFormField()) {
@@ -129,7 +133,6 @@ public class ContactsController extends HttpServlet {
                         parameters.put("photo_name", item.getName());
                     } else {
                         parameters.put("file_name" + counter, item.getName());
-                        System.out.println("file_name" + counter + item.getName());
                         counter++;
                     }
                 }

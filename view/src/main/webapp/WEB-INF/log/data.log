@@ -204,3 +204,27 @@ java.sql.SQLException: No value specified for parameter 3
 12-08 14:32 INFO  domain.service.GetContactsService - User gets contact info: 188
 12-08 14:32 INFO  web.controller.ContactsController - Contact # 188 was updated
 12-08 14:32 INFO  domain.service.GetContactsService - User gets contact info: 188
+12-08 14:54 INFO  web.controller.ContactsController - New contact was created
+12-08 14:56 INFO  web.controller.ContactsController - New contact was created
+12-08 14:58 INFO  domain.service.GetContactsService - User gets contact info: 1
+12-08 15:00 INFO  web.controller.ContactsController - New contact was created
+12-08 15:00 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:01 INFO  web.controller.ContactsController - New contact was created
+12-08 15:07 INFO  domain.service.GetContactsService - User gets contact info: 2
+12-08 15:25 ERROR web.controller.ContactsController - File is oversized.
+12-08 15:27 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:33 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:35 INFO  web.controller.ContactsController - New contact was created
+12-08 15:35 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:39 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:40 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:45 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:46 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:54 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 15:57 INFO  web.controller.ContactsController - New contact was created
+12-08 16:02 INFO  domain.service.GetContactsService - User gets contact info: 194
+12-08 16:14 INFO  domain.service.GetContactsService - User gets contact info: 188
+12-08 16:14 INFO  web.controller.ContactsController - Contact # 188 was updated
+12-08 16:14 INFO  domain.service.GetContactsService - User gets contact info: 188
+12-08 16:15 INFO  web.controller.MailController - User sends email
+12-08 16:16 INFO  web.controller.SearchController - User uses filter for searching contacts

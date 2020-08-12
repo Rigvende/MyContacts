@@ -389,6 +389,7 @@ form.addEventListener('submit', function (event) {
             }
         }
         request.open("POST", "../contacts/", true);
+        // request.setRequestHeader('Content-Type', 'multipart/form-data;charset=UTF-8');
         request.send(new FormData(form));
     }
 })
