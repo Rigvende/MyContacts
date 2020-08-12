@@ -15,7 +15,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,13 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -148,16 +144,41 @@ public class ContactsController extends HttpServlet {
             try {
                 if (contact != null && contact.getContactId() != 0L) {
                     //ОБНОВИТЬ
-                    updateContactService.service(contact.getContactId(), contact, connection);
+                    updateContactService.service(contact.getContactId(), contact, connection);//изменить контакт
                     if (photo != null && photo.getPhotoId() != 0L
                             && photo.getStatus().equals(Status.UPDATED.getValue())) {
-                        updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection);
+                        updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection); //изменить фото
                         if (photoItem != null && !photo.getName().isEmpty()
                                 && photo.getStatus().equals(Status.UPDATED.getValue())) {
-                            uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
+                            uploader.writePhoto(photoItem, photoPath, photo.getPhotoId()); //перезапись фото
                         }
                     } else if (photo != null && photo.getStatus().equals(Status.DELETED.getValue())) {
-                        updatePhotoService.service(photo.getPhotoId(), "", connection);
+                        updatePhotoService.service(photo.getPhotoId(), "", connection); //сброс фото
+                    }
+                    for (Phone phone: phones) {
+                        if (phone != null && phone.getPhoneId() != 0L
+                                && phone.getStatus().equals(Status.UPDATED.getValue())) {
+                            //обновить телефон
+                        } else if (phone != null && phone.getPhoneId() != 0L
+                                && phone.getStatus().equals(Status.DELETED.getValue())) {
+                            //удалить телефон
+                        } else if (phone != null && phone.getPhoneId() == 0L) {
+                            //создать новый телефон
+                        }
+                    }
+                    for (Attachment attachment: attachments) {
+                        if (attachment != null && attachment.getAttachmentId() != 0L
+                                && attachment.getStatus().equals(Status.UPDATED.getValue())) {
+                            //обновить вложение
+                            //перезапись файла
+                        } else if (attachment != null && attachment.getAttachmentId() != 0L
+                                && attachment.getStatus().equals(Status.DELETED.getValue())) {
+                            //удалить вложение
+                            //удалить файл
+                        } else if (attachment != null && attachment.getAttachmentId() == 0L) {
+                            //создать новое вложение
+                            //записать файл
+                        }
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
                 } else {
@@ -168,7 +189,7 @@ public class ContactsController extends HttpServlet {
                     }
                     updateContactService.service(contact, connection); //потом контакт
                     if (photoItem != null && !photo.getName().isEmpty()) {
-                        uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
+                        uploader.writePhoto(photoItem, photoPath, photo.getPhotoId()); //запись фото
                     }
                     for (Phone phone: phones) {
                         if (contact != null) {
@@ -181,7 +202,7 @@ public class ContactsController extends HttpServlet {
                             attachments.get(i).setContactId(contact.getContactId());
                         }
                         updateAttachmentService.service(attachments.get(i), connection); //потом вложение
-                        uploader.writeFile(files.get(i), filePath, attachments.get(i).getAttachmentId());
+                        uploader.writeFile(files.get(i), filePath, attachments.get(i).getAttachmentId()); //запись
                     }
                     LOGGER.log(Level.INFO, "New contact was created");
                 }

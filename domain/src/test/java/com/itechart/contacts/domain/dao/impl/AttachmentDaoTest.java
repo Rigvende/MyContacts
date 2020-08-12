@@ -23,6 +23,7 @@ class AttachmentDaoTest {
         AttachmentDao dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
         Attachment attachment = new Attachment();
         attachment.setAttachmentId(1);
+        attachment.setPath("../attachments/1/");
         attachment.setName("log4j.txt");
         attachment.setComments("adsfaf");
         assertTrue(dao.update(attachment));

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class for parsing request data and creating entities using this data.
+ * Class for parsing request form data and creating entities using this data.
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -21,7 +21,7 @@ public class RequestParser {
     private RequestParser() {
     }
 
-    //util method for getting each phone info from form data
+    //util method for getting each attachment info from form data
     public static void fillAttachments(List<Attachment> attachments, FileItem item, Map<String, String> attachmentParameters,
                                   String id, String name) throws UnsupportedEncodingException {
         switch (item.getFieldName()) {
