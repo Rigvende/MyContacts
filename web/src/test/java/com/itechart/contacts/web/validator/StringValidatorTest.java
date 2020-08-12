@@ -206,7 +206,7 @@ class StringValidatorTest {
     @Test
     void isValidFileName() {
         String file1 = "";
-        String file2 = "aaa.jpg";
+        String file2 = "ёёё.jpg";
         String file3 = "a123d_7.txt";
         String file4 = "aaa.dddddd";
         String file5 = "aaa/aa.txt";

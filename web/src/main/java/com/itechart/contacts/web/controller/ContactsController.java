@@ -1,6 +1,7 @@
 package com.itechart.contacts.web.controller;
 
 import com.itechart.contacts.domain.entity.impl.Contact;
+import com.itechart.contacts.domain.entity.impl.Phone;
 import com.itechart.contacts.domain.entity.impl.Photo;
 import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.*;
@@ -13,8 +14,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,9 +29,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -64,7 +62,7 @@ public class ContactsController extends HttpServlet {
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
 //    private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
-//    private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
+    private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
     @Override
     public void init() {
@@ -113,11 +111,15 @@ public class ContactsController extends HttpServlet {
         try {
             List<FileItem> fileItems = upload.parseRequest(request);
             Map<String, String> parameters = new HashMap<>();
+            Map<String, String> phoneParameters = new HashMap<>();
+            List<Phone> phones = new ArrayList<>();
             int counter = 1;
             FileItem photoItem = null;
             for (FileItem item : fileItems) {
                 if (item.isFormField()) {
                     parameters.put(item.getFieldName(), item.getString(UTF_8));
+                    System.out.println(item.getFieldName() + "=" + item.getString(UTF_8));
+                    RequestParser.fillPhones(phones, item, phoneParameters, parameters.get("idContact"));
                 } else {
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;

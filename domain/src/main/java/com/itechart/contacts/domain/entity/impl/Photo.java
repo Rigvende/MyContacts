@@ -42,11 +42,9 @@ public class Photo extends AbstractEntity {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -62,6 +60,7 @@ public class Photo extends AbstractEntity {
         Photo photo = (Photo) o;
         return photoId == photo.photoId
                 && Objects.equals(name, photo.name)
+                && Objects.equals(status, photo.status)
                 && Objects.equals(path, photo.path);
     }
 
@@ -71,6 +70,7 @@ public class Photo extends AbstractEntity {
         int result = 1;
         result = (int)(prime * result + photoId);
         result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
@@ -79,7 +79,8 @@ public class Photo extends AbstractEntity {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("Photo{");
         stringBuilder.append("photoId=").append(photoId).append(", path='")
-                .append(path).append('\'').append(", name='")
+                .append(path).append('\'').append(", status='")
+                .append(status).append('\'').append(", name='")
                 .append(name).append('\'').append('}');
         return stringBuilder.toString();
     }

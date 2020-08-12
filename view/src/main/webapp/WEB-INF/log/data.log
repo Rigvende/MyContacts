@@ -191,3 +191,12 @@ java.sql.SQLException: No value specified for parameter 3
 12-08 10:59 INFO  domain.service.GetContactsService - User gets contact info: 184
 12-08 10:59 INFO  web.controller.ContactsController - Contact # 184 was updated
 12-08 10:59 INFO  domain.service.GetContactsService - User gets contact info: 184
+12-08 13:30 INFO  web.scheduler.MailJob - Daily birthday list is send
+12-08 13:59 INFO  web.controller.ContactsController - New contact was created
+12-08 13:59 INFO  domain.service.GetContactsService - User gets contact info: 185
+12-08 13:59 INFO  web.controller.ContactsController - Contact # 185 was updated
+12-08 13:59 INFO  domain.service.GetContactsService - User gets contact info: 185
+12-08 14:15 INFO  web.controller.ContactsController - New contact was created
+12-08 14:15 INFO  domain.service.GetContactsService - User gets contact info: 186
+12-08 14:18 INFO  web.controller.ContactsController - New contact was created
+12-08 14:18 INFO  web.controller.DeleteController - User deletes contacts: 185 186 187 

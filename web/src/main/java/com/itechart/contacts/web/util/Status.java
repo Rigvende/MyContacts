@@ -7,7 +7,6 @@ package com.itechart.contacts.web.util;
  */
 public enum Status {
 
-    NEW ("new"),
     UPDATED ("updated"),
     DELETED ("deleted");
 

@@ -3,8 +3,12 @@ package com.itechart.contacts.web.util;
 import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.web.validator.DateValidator;
 import com.itechart.contacts.web.validator.StringValidator;
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload.FileItem;
+
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,17 +18,19 @@ import java.util.Map;
  */
 public class RequestParser {
 
+    private final static String UTF_8 = "UTF-8";
+
     private RequestParser() {
     }
 
-    public static Attachment createAttachment(HttpServletRequest request) {
-        String attachmentId = request.getParameter("attachmentId");
-        String attachmentStatus = request.getParameter("attachmentStatus");
-        String comment = request.getParameter("attachmentComment");
-        String attachmentPath = request.getParameter("attachmentPath");
-        String attachmentName = request.getParameter("attachmentName");
-        String loadDate = request.getParameter("loadDate");
-        String contactId = request.getParameter("id");
+    public static Attachment createAttachment(Map<String, String> request) {
+        String attachmentId = request.get("attachmentId");
+        String attachmentStatus = request.get("attachmentStatus");
+        String comment = request.get("attachmentComment");
+        String attachmentPath = request.get("attachmentPath");
+        String attachmentName = request.get("attachmentName");
+        String loadDate = request.get("loadDate");
+        String contactId = request.get("id");
         if (validateAttachment(attachmentId, attachmentName, attachmentPath,
                                attachmentStatus, comment, loadDate, contactId)) {
             if (attachmentName != null && !attachmentName.isEmpty()) {
@@ -49,7 +55,7 @@ public class RequestParser {
             } else {
                 date = null;
             }
-            return new Attachment(id, path, attachmentName, date, comment, idContact);
+            return new Attachment(id, path, attachmentName, date, comment, idContact, attachmentStatus);
         } else {
             return null;
         }
@@ -123,44 +129,6 @@ public class RequestParser {
                 && StringValidator.isValidZipcode(zipcode) && StringValidator.isValidId(photoId);
     }
 
-    public static Phone createPhone(HttpServletRequest request) {
-        String phoneId = request.getParameter("phoneId");
-        String countryCode = request.getParameter("p_code");
-        String operatorCode = request.getParameter("p_operator");
-        String number = request.getParameter("number");
-        String comments = request.getParameter("p_comments");
-        String phoneType = request.getParameter("p_type");
-        String contactId = request.getParameter("contactId");
-        String phoneStatus = request.getParameter("phoneStatus");
-        if (validatePhone(phoneId, countryCode, operatorCode, number,
-                          comments, phoneType, contactId, phoneStatus)) {
-            PhoneType type = PhoneType.getPhoneType(phoneType);
-            long id;
-            if (contactId != null && contactId.isEmpty()) {
-                id = Long.parseLong(phoneId);
-            } else {
-                id = 0L;
-            }
-            long idContact;
-            if (contactId != null && contactId.isEmpty()) {
-                 idContact = Long.parseLong(contactId);
-            } else {
-                idContact = 0L;
-            }
-            return new Phone(id, countryCode, operatorCode, number, type, comments, idContact);
-        } else {
-            return null;
-        }
-    }
-
-    private static boolean validatePhone(String id, String code, String operator, String number,
-                                         String comments, String phoneType, String contactId, String status) {
-        return StringValidator.isValidId(id) && StringValidator.isValidCode(code)
-                && StringValidator.isValidCode(operator) && StringValidator.isValidPhone(number)
-                && StringValidator.isValidComment(comments) && StringValidator.isValidType(phoneType)
-                && StringValidator.isValidId(contactId) && StringValidator.isValidStatus(status);
-    }
-
     public static Photo createPhoto(Map<String, String> request) {
         String name = request.get("photo_name");
         String photoId = request.get("idPhoto");
@@ -185,6 +153,76 @@ public class RequestParser {
     private static boolean validatePhoto(String id, String name, String path, String status) {
         return StringValidator.isValidId(id) && StringValidator.isValidFileName(name)
                 && StringValidator.isValidPhotoPath(path) && StringValidator.isValidStatus(status);
+    }
+
+    public static void fillPhones(List<Phone> phones, FileItem item, Map<String, String> phoneParameters, String id)
+                                                                           throws UnsupportedEncodingException {
+        switch (item.getFieldName()) {
+            case "phones[][phoneId]":
+                phoneParameters.put("phoneId", item.getString(UTF_8));
+                break;
+            case "phones[][countryCode]":
+                phoneParameters.put("countryCode", item.getString(UTF_8));
+                break;
+            case "phones[][operatorCode]":
+                phoneParameters.put("operatorCode", item.getString(UTF_8));
+                break;
+            case "phones[][number]":
+                phoneParameters.put("number", item.getString(UTF_8));
+                break;
+            case "phones[][phoneType]":
+                phoneParameters.put("phoneType", item.getString(UTF_8));
+                break;
+            case "phones[][phoneComment]":
+                phoneParameters.put("phoneComment", item.getString(UTF_8));
+                break;
+            case "phones[][phoneStatus]":
+                phoneParameters.put("phoneStatus", item.getString(UTF_8));
+                phoneParameters.put("contactId", id);
+                Phone phone = RequestParser.createPhone(phoneParameters);
+                phones.add(phone);
+                System.out.println(phone);
+                break;
+        }
+    }
+
+    public static Phone createPhone(Map<String, String> request) {
+            String phoneId = request.get("phoneId");
+            String countryCode = request.get("countryCode");
+            String operatorCode = request.get("operatorCode");
+            String number = request.get("number");
+            String comments = request.get("phoneComment");
+            String phoneType = request.get("phoneType");
+            String contactId = request.get("contactId");
+            String phoneStatus = request.get("phoneStatus");
+            if (validatePhone(phoneId, countryCode, operatorCode, number,
+                    comments, phoneType, contactId, phoneStatus)) {
+                PhoneType type = PhoneType.getPhoneType(phoneType);
+                long id;
+                if (phoneId != null && !phoneId.isEmpty()) {
+                    id = Long.parseLong(phoneId);
+                } else {
+                    id = 0L;
+                }
+                long idContact;
+                if (contactId != null && !contactId.isEmpty()) {
+                    idContact = Long.parseLong(contactId);
+                } else {
+                    idContact = 0L;
+                }
+                return new Phone(id, countryCode, operatorCode, number,
+                                 type, comments, idContact, phoneStatus);
+            } else {
+                return null;
+            }
+    }
+
+    private static boolean validatePhone(String id, String code, String operator, String number,
+                                         String comments, String phoneType, String contactId, String status) {
+        return StringValidator.isValidId(id) && StringValidator.isValidCode(code)
+                && StringValidator.isValidCode(operator) && StringValidator.isValidPhone(number)
+                && StringValidator.isValidComment(comments) && StringValidator.isValidType(phoneType)
+                && StringValidator.isValidId(contactId) && StringValidator.isValidStatus(status);
     }
 
 }

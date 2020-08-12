@@ -16,9 +16,9 @@ public class StringValidator {
 
     private StringValidator(){}
 
-    private final static String CHECK_NAME = "^[A-Za-zА-Яа-яЁё]+([\\s-]+[A-Za-zА-Яа-яЁё]+)?$";
-    private final static String CHECK_PATRONYMIC = "^[A-Za-zА-Яа-яЁё]+$";
-    private final static String CHECK_DATA = "^[-)\\\\(.,A-Za-zА-Яа-яЁё\\d\\s/]+$";
+    private final static String CHECK_NAME = "^[A-zА-яЁё]+([\\s-]+[A-zА-яЁё]+)?$";
+    private final static String CHECK_PATRONYMIC = "^[A-zА-яЁё]+$";
+    private final static String CHECK_DATA = "^[-)\\\\(.,A-zА-яЁё\\d\\s/]+$";
     private final static String CHECK_EMAIL = "^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
     private final static String CHECK_WEB = "([-\\w]+\\.)?([-\\w]+)\\.\\w+(?:\\.\\w+)?/?.*";
     private final static String CHECK_ZIP = "^[\\d]+[-]?[\\d]+$";
@@ -28,7 +28,7 @@ public class StringValidator {
     private final static String CHECK_BIRTHDAY = "^([\\d]){4}-([\\d]){1,2}-([\\d]){1,2}$";
     private final static String CHECK_PATH_PHOTO = "^\\.\\./image/photos/[\\d]+/$";
     private final static String CHECK_PATH_FILE = "^\\.\\./attachments/[\\d]+/$";
-    private final static String CHECK_FILE_NAME = "^[-.\\w\\s_]+\\.([\\w]){2,4}$";
+    private final static String CHECK_FILE_NAME = "^[-.\\wА-яЁё\\s_]+\\.([\\w]){2,4}$";
     private final static int MINI_TEXT_LENGTH = 45;
     private final static int TEXT_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;
@@ -130,7 +130,6 @@ public class StringValidator {
     //status
     public static boolean isValidStatus(String status) {
         return status.isEmpty()
-                || status.equals(Status.NEW.getValue())
                 || status.equals(Status.UPDATED.getValue())
                 || status.equals(Status.DELETED.getValue());
     }

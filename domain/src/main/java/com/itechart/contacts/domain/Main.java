@@ -18,6 +18,8 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -288,9 +290,49 @@ public class Main {
 //        x = x.substring(x.lastIndexOf("\\") + 1);
 //        System.out.println(x);
 
-        for (File file: new File("C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\image\\photos\\100").listFiles())
-            if (file.isFile()) file.delete();
-
+//        for (File file: new File("C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\image\\photos\\100").listFiles())
+//            if (file.isFile()) file.delete();
+//class Numbers {
+//    public String one;
+//    public String two;
+//    public String three;
+//    public Numbers(String one, String two, String three) {
+//        this.one = one;
+//        this.two = two;
+//        this.three = three;
+//    }
+//}
+//
+//List<String> list = new ArrayList<>();
+//        list.add("1");
+//        list.add("11");
+//        list.add("111");
+//        list.add("2");
+//        list.add("22");
+//        list.add("222");
+//        list.add("3");
+//        list.add("33");
+//        list.add("333");
+//        String one = "";
+//        String two = "";
+//        String three = "";
+//        List<Numbers> numbersList = new ArrayList<>();
+//        Numbers numbers;
+//        for (String s : list) {
+//            if (s.length() == 1) {
+//                one = s;
+//            } else if (s.length() == 2) {
+//                two = s;
+//            } else {
+//                three = s;
+//                numbers = new Numbers(one, two, three);
+//                numbersList.add(numbers);
+//            }
+//        }
+//        for (Numbers n: numbersList) {
+//            System.out.println(n.one + " " + n.two + " " + n.three);
+//        }
+//
 
 
 

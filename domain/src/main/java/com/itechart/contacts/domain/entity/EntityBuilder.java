@@ -30,7 +30,7 @@ public class EntityBuilder {
             LocalDate date = DateConverter.convertToLocalDate(resultSet.getDate("load_date"));
             String comments = resultSet.getString("comments");
             long contactId = resultSet.getLong("id_contact");
-            attachment = new Attachment(id, path, name, date, comments, contactId);
+            attachment = new Attachment(id, path, name, date, comments, contactId, null);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build attachment. Error has occurred. ", e);
             throw new DaoException(e);
@@ -82,7 +82,7 @@ public class EntityBuilder {
             String comments = resultSet.getString("comments");
             PhoneType type = PhoneType.getPhoneType(resultSet.getString("phone_type"));
             long contactId = resultSet.getLong("id_contact");
-            phone = new Phone(id, countryCode, operatorCode, number, type, comments, contactId);
+            phone = new Phone(id, countryCode, operatorCode, number, type, comments, contactId, null);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Cannot build attachment. Error has occurred. ", e);
             throw new DaoException(e);

@@ -18,16 +18,18 @@ public class Attachment extends AbstractEntity {
     private String comments;
     private LocalDate loadDate;
     private long contactId;
+    private String status;
 
     public Attachment() {}
-    public Attachment(long attachmentId, String path, String name,
-                      LocalDate loadDate, String comments, long contactId) {
+    public Attachment(long attachmentId, String path, String name, LocalDate loadDate,
+                      String comments, long contactId, String status) {
         this.attachmentId = attachmentId;
         this.path = path;
         this.name = name;
         this.comments = comments;
         this.loadDate = loadDate;
         this.contactId = contactId;
+        this.status = status;
     }
 
     public long getAttachmentId() {
@@ -66,6 +68,12 @@ public class Attachment extends AbstractEntity {
     public void setContactId(long contactId) {
         this.contactId = contactId;
     }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -81,6 +89,7 @@ public class Attachment extends AbstractEntity {
                 Objects.equals(path, attachment.path) &&
                 Objects.equals(name, attachment.name) &&
                 Objects.equals(comments, attachment.comments) &&
+                Objects.equals(status, attachment.status) &&
                 Objects.equals(loadDate, attachment.loadDate);
     }
 
@@ -92,6 +101,7 @@ public class Attachment extends AbstractEntity {
         result = prime * result + ((path == null) ? 0 : path.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((loadDate == null) ? 0 : loadDate.hashCode());
         return result;
     }
@@ -101,6 +111,7 @@ public class Attachment extends AbstractEntity {
         StringBuilder stringBuilder = new StringBuilder("Attachment{");
         stringBuilder.append("attachmentId=").append(attachmentId).append(", path='")
                 .append(path).append('\'').append(", name='").append(name)
+                .append('\'').append(", status='").append(status)
                 .append('\'').append(", comments='").append(comments)
                 .append('\'').append(", loadDate=").append(loadDate)
                 .append(", contactId=").append(contactId).append('}');

@@ -19,10 +19,11 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
     private PhoneType type;
     private String comments;
     private long contactId;
+    private String status;
 
     public Phone() {}
-    public Phone(long phoneId, String countryCode, String operatorCode,
-                 String number, PhoneType type, String comments, long contactId) {
+    public Phone(long phoneId, String countryCode, String operatorCode, String number,
+                 PhoneType type, String comments, long contactId, String status) {
         this.phoneId = phoneId;
         this.countryCode = countryCode;
         this.operatorCode = operatorCode;
@@ -30,6 +31,7 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
         this.type = type;
         this.comments = comments;
         this.contactId = contactId;
+        this.status = status;
     }
 
     public long getPhoneId() {
@@ -74,6 +76,12 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
     public void setContactId(long contactId) {
         this.contactId = contactId;
     }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -90,6 +98,7 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
                 && Objects.equals(operatorCode, phone.operatorCode)
                 && Objects.equals(number, phone.number)
                 && Objects.equals(type, phone.type)
+                && Objects.equals(status, phone.status)
                 && Objects.equals(comments, phone.comments);
     }
 
@@ -102,6 +111,7 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
         result = prime * result + ((operatorCode == null) ? 0 : operatorCode.hashCode());
         result = prime * result + ((number == null) ? 0 : number.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         return result;
     }
@@ -112,7 +122,8 @@ public class Phone extends AbstractEntity implements Serializable, Cloneable {
         stringBuilder.append("phoneId=").append(phoneId).append(", countryCode='")
                 .append(countryCode).append('\'').append(", operatorCode='")
                 .append(operatorCode).append('\'').append(", number='")
-                .append(number).append('\'').append(", type='").append(type)
+                .append(number).append('\'').append(", status='")
+                .append(status).append('\'').append(", type='").append(type)
                 .append('\'').append(", comments='").append(comments).append('\'')
                 .append(", contactId=").append(contactId).append('}');
         return stringBuilder.toString();
