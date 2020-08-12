@@ -101,3 +101,34 @@ java.sql.SQLException: No value specified for parameter 3
 	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33) [junit-rt.jar:?]
 	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230) [junit-rt.jar:?]
 	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58) [junit-rt.jar:?]
+11-08 23:22 INFO  web.controller.ContactsController - New contact was created
+11-08 23:26 INFO  domain.service.GetContactsService - User gets contact info: 1
+11-08 23:26 INFO  domain.service.GetContactsService - User gets contact info: 163
+11-08 23:26 INFO  web.controller.ContactsController - Contact # 163 was updated
+11-08 23:26 INFO  domain.service.GetContactsService - User gets contact info: 163
+12-08 08:46 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 08:46 INFO  domain.service.GetContactsService - User gets contact info: 1
+12-08 08:51 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 08:54 INFO  domain.service.GetContactsService - User gets contact info: 1
+12-08 08:55 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 08:59 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 09:09 INFO  web.controller.ContactsController - New contact was created
+12-08 09:17 INFO  web.controller.ContactsController - New contact was created
+12-08 09:17 INFO  domain.service.GetContactsService - User gets contact info: 169
+12-08 09:18 INFO  domain.service.GetContactsService - User gets contact info: 1
+12-08 09:18 INFO  domain.service.GetContactsService - User gets contact info: 169
+12-08 09:20 INFO  web.controller.ContactsController - New contact was created
+12-08 09:20 INFO  domain.service.GetContactsService - User gets contact info: 169
+12-08 09:24 INFO  web.controller.ContactsController - New contact was created
+12-08 09:24 INFO  domain.service.GetContactsService - User gets contact info: 171
+12-08 09:27 INFO  domain.service.GetContactsService - User gets contact info: 171
+12-08 09:27 INFO  web.controller.ContactsController - Contact # 171 was updated
+12-08 09:27 INFO  domain.service.GetContactsService - User gets contact info: 171
+12-08 09:39 INFO  web.controller.ContactsController - New contact was created
+12-08 09:39 INFO  domain.service.GetContactsService - User gets contact info: 172
+12-08 09:39 ERROR web.controller.ContactsController - Request process of finding contacts failed.
+12-08 09:41 INFO  web.controller.ContactsController - New contact was created
+12-08 09:41 INFO  domain.service.GetContactsService - User gets contact info: 174
+12-08 09:41 INFO  web.controller.ContactsController - Contact # 174 was updated
+12-08 09:41 INFO  domain.service.GetContactsService - User gets contact info: 172
+12-08 09:41 INFO  domain.service.GetContactsService - User gets contact info: 174

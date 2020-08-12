@@ -224,6 +224,7 @@ function autofill() {
                                 phoneType.value = phone.p_type;
                                 phoneComment.value = phone.p_comments;
                                 phoneId.value = phone.id_phone;
+                                alert(phoneId.value + " " + phoneStatus.value);
 
                                 tr = document.createElement('tr');
                                 phonesTable.appendChild(tr);
@@ -243,7 +244,8 @@ function autofill() {
                                 addAttachmentForm();
                                 attachmentId.value = attach.id_attachment;
                                 attachmentComment.value = attach.a_comments;
-                                attachmentFile.value = attach.a_path;
+                                attachmentFile.innerHTML = attach.a_path;
+                                alert(attachmentId.value + " " + attachmentStatus.value);
 
                                 tr = document.createElement('tr');
                                 attachTable.appendChild(tr);

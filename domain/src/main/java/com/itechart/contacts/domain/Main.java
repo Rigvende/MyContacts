@@ -13,6 +13,7 @@ import com.itechart.contacts.domain.service.UpdateAttachmentService;
 import com.itechart.contacts.domain.service.UpdateContactService;
 import com.itechart.contacts.domain.service.UpdatePhotoService;
 import freemarker.template.TemplateException;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -286,6 +287,28 @@ public class Main {
 //        String x = "C:\\Users\\Администратор.000\\IdeaProjects\\Contacts_Patrusova\\view\\src\\main\\webapp\\css\\style.css";
 //        x = x.substring(x.lastIndexOf("\\") + 1);
 //        System.out.println(x);
+
+        String fileName = "0.txt";
+        File file;
+        String filePath = "view\\src\\main\\webapp\\image\\photos\\" + 900;
+        File fileDir = new File(filePath);
+        if (!fileDir.exists()) {
+            fileDir.mkdir();
+        }
+        file = new File(filePath + "\\" + fileName);
+        file.createNewFile();
+
+
+
+
+
+
+
+
+
+
+
+
 
         ///////////////////
 //

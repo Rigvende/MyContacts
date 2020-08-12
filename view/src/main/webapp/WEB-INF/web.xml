@@ -19,14 +19,14 @@
     <description>Location to store uploaded photo</description>
     <param-name>photo-upload</param-name>
     <param-value>
-      C:\photo\
+      C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\image\photos\
     </param-value>
   </context-param>
   <context-param>
     <description>Location to store uploaded file</description>
     <param-name>file-upload</param-name>
     <param-value>
-      C:\attachments\
+      C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\attachments\
     </param-value>
   </context-param>
   <context-param>
@@ -36,7 +36,6 @@
       C:\temp\
     </param-value>
   </context-param>
-
   <context-param>
     <param-name>mail</param-name>
     <param-value>/domain/src/main/resources/mail.properties</param-value>

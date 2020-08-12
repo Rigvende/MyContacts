@@ -6,6 +6,7 @@ import com.itechart.contacts.domain.exception.ServiceException;
 import com.itechart.contacts.domain.service.*;
 import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.scheduler.MailJob;
+import com.itechart.contacts.web.util.FileUploader;
 import com.itechart.contacts.web.util.RequestParser;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -47,12 +48,17 @@ public class ContactsController extends HttpServlet {
 
     private static final long serialVersionUID = 8362021663142387750L;
     private final static Logger LOGGER = LogManager.getLogger();
+    private String photoPath, filePath, extraPath;
+    private final static String PHOTO_INIT_PARAMETER = "photo-upload";  //set according with server machine in web.xml
+    private final static String FILE_INIT_PARAMETER = "file-upload";    //set according with server machine in web.xml
+    private final static String INIT_PARAMETER_EXT = "file-upload-ext"; //set according with server machine in web.xml
     private final static String CONTEXT = "/view_war/contacts/"; //artifact war, context /view_war
     private final static String UTF_8 = "UTF-8";
     private final static String TYPE = "text/html; charset=UTF-8";
     private final static String JOB = "job1";
     private final static String GROUP = "group1";
     private final static String TRIGGER = "trigger1";
+    private final FileUploader uploader = new FileUploader();
     private final GetContactsService getContactsService = new GetContactsService();
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
@@ -62,6 +68,9 @@ public class ContactsController extends HttpServlet {
     @Override
     public void init() {
         setScheduler();
+        photoPath = getServletContext().getInitParameter(PHOTO_INIT_PARAMETER);
+        filePath = getServletContext().getInitParameter(FILE_INIT_PARAMETER);
+        extraPath = getServletContext().getInitParameter(INIT_PARAMETER_EXT);
     }
 
     //show contacts or concrete contact
@@ -97,7 +106,7 @@ public class ContactsController extends HttpServlet {
         }
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(1024 * 1024);
-        factory.setRepository(new File("C:/temp"));
+        factory.setRepository(new File(extraPath));
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax(1024 * 1024 * 5);
         try {
@@ -108,13 +117,11 @@ public class ContactsController extends HttpServlet {
             for (FileItem item : fileItems) {
                 if (item.isFormField()) {
                     parameters.put(item.getFieldName(), item.getString(UTF_8));
-                    System.out.println(item.getFieldName() + "=" + item.getString(UTF_8));
                 } else {
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;
                         parameters.put("photo_name", item.getName());
-                        String a = item.getName();
-                        System.out.println("photo_name=" + a);
+                        System.out.println("photo_name=" + item.getName());
                     } else {
                         parameters.put("file_name" + counter, item.getName());
                         System.out.println("file_name" + counter + item.getName());
@@ -122,29 +129,26 @@ public class ContactsController extends HttpServlet {
                     }
                 }
             }
-            System.out.println("file_name1=" + parameters.get("file_name1"));
             Contact contact = RequestParser.createContact(parameters);
-            System.out.println(contact);
             Photo photo = RequestParser.createPhoto(parameters);
-            System.out.println(photo);
             try {
-                if (contact != null && contact.getContactId() != 0L) { //обновить
+                if (contact != null && contact.getContactId() != 0L) {
+                    //ОБНОВИТЬ
                     updateContactService.service(contact.getContactId(), contact, connection);
                     if (photo != null && photo.getPhotoId() != 0L) {
                         updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection);
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
-                } else { //создать
+                } else {
+                    //СОЗДАТЬ
                     photo = (Photo) updatePhotoService.service(photo, connection);
-                    System.out.println(photo);
                     if (contact != null) {
                         contact.setPhotoId(photo.getPhotoId());
                     }
-                    contact = (Contact) updateContactService.service(contact, connection);
-                    System.out.println(contact);
-//                    if (photoItem != null) { fixme
-//                        writePhoto(photoItem, photo.getPhotoId());
-//                    }
+                    updateContactService.service(contact, connection);
+                    if (photoItem != null && !photo.getName().isEmpty()) {
+                        uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
+                    }
                     LOGGER.log(Level.INFO, "New contact was created");
                 }
                 connection.commit();
@@ -159,21 +163,6 @@ public class ContactsController extends HttpServlet {
         } finally {
             DbcpManager.exit(connection);
         }
-    }
-
-    //write photo on hard disk
-    private void writePhoto(FileItem item, long id) throws Exception {
-        String fileName = FilenameUtils.getName(item.getName());
-        File file;
-        String filePath = "../image/photos/" + id + "/";//fixme
-        System.out.println(filePath + fileName);
-        file = new File(filePath + fileName);
-        item.write(file);
-        File server_dir;
-        String dirPath = getClass().getResource("/").getPath();
-        System.out.println(dirPath);
-        server_dir = new File(dirPath + id + "/");  //fixme copy file to server dir
-        FileUtils.copyFileToDirectory(file, server_dir); //otherwise we can't see picture after loading
     }
 
     //set background task - daily birthdays checking
@@ -193,6 +182,7 @@ public class ContactsController extends HttpServlet {
                     .build();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
+            LOGGER.log(Level.ERROR, "Error in birthday scheduler has occurred");
             e.printStackTrace();
         }
     }
