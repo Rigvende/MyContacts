@@ -1,5 +1,6 @@
 package com.itechart.contacts.web.controller;
 
+import com.itechart.contacts.domain.entity.impl.Attachment;
 import com.itechart.contacts.domain.entity.impl.Contact;
 import com.itechart.contacts.domain.entity.impl.Phone;
 import com.itechart.contacts.domain.entity.impl.Photo;
@@ -61,7 +62,7 @@ public class ContactsController extends HttpServlet {
     private final GetContactsService getContactsService = new GetContactsService();
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
-//    private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
+    private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
     private final UpdatePhoneService updatePhoneService = new UpdatePhoneService();
 
     @Override
@@ -113,6 +114,8 @@ public class ContactsController extends HttpServlet {
             Map<String, String> parameters = new HashMap<>();
             Map<String, String> phoneParameters = new HashMap<>();
             List<Phone> phones = new ArrayList<>();
+            Map<String, String> attachmentParameters = new HashMap<>();
+            List<Attachment> attachments = new ArrayList<>();
             int counter = 1;
             FileItem photoItem = null;
             for (FileItem item : fileItems) {
@@ -147,13 +150,25 @@ public class ContactsController extends HttpServlet {
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
                 } else {
                     //СОЗДАТЬ
-                    photo = (Photo) updatePhotoService.service(photo, connection);
+                    photo = (Photo) updatePhotoService.service(photo, connection); //сначала фото
                     if (contact != null) {
                         contact.setPhotoId(photo.getPhotoId());
                     }
-                    updateContactService.service(contact, connection);
+                    updateContactService.service(contact, connection); //потом контакт
                     if (photoItem != null && !photo.getName().isEmpty()) {
                         uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
+                    }
+                    for (Phone phone: phones) {
+                        if (contact != null) {
+                            phone.setContactId(contact.getContactId());
+                        }
+                        updatePhoneService.service(phone, connection); //потом телефон
+                    }
+                    for (Attachment attachment: attachments) {
+                        if (contact != null) {
+                            attachment.setContactId(contact.getContactId());
+                        }
+                        updateAttachmentService.service(attachment, connection); //потом вложение
                     }
                     LOGGER.log(Level.INFO, "New contact was created");
                 }

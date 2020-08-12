@@ -225,7 +225,6 @@ function autofill() {
                                 phoneType.value = phone.p_type;
                                 phoneComment.value = phone.p_comments;
                                 phoneId.value = phone.id_phone;
-                                alert(phoneId.value + " " + phoneStatus.value);
 
                                 tr = document.createElement('tr');
                                 phonesTable.appendChild(tr);
@@ -246,7 +245,6 @@ function autofill() {
                                 attachmentId.value = attach.id_attachment;
                                 attachmentComment.value = attach.a_comments;
                                 attachmentFile.innerHTML = attach.a_path;
-                                alert(attachmentId.value + " " + attachmentStatus.value);
 
                                 tr = document.createElement('tr');
                                 attachTable.appendChild(tr);
@@ -519,7 +517,6 @@ editAttachment.addEventListener('click', () => {
                 var tds = tr.querySelectorAll('td');
                 attachmentComment.value = tds[3].innerHTML;
                 attachmentStatus.value = 'updated';
-                alert(attachmentId.value + " " + attachmentComment.value + " " + attachmentStatus.value + " " + attachmentFile.value);
                 popupAttachment.style.display = 'block';
                 editDiv.style.display = 'block';
                 addAttachBtn.removeEventListener('click', addAttachment);

@@ -4,10 +4,8 @@ import com.itechart.contacts.domain.entity.impl.*;
 import com.itechart.contacts.web.validator.DateValidator;
 import com.itechart.contacts.web.validator.StringValidator;
 import org.apache.commons.fileupload.FileItem;
-
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +43,7 @@ public class RequestParser {
                 id = Long.parseLong(attachmentId);
                 path = attachmentPath;
             }
-            if (contactId != null && contactId.isEmpty()) {
+            if (contactId != null && !contactId.isEmpty()) {
                 idContact = Long.parseLong(contactId);
             }
             LocalDate date;
@@ -155,8 +153,9 @@ public class RequestParser {
                 && StringValidator.isValidPhotoPath(path) && StringValidator.isValidStatus(status);
     }
 
-    public static void fillPhones(List<Phone> phones, FileItem item, Map<String, String> phoneParameters, String id)
-                                                                           throws UnsupportedEncodingException {
+    //util method for getting each phone info from form data
+    public static void fillPhones(List<Phone> phones, FileItem item, Map<String, String> phoneParameters,
+                                  String id) throws UnsupportedEncodingException {
         switch (item.getFieldName()) {
             case "phones[][phoneId]":
                 phoneParameters.put("phoneId", item.getString(UTF_8));
@@ -181,12 +180,11 @@ public class RequestParser {
                 phoneParameters.put("contactId", id);
                 Phone phone = RequestParser.createPhone(phoneParameters);
                 phones.add(phone);
-                System.out.println(phone);
                 break;
         }
     }
 
-    public static Phone createPhone(Map<String, String> request) {
+    private static Phone createPhone(Map<String, String> request) {
             String phoneId = request.get("phoneId");
             String countryCode = request.get("countryCode");
             String operatorCode = request.get("operatorCode");
