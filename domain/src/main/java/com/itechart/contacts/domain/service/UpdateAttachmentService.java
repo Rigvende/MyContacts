@@ -30,6 +30,7 @@ public class UpdateAttachmentService {
             attachment = (Attachment) dao.findEntityById(id);
             attachment.setComments(comments);
             attachment.setName(name);
+            attachment.setPath(attachment.getPath());
             return dao.update(attachment);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update attachment. Error has occurred. ", e);
@@ -42,7 +43,13 @@ public class UpdateAttachmentService {
         AttachmentDao dao;
         try {
             dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
-            return dao.create(attachment);
+            attachment = (Attachment) dao.create(attachment);
+            attachment.setPath("../attachments/" + attachment.getAttachmentId() + "/");
+            if (dao.update(attachment)) {
+                return attachment;
+            } else {
+                return null;
+            }
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot create attachment. Error has occurred. ", e);
             throw new ServiceException(e);

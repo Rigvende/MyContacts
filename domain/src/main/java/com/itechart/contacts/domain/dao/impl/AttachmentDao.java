@@ -29,7 +29,7 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             "DELETE FROM attachments WHERE id_attachment = ?;";
     private final static String SQL_UPDATE_ATTACHMENT =
             "UPDATE attachments " +
-            "SET attachment_name = ?, comments = ? " +
+            "SET attachment_name = ?, attachment_path = ?, comments = ? " +
             "WHERE id_attachment = ?;";
     private static final String SQL_FIND_ALL_ATTACHMENTS =
             "SELECT id_attachment, attachment_path, attachment_name, load_date, comments, id_contact " +
@@ -94,8 +94,9 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
         boolean isUpdated = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ATTACHMENT)) {
             preparedStatement.setString(1, attachment.getName());
-            preparedStatement.setString(2, attachment.getComments());
-            preparedStatement.setLong(3, attachment.getAttachmentId());
+            preparedStatement.setString(2, attachment.getPath());
+            preparedStatement.setString(3, attachment.getComments());
+            preparedStatement.setLong(4, attachment.getAttachmentId());
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;

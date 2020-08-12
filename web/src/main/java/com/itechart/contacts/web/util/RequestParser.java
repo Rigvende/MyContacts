@@ -21,21 +21,41 @@ public class RequestParser {
     private RequestParser() {
     }
 
+    //util method for getting each phone info from form data
+    public static void fillAttachments(List<Attachment> attachments, FileItem item, Map<String, String> attachmentParameters,
+                                  String id, String name) throws UnsupportedEncodingException {
+        switch (item.getFieldName()) {
+            case "attachments[][attachmentId]":
+                attachmentParameters.put("attachmentId", item.getString(UTF_8));
+                break;
+            case "attachments[][attachmentComment]":
+                attachmentParameters.put("attachmentComment", item.getString(UTF_8));
+                break;
+            case "attachments[][attachmentPath]":
+                attachmentParameters.put("attachmentPath", item.getString(UTF_8));
+                break;
+            case "attachments[][loadDate]":
+                attachmentParameters.put("loadDate", item.getString(UTF_8));
+                break;
+            case "attachments[][attachmentStatus]":
+                attachmentParameters.put("attachmentStatus", item.getString(UTF_8));
+                attachmentParameters.put("contactId", id);
+                attachmentParameters.put("attachmentName", name);
+                Attachment attachment = RequestParser.createAttachment(attachmentParameters);
+                attachments.add(attachment);
+                break;
+        }
+    }
+
     public static Attachment createAttachment(Map<String, String> request) {
         String attachmentId = request.get("attachmentId");
         String attachmentStatus = request.get("attachmentStatus");
         String comment = request.get("attachmentComment");
-        String attachmentPath = request.get("attachmentPath");
+        String contactId = request.get("contactId");
         String attachmentName = request.get("attachmentName");
+        String attachmentPath = request.get("attachmentPath");
         String loadDate = request.get("loadDate");
-        String contactId = request.get("id");
-        if (validateAttachment(attachmentId, attachmentName, attachmentPath,
-                               attachmentStatus, comment, loadDate, contactId)) {
-            if (attachmentName != null && !attachmentName.isEmpty()) {
-                attachmentName = attachmentName.substring(attachmentName.lastIndexOf("\\") + 1);
-            } else {
-                attachmentName = "";
-            }
+        if (validateAttachment(attachmentId, attachmentName, attachmentStatus, loadDate, comment, contactId)) {
             long id = 0L;
             long idContact = 0L;
             String path = "";
@@ -51,7 +71,7 @@ public class RequestParser {
                     && DateValidator.isValidDate(LocalDate.parse(loadDate))) {
                 date = LocalDate.parse(loadDate);
             } else {
-                date = null;
+                date = LocalDate.now();
             }
             return new Attachment(id, path, attachmentName, date, comment, idContact, attachmentStatus);
         } else {
@@ -59,12 +79,11 @@ public class RequestParser {
         }
     }
 
-    private static boolean validateAttachment(String id, String name, String path, String status,
-                                              String comment, String date, String idContact) {
+    private static boolean validateAttachment(String id, String name, String status,
+                                              String date, String comment, String idContact) {
         return StringValidator.isValidId(id) && StringValidator.isValidFileName(name)
-                && StringValidator.isValidFilePath(path) && StringValidator.isValidStatus(status)
-                && StringValidator.isValidComment(comment) && StringValidator.isValidDate(date)
-                && StringValidator.isValidId(idContact);
+                && StringValidator.isValidStatus(status) && StringValidator.isValidComment(comment)
+                && StringValidator.isValidDate(date) && StringValidator.isValidId(idContact);
     }
 
     public static Contact createContact(Map<String, String> request) {

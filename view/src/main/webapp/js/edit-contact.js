@@ -45,6 +45,8 @@ var attachmentComment;
 var attachmentId;
 var attachmentStatus;
 var attachmentFile;
+var attachmentPath;
+var loadDate;
 
 //обязательные для заполнения поля
 var fields = [];
@@ -149,7 +151,10 @@ function addAttachmentForm() {
     var divAttachment = document.createElement('div');
     divAttachment.classList.add('divAttachment');
     divAttachment.setAttribute('id', 'attachment' + ++attachmentCounter);
-    divAttachment.innerHTML = "<label>\n" +
+    divAttachment.innerHTML =  "<label>\n" +
+        "            <input form=\"contactSave\" class=\"field\" id=\"attachmentFile\" name=\"attachments[][file]\" size=\"5000\" type=\"file\"/>\n" +
+        "        </label>" +
+        "        <label>\n" +
         "            <input form=\"contactSave\" type=\"text\" id=\"attachmentId\" name=\"attachments[][attachmentId]\" value=\"\" hidden>\n" +
         "        </label>\n" +
         "        <table>\n" +
@@ -164,18 +169,24 @@ function addAttachmentForm() {
         "        </table>\n" +
         "        <br>\n" +
         "        <label>\n" +
-        "            <input form=\"contactSave\" class=\"field\" id=\"attachmentFile\" name=\"attachments[][file]\" size=\"5000\" type=\"file\"/>\n" +
+        "            <input form=\"contactSave\" type=\"text\" id=\"attachmentPath\" name=\"attachments[][attachmentPath]\" value=\"\" hidden>\n" +
+        "        </label>\n" +
+        "        <label>\n" +
+        "            <input form=\"contactSave\" class=\"field\" id=\"loadDate\" name=\"attachments[][loadDate]\" type=\"text\" hidden />\n" +
         "        </label>\n" +
         "        <br><br>\n" +
         "        <label>\n" +
         "            <input form=\"contactSave\" type=\"text\" id=\"attachmentStatus\" name=\"attachments[][attachmentStatus]\" value=\"\" hidden>\n" +
         "        </label>";
+
     var modalForm = popupAttachment.querySelector('.modalContent').querySelector('.modalForm');
     modalForm.appendChild(divAttachment);
     attachmentId = divAttachment.querySelector('#attachmentId');
     attachmentFile = divAttachment.querySelector('#attachmentFile');
     attachmentComment = divAttachment.querySelector('#attachmentComment');
     attachmentStatus = divAttachment.querySelector('#attachmentStatus');
+    attachmentPath = divAttachment.querySelector('#attachmentPath');
+    loadDate = divAttachment.querySelector('#loadDate');
 }
 
 //автозаполнение контакта по выбранному чекбоксу
@@ -244,7 +255,8 @@ function autofill() {
                                 addAttachmentForm();
                                 attachmentId.value = attach.id_attachment;
                                 attachmentComment.value = attach.a_comments;
-                                attachmentFile.innerHTML = attach.a_path;
+                                attachmentPath.value = attach.a_path;
+                                loadDate.value = attach.a_date;
 
                                 tr = document.createElement('tr');
                                 attachTable.appendChild(tr);
@@ -389,7 +401,6 @@ form.addEventListener('submit', function (event) {
             }
         }
         request.open("POST", "../contacts/", true);
-        // request.setRequestHeader('Content-Type', 'multipart/form-data;charset=UTF-8');
         request.send(new FormData(form));
     }
 })
@@ -431,6 +442,8 @@ $("#photo").change(readURL);
 var cancel = document.querySelector("#photoButton");
 cancel.addEventListener('click', function () {
     contactPhoto.src = checkedSrc;
+    photoStatus = document.querySelector("#statusPhoto");
+    photoStatus.value = 'deleted';
     document.querySelector('#photo').value = '';
     popupPhoto.style.display = "none";
 })
@@ -505,13 +518,14 @@ editAttachment.addEventListener('click', () => {
             var editDiv;
             var divs = popupAttachment.querySelectorAll('.divAttachment');
             divs.forEach(div => {
-                if (chboxAttachment.id === div.querySelector('#attachmentId').value || chboxAttachment.id === div.id) {
+                if (chboxAttachment.id === div.querySelector('#attachmentId').value
+                    || chboxAttachment.id === div.id) {
                     editDiv = div;
                 }
             });
             if (editDiv) {
                 attachmentId = editDiv.querySelector('#attachmentId');
-                attachmentFile = editDiv.querySelector('#attachmentFile');
+                attachmentPath = editDiv.querySelector('#attachmentPath');
                 attachmentComment = editDiv.querySelector('#attachmentComment');
                 attachmentStatus = editDiv.querySelector('#attachmentStatus');
                 var tr = chboxAttachment.closest('tr');
@@ -698,7 +712,7 @@ function deleteRows(table, checkboxes) {
             for (var i = 0; i < ids.length; i++) {
                 if (ids[i] === div.querySelector('#phoneId').value) {
                     div.querySelector('#phoneStatus').value = 'deleted';
-                    div.removeAttribute('id');
+                    // div.removeAttribute('id');
                 }
                 if (ids[i] === div.id) {
                     div.parentNode.removeChild(div);
@@ -715,7 +729,7 @@ function deleteRows(table, checkboxes) {
             for (var i = 0; i < ids.length; i++) {
                 if (ids[i] === div.querySelector('#attachmentId').value) {
                     div.querySelector('#attachmentStatus').value = 'deleted';
-                    div.removeAttribute('id');
+                    // div.removeAttribute('id');
                 }
                 if (ids[i] === div.id) {
                     div.parentNode.removeChild(div);

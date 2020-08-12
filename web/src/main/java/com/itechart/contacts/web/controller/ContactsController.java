@@ -120,19 +120,25 @@ public class ContactsController extends HttpServlet {
             List<Phone> phones = new ArrayList<>();
             Map<String, String> attachmentParameters = new HashMap<>();
             List<Attachment> attachments = new ArrayList<>();
-            int counter = 1;//fixme
+            int counter = 1;//счетчик для загружаемых файлов
+            int paramCounter = counter;
             FileItem photoItem = null;
+            List<FileItem> files = new ArrayList<>();
             for (FileItem item : fileItems) {
                 if (item.isFormField()) {
                     parameters.put(item.getFieldName(), item.getString(UTF_8));
                     System.out.println(item.getFieldName() + "=" + item.getString(UTF_8));
                     RequestParser.fillPhones(phones, item, phoneParameters, parameters.get("idContact"));
+                    RequestParser.fillAttachments(attachments, item, attachmentParameters,
+                            parameters.get("idContact"), parameters.get("file_name" + paramCounter));
                 } else {
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;
                         parameters.put("photo_name", item.getName());
                     } else {
+                        files.add(item);
                         parameters.put("file_name" + counter, item.getName());
+                        paramCounter = counter;
                         counter++;
                     }
                 }
@@ -143,12 +149,15 @@ public class ContactsController extends HttpServlet {
                 if (contact != null && contact.getContactId() != 0L) {
                     //ОБНОВИТЬ
                     updateContactService.service(contact.getContactId(), contact, connection);
-                    if (photo != null && photo.getPhotoId() != 0L) {//
+                    if (photo != null && photo.getPhotoId() != 0L
+                            && photo.getStatus().equals(Status.UPDATED.getValue())) {
                         updatePhotoService.service(photo.getPhotoId(), photo.getName(), connection);
                         if (photoItem != null && !photo.getName().isEmpty()
                                 && photo.getStatus().equals(Status.UPDATED.getValue())) {
                             uploader.writePhoto(photoItem, photoPath, photo.getPhotoId());
                         }
+                    } else if (photo != null && photo.getStatus().equals(Status.DELETED.getValue())) {
+                        updatePhotoService.service(photo.getPhotoId(), "", connection);
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");
                 } else {
@@ -167,11 +176,12 @@ public class ContactsController extends HttpServlet {
                         }
                         updatePhoneService.service(phone, connection); //потом телефон
                     }
-                    for (Attachment attachment: attachments) {
+                    for (int i = 0; i < attachments.size(); i++) {
                         if (contact != null) {
-                            attachment.setContactId(contact.getContactId());
+                            attachments.get(i).setContactId(contact.getContactId());
                         }
-                        updateAttachmentService.service(attachment, connection); //потом вложение
+                        updateAttachmentService.service(attachments.get(i), connection); //потом вложение
+                        uploader.writeFile(files.get(i), filePath, attachments.get(i).getAttachmentId());
                     }
                     LOGGER.log(Level.INFO, "New contact was created");
                 }
