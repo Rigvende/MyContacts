@@ -249,6 +249,9 @@ function autofill() {
                             }
                         }
                         phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
+                        popupPhone.querySelectorAll('.divPhone').forEach(div => {
+                                div.style.display = 'none';
+                        });
 
                         if (person.attachments) {
                             for (var attach of person.attachments) {
@@ -271,6 +274,9 @@ function autofill() {
                             }
                         }
                         attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
+                        popupAttachment.querySelectorAll('.divAttachment').forEach(div => {
+                            div.style.display = 'none';
+                        });
                     }
                 }
             }
@@ -698,6 +704,9 @@ function deleteRows(table, checkboxes) {
     while (i-- && i >= 0) {
         var chbox = checkboxes[i];
         if (chbox.checked === true) {
+            if (chbox.value.trim()) {
+                ids.push(chbox.value);
+            }
             if (chbox.id.trim()) {
                 ids.push(chbox.id);
             }
@@ -712,7 +721,6 @@ function deleteRows(table, checkboxes) {
             for (var i = 0; i < ids.length; i++) {
                 if (ids[i] === div.querySelector('#phoneId').value) {
                     div.querySelector('#phoneStatus').value = 'deleted';
-                    // div.removeAttribute('id');
                 }
                 if (ids[i] === div.id) {
                     div.parentNode.removeChild(div);
@@ -729,7 +737,6 @@ function deleteRows(table, checkboxes) {
             for (var i = 0; i < ids.length; i++) {
                 if (ids[i] === div.querySelector('#attachmentId').value) {
                     div.querySelector('#attachmentStatus').value = 'deleted';
-                    // div.removeAttribute('id');
                 }
                 if (ids[i] === div.id) {
                     div.parentNode.removeChild(div);

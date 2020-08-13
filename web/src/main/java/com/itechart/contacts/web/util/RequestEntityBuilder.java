@@ -41,7 +41,15 @@ public class RequestEntityBuilder {
                 attachmentParameters.put("attachmentStatus", item.getString(UTF_8));
                 attachmentParameters.put("contactId", id);
                 attachmentParameters.put("attachmentName", name);
+//                System.out.println(attachmentParameters.get("attachmentId"));
+//                System.out.println(attachmentParameters.get("attachmentComment"));
+//                System.out.println(attachmentParameters.get("attachmentPath"));
+//                System.out.println(attachmentParameters.get("loadDate"));
+//                System.out.println(attachmentParameters.get("attachmentStatus"));
+//                System.out.println(attachmentParameters.get("contactId"));
+//                System.out.println(attachmentParameters.get("attachmentName"));
                 Attachment attachment = RequestEntityBuilder.createAttachment(attachmentParameters);
+                System.out.println(attachment);
                 attachments.add(attachment);
                 break;
         }

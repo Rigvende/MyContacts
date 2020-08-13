@@ -14,6 +14,9 @@ public class FileUploader {
 
     //write photo on hard disk
     public void writeFile(FileItem item, String filePath, long id) throws Exception {
+//        if (item.getName().contains("\\")) {
+//            String s = item.getName().replace("\\", "/");
+//        }
         String fileName = FilenameUtils.getName(item.getName());
         File fileDir = new File(filePath + id);
         if (!fileDir.exists()) {

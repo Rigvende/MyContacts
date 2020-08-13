@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -132,10 +133,12 @@ public class ContactsController extends HttpServlet {
                 } else {                        //файлы
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;
-                        parameters.put("photo_name", item.getName());          //фото
+                        String fileName = FilenameUtils.getName(item.getName());
+                        parameters.put("photo_name", fileName);          //фото
                     } else {
                         files.add(item);
-                        parameters.put("file_name" + counter, item.getName()); //вложение
+                        String fileName = FilenameUtils.getName(item.getName());
+                        parameters.put("file_name" + counter, fileName); //вложение
                         paramCounter = counter;
                         counter++;
                     }
