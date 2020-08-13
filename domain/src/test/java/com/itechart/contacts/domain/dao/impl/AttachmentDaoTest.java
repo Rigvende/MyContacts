@@ -26,6 +26,7 @@ class AttachmentDaoTest {
         attachment.setPath("../attachments/1/");
         attachment.setName("log4j.txt");
         attachment.setComments("adsfaf");
+        attachment.setLoadDate(LocalDate.now());
         assertTrue(dao.update(attachment));
         connection.close();
     }

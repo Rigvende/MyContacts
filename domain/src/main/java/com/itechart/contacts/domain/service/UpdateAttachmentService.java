@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 /**
  * Class-service for creating / updating attachments
@@ -22,7 +23,8 @@ public class UpdateAttachmentService {
     private final static Logger LOGGER = LogManager.getLogger();
 
     //update
-    public boolean service(long id, String name, String comments, Connection connection) throws ServiceException {
+    public boolean service(long id, String name, String comments, LocalDate loadDate,
+                           Connection connection) throws ServiceException {
         Attachment attachment;
         AttachmentDao dao;
         try {
@@ -31,7 +33,20 @@ public class UpdateAttachmentService {
             attachment.setComments(comments);
             attachment.setName(name);
             attachment.setPath(attachment.getPath());
+            attachment.setLoadDate(loadDate);
             return dao.update(attachment);
+        } catch (ClassNotFoundException | DaoException e) {
+            LOGGER.log(Level.ERROR, "Cannot update attachment. Error has occurred. ", e);
+            throw new ServiceException(e);
+        }
+    }
+
+    //update comment
+    public boolean service(long id, String comments, Connection connection) throws ServiceException {
+        AttachmentDao dao;
+        try {
+            dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
+            return dao.updateComment(comments, id);
         } catch (ClassNotFoundException | DaoException e) {
             LOGGER.log(Level.ERROR, "Cannot update attachment. Error has occurred. ", e);
             throw new ServiceException(e);

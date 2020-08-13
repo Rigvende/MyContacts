@@ -29,8 +29,10 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             "DELETE FROM attachments WHERE id_attachment = ?;";
     private final static String SQL_UPDATE_ATTACHMENT =
             "UPDATE attachments " +
-            "SET attachment_name = ?, attachment_path = ?, comments = ? " +
+            "SET attachment_name = ?, attachment_path = ?, comments = ?, load_date = ? " +
             "WHERE id_attachment = ?;";
+    private final static String SQL_UPDATE_COMMENT =
+            "UPDATE attachments SET comments = ? WHERE id_attachment = ?;";
     private static final String SQL_FIND_ALL_ATTACHMENTS =
             "SELECT id_attachment, attachment_path, attachment_name, load_date, comments, id_contact " +
             "FROM attachments;";
@@ -41,7 +43,7 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             "SELECT id_attachment, attachment_path, attachment_name, load_date, comments, id_contact " +
             "FROM attachments WHERE id_contact = ?;";
 
-    public AttachmentDao(Connection connection) throws DaoException, ClassNotFoundException {
+    public AttachmentDao(Connection connection) {
         super(connection);
     }
 
@@ -96,7 +98,24 @@ public class AttachmentDao extends AbstractDao<AbstractEntity> {
             preparedStatement.setString(1, attachment.getName());
             preparedStatement.setString(2, attachment.getPath());
             preparedStatement.setString(3, attachment.getComments());
-            preparedStatement.setLong(4, attachment.getAttachmentId());
+            preparedStatement.setDate(4, DateConverter.convertToSqlDate(attachment.getLoadDate()));
+            preparedStatement.setLong(5, attachment.getAttachmentId());
+            int update = preparedStatement.executeUpdate();
+            if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
+                isUpdated = true;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR,"Cannot update attachment. Request to table failed. ", e);
+            throw new DaoException(e);
+        }
+        return isUpdated;
+    }
+
+    public boolean updateComment(String comment, long id) throws DaoException {
+        boolean isUpdated = false;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COMMENT)) {
+            preparedStatement.setString(1, comment);
+            preparedStatement.setLong(2, id);
             int update = preparedStatement.executeUpdate();
             if (update == 1) {                              //check if row is updated (0 - false, 1 - true)
                 isUpdated = true;

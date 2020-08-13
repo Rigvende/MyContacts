@@ -21,7 +21,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,13 +32,11 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Class for contacts operations controller (create, update, show contacts + files uploading).
- *
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -129,7 +126,6 @@ public class ContactsController extends HttpServlet {
             for (FileItem item : fileItems) {   //обработка инпутов и распределение данных по мапам
                 if (item.isFormField()) {       //обычные поля
                     parameters.put(item.getFieldName(), item.getString(UTF_8));
-                    System.out.println(item.getFieldName() + "=" + item.getString(UTF_8));
                     RequestEntityBuilder.fillPhones(phones, item, phoneParameters, parameters.get("idContact"));
                     RequestEntityBuilder.fillAttachments(attachments, item, attachmentParameters,
                             parameters.get("idContact"), parameters.get("file_name" + paramCounter));
@@ -181,14 +177,14 @@ public class ContactsController extends HttpServlet {
                         Attachment attachment = attachments.get(i);
                         if (attachment != null && attachment.getAttachmentId() != 0L) {
                             if (attachment.getStatus().equals(Status.UPDATED.getValue())) { //изменить вложение
-                                if (attachment.getPath().isEmpty()) { //если меняется файл
-                                    updateAttachmentService.service(attachment.getAttachmentId(),
-                                            attachment.getName(), attachment.getComments(), connection);
+                                if (attachment.getPath().isEmpty() && !attachment.getName().isEmpty()) { //если меняется файл
+                                    updateAttachmentService.service(attachment.getAttachmentId(), attachment.getName(),
+                                            attachment.getComments(), attachment.getLoadDate(), connection);
                                     uploader.deleteFile(filePath, attachment.getAttachmentId());
                                     uploader.writeFile(files.get(i), filePath, attachment.getAttachmentId());
-                                } else {                            //если файл не меняется
+                                } else {                                                     //если файл не меняется
                                     updateAttachmentService.service(attachment.getAttachmentId(),
-                                            attachment.getName(), attachment.getComments(), connection);
+                                                                    attachment.getComments(), connection);
                                 }
                             }
                             if (attachment.getStatus().equals(Status.DELETED.getValue())) { //удалить вложение

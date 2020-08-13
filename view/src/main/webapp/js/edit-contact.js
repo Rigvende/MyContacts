@@ -511,6 +511,7 @@ addAttachBtn.addEventListener('click', addAttachment);
 
 //редактирование по чекбоксу
 var chboxAttachment;
+var temp;
 editAttachment.addEventListener('click', () => {
     var checkedBoxes = [];
     attachmentCheckboxes.forEach(box => {
@@ -537,10 +538,14 @@ editAttachment.addEventListener('click', () => {
                 attachmentFile = editDiv.querySelector('#attachmentFile');
                 var tr = chboxAttachment.closest('tr');
                 var tds = tr.querySelectorAll('td');
-                //todo если файл поменялся, то обнуляем путь
+                temp = attachmentPath.value;
                 attachmentPath.value = '';
                 attachmentComment.value = tds[3].innerHTML;
-                loadDate.value = tds[2].innerHTML;
+                // if (attachmentFile.value) {
+                //     loadDate.value = getToday();
+                // } else {
+                //     loadDate.value = tds[2].innerHTML;
+                // }
                 attachmentStatus.value = 'updated';
                 popupAttachment.style.display = 'block';
                 editDiv.style.display = 'block';
@@ -561,9 +566,15 @@ editAttachment.addEventListener('click', () => {
 function editAttachments() {
     var tr = chboxAttachment.closest('tr');
     var tds = tr.querySelectorAll('td');
-    tds[1].innerHTML = attachmentFile.value;
-    tds[2].innerHTML = getToday();
+    if (attachmentFile.value) {
+        tds[1].innerHTML = attachmentFile.value;
+        tds[2].innerHTML = getToday();
+    } else {
+        tds[1].innerHTML = '<a href="' + temp + '" class="buttonLink" id="attachLink" download>' + temp + '</a>';
+        tds[2].innerHTML = loadDate.value;
+    }
     tds[3].innerHTML = attachmentComment.value;
+    loadDate.value = tds[2].innerHTML;
     attachmentComment.closest('div').style.display = 'none';
     popupAttachment.style.display = 'none';
     chboxAttachment.checked = false;
