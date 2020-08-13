@@ -14,9 +14,6 @@ public class FileUploader {
 
     //write photo on hard disk
     public void writeFile(FileItem item, String filePath, long id) throws Exception {
-//        if (item.getName().contains("\\")) {
-//            String s = item.getName().replace("\\", "/");
-//        }
         String fileName = FilenameUtils.getName(item.getName());
         File fileDir = new File(filePath + id);
         if (!fileDir.exists()) {
@@ -63,8 +60,22 @@ public class FileUploader {
         FileUtils.copyFileToDirectory(photo, serverDir);
     }
 
+    //delete file
+    public void deleteFile(String filePath, String name, long id) {
+        File file = new File(filePath + id + "\\" + name);
+        if (file.exists()) {
+            file.delete();
+        }
+        String serverPath = getClass().getResource("/").getPath() + id + "/" + name;
+        String fileType = "attachment";
+        File serverFile = new File(buildNewDirPath(serverPath, fileType));
+        if (serverFile.exists()) {
+            serverFile.delete();
+        }
+    }
+
     //building the new dir path for copying the loaded file to container
-    public String buildNewDirPath(String dirPath, String fileType) {
+    private String buildNewDirPath(String dirPath, String fileType) {
         dirPath = dirPath.substring(1);
         if (fileType.equals("photo")) {
             dirPath = dirPath.replace("WEB-INF/classes/", "image/photos/");

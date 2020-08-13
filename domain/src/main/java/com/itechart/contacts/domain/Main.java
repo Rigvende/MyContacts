@@ -279,6 +279,9 @@ public class Main {
 //        System.out.println(photoPath);
 //        dao.exit();
 
+//        String n = "../attachments/53/аа.jpg";
+//        System.out.println(n.substring(n.lastIndexOf("/") + 1));
+
 ///////////////////////////////
 //        StringBuilder json = new StringBuilder("dfsfsf, sdfdsfs, sddfsfs, },");
 //        json.replace(json.length() - 5 , json.length(), "\n}\n");
@@ -332,6 +335,7 @@ public class Main {
 //        for (Numbers n: numbersList) {
 //            System.out.println(n.one + " " + n.two + " " + n.three);
 //        }
+
 //
 
 

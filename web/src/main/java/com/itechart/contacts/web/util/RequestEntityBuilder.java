@@ -67,9 +67,13 @@ public class RequestEntityBuilder {
             long id = 0L;
             long idContact = 0L;
             String path = "";
+            String name = attachmentName;
             if (attachmentId != null && !attachmentId.isEmpty()) {
                 id = Long.parseLong(attachmentId);
                 path = attachmentPath;
+                if (!attachmentPath.isEmpty()) {
+                    name = attachmentPath.substring(attachmentPath.lastIndexOf("/") + 1);
+                }
             }
             if (contactId != null && !contactId.isEmpty()) {
                 idContact = Long.parseLong(contactId);
@@ -81,7 +85,7 @@ public class RequestEntityBuilder {
             } else {
                 date = LocalDate.now();
             }
-            return new Attachment(id, path, attachmentName, date, comment, idContact, attachmentStatus);
+            return new Attachment(id, path, name, date, comment, idContact, attachmentStatus);
         } else {
             return null;
         }

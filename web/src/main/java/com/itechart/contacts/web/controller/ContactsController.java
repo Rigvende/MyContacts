@@ -184,7 +184,7 @@ public class ContactsController extends HttpServlet {
                         } else if (attachment != null && attachment.getAttachmentId() != 0L
                                 && attachment.getStatus().equals(Status.DELETED.getValue())) { //удалить вложение
                             deleteAttachmentService.service(attachment, connection);
-                            //удалить файл
+                            uploader.deleteFile(filePath, attachment.getName(), attachment.getAttachmentId());
                         } else if (attachment != null && attachment.getAttachmentId() == 0L) { //создать новое вложение
                             attachment.setContactId(contact.getContactId());
                             updateAttachmentService.service(attachment, connection);
