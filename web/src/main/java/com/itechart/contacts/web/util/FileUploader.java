@@ -6,7 +6,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 
 /**
- * Class for file upload operations.
+ * Class for file upload/delete operations.
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -37,7 +37,7 @@ public class FileUploader {
         if (!fileDir.exists()) {
             fileDir.mkdir();
         } else {
-            for (File file: fileDir.listFiles()) {
+            for (File file : fileDir.listFiles()) {
                 if (file.isFile()) {
                     file.delete();
                 }
@@ -51,7 +51,7 @@ public class FileUploader {
         if (!serverDir.exists()) {
             serverDir.mkdir();
         } else {
-            for (File file: serverDir.listFiles()) {
+            for (File file : serverDir.listFiles()) {
                 if (file.isFile()) {
                     file.delete();
                 }
@@ -61,16 +61,36 @@ public class FileUploader {
     }
 
     //delete file
-    public void deleteFile(String filePath, String name, long id) {
-        File file = new File(filePath + id + "\\" + name);
+    public void deleteFile(String filePath, long id) {
+        File file = new File(filePath + id);
         if (file.exists()) {
-            file.delete();
+            delete(file);
         }
-        String serverPath = getClass().getResource("/").getPath() + id + "/" + name;
+        String serverPath = getClass().getResource("/").getPath() + id;
         String fileType = "attachment";
         File serverFile = new File(buildNewDirPath(serverPath, fileType));
         if (serverFile.exists()) {
-            serverFile.delete();
+            delete(serverFile);
+        }
+    }
+
+    //recursive file delete for not empty dir
+    private static void delete(File file) {
+        if (file.isDirectory()) {
+            if (file.list().length == 0) {
+                file.delete();
+            } else {
+                String files[] = file.list();
+                for (String temp : files) {
+                    File fileDelete = new File(file, temp);
+                    delete(fileDelete);
+                }
+                if (file.list().length == 0) {
+                    file.delete();
+                }
+            }
+        } else {
+            file.delete();
         }
     }
 

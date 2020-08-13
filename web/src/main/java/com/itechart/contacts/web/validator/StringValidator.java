@@ -28,7 +28,7 @@ public class StringValidator {
     private final static String CHECK_BIRTHDAY = "^([\\d]){4}-([\\d]){1,2}-([\\d]){1,2}$";
     private final static String CHECK_PATH_PHOTO = "^\\.\\./image/photos/[\\d]+/$";
     private final static String CHECK_PATH_FILE = "^\\.\\./attachments/[\\d]+/$";
-    private final static String CHECK_FILE_NAME = "^[-.\\wА-яЁё\\s_]+\\.([\\w]){2,4}$";
+    private final static String CHECK_FILE_NAME = "^[-+=!#$%&^'.)(\\]\\[\\wА-яЁё\\s_]+\\.([\\w]){2,4}$";
     private final static int MINI_TEXT_LENGTH = 45;
     private final static int TEXT_LENGTH = 255;
     private final static int MESSAGE_LENGTH = 1000;

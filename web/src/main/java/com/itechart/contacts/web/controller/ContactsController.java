@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,11 +33,13 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Class for contacts operations controller (create, update, show contacts + files uploading).
+ *
  * @author Marianna Patrusova
  * @version 1.0
  */
@@ -160,7 +163,7 @@ public class ContactsController extends HttpServlet {
                     } else if (photo != null && photo.getStatus().equals(Status.DELETED.getValue())) {
                         updatePhotoService.service(photo.getPhotoId(), "", connection); //сброс фото
                     }
-                    for (Phone phone: phones) {
+                    for (Phone phone : phones) {
                         if (phone != null && phone.getPhoneId() != 0L
                                 && phone.getStatus().equals(Status.UPDATED.getValue())) { //изменить телефон
                             updatePhoneService.service(phone.getPhoneId(), phone.getCountryCode(),
@@ -176,16 +179,24 @@ public class ContactsController extends HttpServlet {
                     }
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attachment = attachments.get(i);
-                        if (attachment != null && attachment.getAttachmentId() != 0L
-                                && attachment.getStatus().equals(Status.UPDATED.getValue())) { //изменить вложение
-                            updateAttachmentService.service(attachment.getAttachmentId(),
-                                    attachment.getName(), attachment.getComments(), connection);
-                            //перезапись файла
-                        } else if (attachment != null && attachment.getAttachmentId() != 0L
-                                && attachment.getStatus().equals(Status.DELETED.getValue())) { //удалить вложение
-                            deleteAttachmentService.service(attachment, connection);
-                            uploader.deleteFile(filePath, attachment.getName(), attachment.getAttachmentId());
-                        } else if (attachment != null && attachment.getAttachmentId() == 0L) { //создать новое вложение
+                        if (attachment != null && attachment.getAttachmentId() != 0L) {
+                            if (attachment.getStatus().equals(Status.UPDATED.getValue())) { //изменить вложение
+                                if (attachment.getPath().isEmpty()) { //если меняется файл
+                                    updateAttachmentService.service(attachment.getAttachmentId(),
+                                            attachment.getName(), attachment.getComments(), connection);
+                                    uploader.deleteFile(filePath, attachment.getAttachmentId());
+                                    uploader.writeFile(files.get(i), filePath, attachment.getAttachmentId());
+                                } else {                            //если файл не меняется
+                                    updateAttachmentService.service(attachment.getAttachmentId(),
+                                            attachment.getName(), attachment.getComments(), connection);
+                                }
+                            }
+                            if (attachment.getStatus().equals(Status.DELETED.getValue())) { //удалить вложение
+                                deleteAttachmentService.service(attachment, connection);
+                                uploader.deleteFile(filePath, attachment.getAttachmentId());
+                            }
+                        }
+                        if (attachment != null && attachment.getAttachmentId() == 0L) { //создать новое вложение
                             attachment.setContactId(contact.getContactId());
                             updateAttachmentService.service(attachment, connection);
                             uploader.writeFile(files.get(i), filePath, attachment.getAttachmentId()); //запись
@@ -202,7 +213,7 @@ public class ContactsController extends HttpServlet {
                     if (photoItem != null && !photo.getName().isEmpty()) {
                         uploader.writePhoto(photoItem, photoPath, photo.getPhotoId()); //запись фото
                     }
-                    for (Phone phone: phones) {
+                    for (Phone phone : phones) {
                         if (contact != null) {
                             phone.setContactId(contact.getContactId());
                         }

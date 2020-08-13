@@ -266,7 +266,7 @@ function autofill() {
                                 checkbox = '<label><input type="checkbox" class="checkbox" value="'
                                     + attach.id_attachment + '"/></label>';
                                 var pathLink = '<a href="' + attach.a_path +
-                                    '" class="buttonLink" id="attackLink" download>' + attach.a_path + '</a>';
+                                    '" class="buttonLink" id="attachLink" download>' + attach.a_path + '</a>';
                                 createTd(checkbox, tr);
                                 createTd(pathLink, tr);
                                 createTd(attach.a_date, tr);
@@ -524,8 +524,8 @@ editAttachment.addEventListener('click', () => {
             var editDiv;
             var divs = popupAttachment.querySelectorAll('.divAttachment');
             divs.forEach(div => {
-                if (chboxAttachment.id === div.querySelector('#attachmentId').value
-                    || chboxAttachment.id === div.id) {
+                if (chboxAttachment.id === div.id ||
+                    chboxAttachment.value === div.querySelector('#attachmentId').value) {
                     editDiv = div;
                 }
             });
@@ -534,9 +534,13 @@ editAttachment.addEventListener('click', () => {
                 attachmentPath = editDiv.querySelector('#attachmentPath');
                 attachmentComment = editDiv.querySelector('#attachmentComment');
                 attachmentStatus = editDiv.querySelector('#attachmentStatus');
+                attachmentFile = editDiv.querySelector('#attachmentFile');
                 var tr = chboxAttachment.closest('tr');
                 var tds = tr.querySelectorAll('td');
+                //todo если файл поменялся, то обнуляем путь
+                attachmentPath.value = '';
                 attachmentComment.value = tds[3].innerHTML;
+                loadDate.value = tds[2].innerHTML;
                 attachmentStatus.value = 'updated';
                 popupAttachment.style.display = 'block';
                 editDiv.style.display = 'block';
@@ -626,7 +630,7 @@ editPhone.addEventListener('click', () => {
             var editDiv;
             var divs = popupPhone.querySelectorAll('.divPhone');
             divs.forEach(div => {
-                if (chboxPhone.id === div.querySelector('#phoneId').value || chboxPhone.id === div.id) {
+                if (chboxPhone.id === div.id || chboxPhone.value === div.querySelector('#phoneId').value) {
                     editDiv = div;
                 }
             });
