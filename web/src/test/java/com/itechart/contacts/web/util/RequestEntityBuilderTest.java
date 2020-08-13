@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RequestParserTest {
+class RequestEntityBuilderTest {
 
     @Test
     void createContact() {
@@ -27,7 +27,7 @@ class RequestParserTest {
         map.put("address", "");
         map.put("zipcode", "");
         map.put("idPhoto", "13");
-        Contact contact = RequestParser.createContact(map);
+        Contact contact = RequestEntityBuilder.createContact(map);
         assertNotNull(contact);
         assertEquals("Charles", contact.getName());
     }
@@ -39,7 +39,7 @@ class RequestParserTest {
         map.put("photo_name", "aaa.jpg");
         map.put("photo_path", "");
         map.put("photo_status", "");
-        Photo photo = RequestParser.createPhoto(map);
+        Photo photo = RequestEntityBuilder.createPhoto(map);
         assertNotNull(photo);
         assertEquals("aaa.jpg", photo.getName());
     }

@@ -14,11 +14,11 @@ import java.util.Map;
  * @author Marianna Patrusova
  * @version 1.0
  */
-public class RequestParser {
+public class RequestEntityBuilder {
 
     private final static String UTF_8 = "UTF-8";
 
-    private RequestParser() {
+    private RequestEntityBuilder() {
     }
 
     //util method for getting each attachment info from form data
@@ -41,7 +41,7 @@ public class RequestParser {
                 attachmentParameters.put("attachmentStatus", item.getString(UTF_8));
                 attachmentParameters.put("contactId", id);
                 attachmentParameters.put("attachmentName", name);
-                Attachment attachment = RequestParser.createAttachment(attachmentParameters);
+                Attachment attachment = RequestEntityBuilder.createAttachment(attachmentParameters);
                 attachments.add(attachment);
                 break;
         }
@@ -197,7 +197,7 @@ public class RequestParser {
             case "phones[][phoneStatus]":
                 phoneParameters.put("phoneStatus", item.getString(UTF_8));
                 phoneParameters.put("contactId", id);
-                Phone phone = RequestParser.createPhone(phoneParameters);
+                Phone phone = RequestEntityBuilder.createPhone(phoneParameters);
                 phones.add(phone);
                 break;
         }

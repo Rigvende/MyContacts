@@ -9,7 +9,7 @@ import com.itechart.contacts.domain.service.*;
 import com.itechart.contacts.web.util.DbcpManager;
 import com.itechart.contacts.web.scheduler.MailJob;
 import com.itechart.contacts.web.util.FileUploader;
-import com.itechart.contacts.web.util.RequestParser;
+import com.itechart.contacts.web.util.RequestEntityBuilder;
 import com.itechart.contacts.web.util.Status;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -59,6 +59,8 @@ public class ContactsController extends HttpServlet {
     private final static String TRIGGER = "trigger1";
     private final FileUploader uploader = new FileUploader();
     private final GetContactsService getContactsService = new GetContactsService();
+    private final DeletePhoneService deletePhoneService = new DeletePhoneService();
+    private final DeleteAttachmentService deleteAttachmentService = new DeleteAttachmentService();
     private final UpdateContactService updateContactService = new UpdateContactService();
     private final UpdatePhotoService updatePhotoService = new UpdatePhotoService();
     private final UpdateAttachmentService updateAttachmentService = new UpdateAttachmentService();
@@ -97,50 +99,50 @@ public class ContactsController extends HttpServlet {
     //create or update contacts
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Connection connection = DbcpManager.getConnection();
+        Connection connection = DbcpManager.getConnection();            //получить коннекшн
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        if (!isMultipart) {
+        if (!isMultipart) {                                             //проверить, что реквест мультипартовый
             LOGGER.log(Level.ERROR, "Cannot update contact: data is not multipart form");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
         }
-        DiskFileItemFactory factory = new DiskFileItemFactory();
+        DiskFileItemFactory factory = new DiskFileItemFactory();        //обработка файлов
         factory.setSizeThreshold(1024 * 1024);
         factory.setRepository(new File(extraPath));
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setHeaderEncoding(UTF_8);
         upload.setSizeMax(1024 * 1024 * 5);
         try {
-            List<FileItem> fileItems = upload.parseRequest(request);
-            Map<String, String> parameters = new HashMap<>();
+            List<FileItem> fileItems = upload.parseRequest(request);    //парсим форму на отдельные инпуты
+            Map<String, String> parameters = new HashMap<>();           //мапы для разных данных
             Map<String, String> phoneParameters = new HashMap<>();
-            List<Phone> phones = new ArrayList<>();
             Map<String, String> attachmentParameters = new HashMap<>();
+            List<Phone> phones = new ArrayList<>();                     //списки для телефонов и вложений
             List<Attachment> attachments = new ArrayList<>();
-            int counter = 1;//счетчик для загружаемых файлов
+            int counter = 1;                    //счетчики для загружаемых файлов
             int paramCounter = counter;
-            FileItem photoItem = null;
+            FileItem photoItem = null;          //отдельно собираем файлы для обработки
             List<FileItem> files = new ArrayList<>();
-            for (FileItem item : fileItems) {
-                if (item.isFormField()) {
+            for (FileItem item : fileItems) {   //обработка инпутов и распределение данных по мапам
+                if (item.isFormField()) {       //обычные поля
                     parameters.put(item.getFieldName(), item.getString(UTF_8));
                     System.out.println(item.getFieldName() + "=" + item.getString(UTF_8));
-                    RequestParser.fillPhones(phones, item, phoneParameters, parameters.get("idContact"));
-                    RequestParser.fillAttachments(attachments, item, attachmentParameters,
+                    RequestEntityBuilder.fillPhones(phones, item, phoneParameters, parameters.get("idContact"));
+                    RequestEntityBuilder.fillAttachments(attachments, item, attachmentParameters,
                             parameters.get("idContact"), parameters.get("file_name" + paramCounter));
-                } else {
+                } else {                        //файлы
                     if (item.getFieldName().equals("picture")) {
                         photoItem = item;
-                        parameters.put("photo_name", item.getName());
+                        parameters.put("photo_name", item.getName());          //фото
                     } else {
                         files.add(item);
-                        parameters.put("file_name" + counter, item.getName());
+                        parameters.put("file_name" + counter, item.getName()); //вложение
                         paramCounter = counter;
                         counter++;
                     }
                 }
             }
-            Contact contact = RequestParser.createContact(parameters);
-            Photo photo = RequestParser.createPhoto(parameters);
+            Contact contact = RequestEntityBuilder.createContact(parameters);
+            Photo photo = RequestEntityBuilder.createPhoto(parameters);
             try {
                 if (contact != null && contact.getContactId() != 0L) {
                     //ОБНОВИТЬ
@@ -157,27 +159,33 @@ public class ContactsController extends HttpServlet {
                     }
                     for (Phone phone: phones) {
                         if (phone != null && phone.getPhoneId() != 0L
-                                && phone.getStatus().equals(Status.UPDATED.getValue())) {
-                            //обновить телефон
-                        } else if (phone != null && phone.getPhoneId() != 0L
+                                && phone.getStatus().equals(Status.UPDATED.getValue())) { //изменить телефон
+                            updatePhoneService.service(phone.getPhoneId(), phone.getCountryCode(),
+                                    phone.getOperatorCode(), phone.getNumber(), phone.getType().getValue(),
+                                    phone.getComments(), connection);
+                        } else if (phone != null && phone.getPhoneId() != 0L            //удалить телефон
                                 && phone.getStatus().equals(Status.DELETED.getValue())) {
-                            //удалить телефон
-                        } else if (phone != null && phone.getPhoneId() == 0L) {
-                            //создать новый телефон
+                            deletePhoneService.service(phone, connection);
+                        } else if (phone != null && phone.getPhoneId() == 0L) {         //создать новый телефон
+                            phone.setContactId(contact.getContactId());
+                            updatePhoneService.service(phone, connection);
                         }
                     }
-                    for (Attachment attachment: attachments) {
+                    for (int i = 0; i < attachments.size(); i++) {
+                        Attachment attachment = attachments.get(i);
                         if (attachment != null && attachment.getAttachmentId() != 0L
-                                && attachment.getStatus().equals(Status.UPDATED.getValue())) {
-                            //обновить вложение
+                                && attachment.getStatus().equals(Status.UPDATED.getValue())) { //изменить вложение
+                            updateAttachmentService.service(attachment.getAttachmentId(),
+                                    attachment.getName(), attachment.getComments(), connection);
                             //перезапись файла
                         } else if (attachment != null && attachment.getAttachmentId() != 0L
-                                && attachment.getStatus().equals(Status.DELETED.getValue())) {
-                            //удалить вложение
+                                && attachment.getStatus().equals(Status.DELETED.getValue())) { //удалить вложение
+                            deleteAttachmentService.service(attachment, connection);
                             //удалить файл
-                        } else if (attachment != null && attachment.getAttachmentId() == 0L) {
-                            //создать новое вложение
-                            //записать файл
+                        } else if (attachment != null && attachment.getAttachmentId() == 0L) { //создать новое вложение
+                            attachment.setContactId(contact.getContactId());
+                            updateAttachmentService.service(attachment, connection);
+                            uploader.writeFile(files.get(i), filePath, attachment.getAttachmentId()); //запись
                         }
                     }
                     LOGGER.log(Level.INFO, "Contact # " + contact.getContactId() + " was updated");

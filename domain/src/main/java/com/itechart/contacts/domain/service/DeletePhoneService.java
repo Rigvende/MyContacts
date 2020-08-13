@@ -22,7 +22,7 @@ public class DeletePhoneService {
 
     public boolean service (AbstractEntity entity, Connection connection) throws ServiceException {
         boolean isDeleted;
-        PhoneDao dao = null;
+        PhoneDao dao;
         try {
             dao = (PhoneDao) DaoFactory.createDao(EntityType.PHONE, connection);
             isDeleted = dao.delete(entity);

@@ -22,7 +22,7 @@ public class DeletePhotoService {
 
     public boolean service (AbstractEntity entity, Connection connection) throws ServiceException {
         boolean isDeleted;
-        PhotoDao dao = null;
+        PhotoDao dao;
         try {
             dao = (PhotoDao) DaoFactory.createDao(EntityType.PHOTO, connection);
             isDeleted = dao.delete(entity);
@@ -32,5 +32,5 @@ public class DeletePhotoService {
         }
         return isDeleted;
     }
-
+//fixme удалить если не нужен
 }

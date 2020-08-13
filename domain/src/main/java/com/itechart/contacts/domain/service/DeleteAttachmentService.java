@@ -22,7 +22,7 @@ public class DeleteAttachmentService {
 
     public boolean service (AbstractEntity entity, Connection connection) throws ServiceException {
         boolean isDeleted;
-        AttachmentDao dao = null;
+        AttachmentDao dao;
         try {
             dao = (AttachmentDao) DaoFactory.createDao(EntityType.ATTACHMENT, connection);
             isDeleted = dao.delete(entity);
