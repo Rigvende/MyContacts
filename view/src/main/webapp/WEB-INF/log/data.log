@@ -741,3 +741,41 @@ java.sql.SQLIntegrityConstraintViolationException: Column 'attachment_path' cann
 14-08 10:15 INFO  domain.service.GetContactsService - User gets contact info: 219
 14-08 10:16 INFO  domain.service.GetContactsService - User gets contact info: 219
 14-08 10:16 INFO  domain.service.GetContactsService - User gets contact info: 219
+14-08 14:39 INFO  domain.service.GetContactsService - User gets contact info: 219
+14-08 14:44 INFO  web.controller.DeleteController - User deletes contacts: 213 
+14-08 14:45 INFO  web.controller.SearchController - User uses filter for searching contacts
+14-08 14:45 INFO  web.controller.SearchController - User uses filter for searching contacts
+14-08 14:45 INFO  web.controller.SearchController - User uses filter for searching contacts
+14-08 14:45 INFO  domain.service.GetContactsService - User gets contact info: 219
+14-08 14:46 INFO  domain.service.GetContactsService - User gets contact info: 188
+14-08 14:46 INFO  domain.service.GetContactsService - User gets contact info: 188
+14-08 14:46 INFO  web.controller.ContactsController - Contact # 188 was updated
+14-08 14:46 INFO  domain.service.GetContactsService - User gets contact info: 188
+14-08 14:46 INFO  web.controller.SearchController - User uses filter for searching contacts
+14-08 14:47 INFO  domain.service.GetContactsService - User gets contact info: 114
+14-08 14:47 INFO  domain.service.GetContactsService - User gets contact info: 106
+14-08 14:47 INFO  domain.service.GetContactsService - User gets contact info: 106
+14-08 15:04 INFO  domain.service.GetContactsService - User gets contact info: 219
+14-08 15:06 INFO  web.controller.DeleteController - User deletes contacts: 106 103 107 
+14-08 15:09 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:10 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:12 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:12 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:12 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:12 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:17 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:17 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:21 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:21 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:22 INFO  web.controller.ContactsController - Contact # 64 was updated
+14-08 15:23 INFO  domain.service.GetContactsService - User gets contact info: 64
+14-08 15:26 INFO  domain.service.GetContactsService - User gets contact info: 119
+14-08 15:26 INFO  domain.service.GetContactsService - User gets contact info: 104
+14-08 15:27 INFO  domain.service.GetContactsService - User gets contact info: 1
+14-08 15:29 INFO  web.controller.MailController - User sends email
+14-08 15:31 INFO  domain.service.GetContactsService - User gets contact info: 114
+14-08 15:32 INFO  web.controller.ContactsController - New contact was created
+14-08 15:32 INFO  domain.service.GetContactsService - User gets contact info: 222
+14-08 15:34 INFO  domain.service.GetContactsService - User gets contact info: 219
+14-08 15:35 INFO  web.controller.SearchController - User uses filter for searching contacts
+14-08 15:35 INFO  web.controller.SearchController - User uses filter for searching contacts

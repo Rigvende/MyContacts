@@ -60,7 +60,6 @@ public class DbcpManager {
             connection = DbcpManager.createConnection();
             AutoCommitDisable(connection);
         } catch (DaoException | ClassNotFoundException e) {
-            e.printStackTrace();
             LOGGER.log(Level.ERROR,"Cannot take connection from pool", e);
         }
         return connection;
@@ -72,7 +71,6 @@ public class DbcpManager {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
                 LOGGER.log(Level.WARN,"Connection closing is failed", e);
             }
         }
@@ -84,7 +82,6 @@ public class DbcpManager {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                e.printStackTrace();
                 LOGGER.log(Level.WARN,"Connection rollback is failed", e);
             }
         }

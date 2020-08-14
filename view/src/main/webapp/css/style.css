@@ -143,10 +143,6 @@ input [type="submit"], input [type="button"], button {
 #attachmentsTable td {
     border: 1px solid #ddd;
     padding: 8px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
 }
 
 .overflow {

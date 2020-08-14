@@ -241,9 +241,8 @@ public class ContactsController extends HttpServlet {
     //set background task - daily birthdays checking
     private void setScheduler() {
         SchedulerFactory sf = new StdSchedulerFactory();
-        Scheduler scheduler;
         try {
-            scheduler = sf.getScheduler();
+            Scheduler scheduler = sf.getScheduler();
             scheduler.start();
             JobDetail job = newJob(MailJob.class)
                     .withIdentity(JOB, GROUP)
@@ -256,7 +255,6 @@ public class ContactsController extends HttpServlet {
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             LOGGER.log(Level.ERROR, "Error in birthday scheduler has occurred");
-            e.printStackTrace();
         }
     }
 

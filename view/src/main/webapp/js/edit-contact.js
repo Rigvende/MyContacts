@@ -60,6 +60,7 @@ function createTd(text, tr) {
     tr.appendChild(td);
 }
 
+//создание шапки таблицы
 function createTableHead() {
     phonesTable.innerHTML = '';
     th = document.createElement('tr');
