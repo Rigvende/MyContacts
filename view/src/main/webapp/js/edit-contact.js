@@ -266,7 +266,7 @@ function autofill() {
                                 checkbox = '<label><input type="checkbox" class="checkbox" value="'
                                     + attach.id_attachment + '"/></label>';
                                 var pathLink = '<a href="' + attach.a_path +
-                                    '" class="buttonLink" id="attachLink" download>' + attach.a_path + '</a>';
+                                    '" class="buttonLink" id="attachLink"' + 'download>' + attach.a_path + '</a>';
                                 createTd(checkbox, tr);
                                 createTd(pathLink, tr);
                                 createTd(attach.a_date, tr);

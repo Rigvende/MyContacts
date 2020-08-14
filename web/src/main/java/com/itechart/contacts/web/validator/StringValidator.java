@@ -138,7 +138,7 @@ public class StringValidator {
     public static boolean isValidFileName(String name) {
         Pattern pattern = Pattern.compile(CHECK_FILE_NAME);
         Matcher matcher = pattern.matcher(name);
-        return name.isEmpty() || (matcher.find() && isValidMiniText(name));
+        return name.isEmpty() || (matcher.find() && isValidTextLength(name));
     }
 
     //photo path

@@ -46,7 +46,7 @@
                 <div class="pageLabel">
                     <label for="birthdayField">День рождения</label>
                 </div>
-                <div >
+                <div>
                     <label>
                         <input form="contactSave" class="field" id="birthdayField" type="date" name="birthday"/>
                     </label>
@@ -54,11 +54,12 @@
                 <div class="pageLabel">
                     <label for="genderField">Пол</label>
                 </div>
-                <div id="genderField" class="field" >
+                <div id="genderField" class="field">
                     <label>
                         <input form="contactSave" name="gender" id='male' type="radio" value="male"> М
                         <input form="contactSave" name="gender" id='female' type="radio" value="female"> Ж
-                        <input form="contactSave" name="gender" id='unknown' type="radio" value="unknown" hidden checked>
+                        <input form="contactSave" name="gender" id='unknown' type="radio" value="unknown" hidden
+                               checked>
                     </label>
                 </div>
             </div>
@@ -121,9 +122,11 @@
                 <label class="popupPhoto">
                     <img class="stretch" src="../image/user_no_photo.png" id="searchImage" alt="фото">
                 </label>
-                <input form="contactSave" type="submit" class="pageButton stretch" id="saveButton" value="Cохранить">
+                <input form="contactSave" type="submit" class="pageButton stretch" id="saveButton"
+                       value="Cохранить">
                 <br>
-                <input type="button" class="pageButton stretch" style="outline: none" id="cancelEdit" value="Отмена">
+                <input type="button" class="pageButton stretch" style="outline: none" id="cancelEdit"
+                       value="Отмена">
             </div>
         </div>
         <div class="pagePanel">
@@ -131,26 +134,36 @@
                 <div class="subheader">
                     <h3>КОНТАКТНЫЕ ТЕЛЕФОНЫ</h3>
                     <div class="tableButtons">
-                        <input type="button" class="popupPhone pageButton small" id="createPhone" value="Добавить">
-                        <input type="button" class="popupPhone pageButton small" id="editPhone" value="Изменить">
-                        <input type="button" class="pageButton small" id="deletePhone" value="Удалить">
+                        <input type="button" class="popupPhone pageButton small" id="createPhone"
+                               value="Добавить">
+                        <input type="button" class="popupPhone pageButton small" id="editPhone"
+                               value="Изменить">
+                        <input type="button" class="pageButton small" id="deletePhone"
+                               value="Удалить">
                     </div>
                 </div>
-                <table id="phonesTable">
-                </table>
+                <div class="overflow">
+                    <table id="phonesTable" class="dataTable">
+                    </table>
+                </div>
                 <br>
             </div>
             <div class="contactColumn" style="padding-left: 30px; width: 50%">
                 <div class="subheader">
                     <h3>СПИСОК ВЛОЖЕНИЙ</h3>
                     <div class="tableButtons">
-                        <input type="button" class="popupAttachment pageButton small" id="createAttachment" value="Добавить">
-                        <input type="button" class="popupAttachment pageButton small" id="editAttachment" value="Изменить">
-                        <input type="button" class="pageButton small" id="deleteAttachment" value="Удалить">
+                        <input type="button" class="popupAttachment pageButton small" id="createAttachment"
+                               value="Добавить">
+                        <input type="button" class="popupAttachment pageButton small" id="editAttachment"
+                               value="Изменить">
+                        <input type="button" class="pageButton small" id="deleteAttachment"
+                               value="Удалить">
                     </div>
                 </div>
-                <table id="attachmentsTable">
-                </table>
+                <div class="overflow">
+                    <table id="attachmentsTable" class="dataTable">
+                    </table>
+                </div>
             </div>
         </div>
     </form>
