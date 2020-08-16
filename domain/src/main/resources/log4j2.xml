@@ -6,11 +6,15 @@
         </property>
     </properties>
     <appenders>
-        <file name="TxtFile"
-              fileName="C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\WEB-INF\log\data.log"
-              bufferedIO="true">
+        <RollingFile name="roll-by-time" fileName="C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\WEB-INF\log\started.log"
+                     filePattern="C:\Users\Администратор.000\IdeaProjects\Contacts_Patrusova\view\src\main\webapp\WEB-INF\log\started.%d{MM-dd-yyyy-HH-mm}.log"
+                     ignoreExceptions="false"
+                     append="true">
             <patternLayout pattern="${pattern}"/>
-        </file>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+        </RollingFile>
         <console name="Console" target="SYSTEM_OUT">
             <patternLayout pattern="${pattern}"/>
         </console>
@@ -18,8 +22,8 @@
     <loggers>
         <logger name= "com.itechart.contacts.domain" additivity="true"/>
         <root level="debug">
-            <appenderRef ref="TxtFile"/>
-            <appenderRef ref="Console"/>
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="roll-by-time" />
         </root>
     </loggers>
 </configuration>
