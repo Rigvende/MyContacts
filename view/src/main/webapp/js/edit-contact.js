@@ -263,12 +263,14 @@ function autofill() {
                                     attachmentPath.value = attach.a_path;
                                     loadDate.value = attach.a_date;
 
+                                    var nameDetails = attach.a_path.split("/");
+                                    var fileName = nameDetails[nameDetails.length - 1];
                                     tr = document.createElement('tr');
                                     attachTable.appendChild(tr);
                                     checkbox = '<label><input type="checkbox" class="checkbox" value="'
                                         + attach.id_attachment + '"/></label>';
                                     var pathLink = '<a href="' + attach.a_path +
-                                        '" class="buttonLink" id="attachLink"' + 'download>' + attach.a_path + '</a>';
+                                        '" class="buttonLink" id="attachLink"' + ' download>' + fileName + '</a>';
                                     createTd(checkbox, tr);
                                     createTd(pathLink, tr);
                                     createTd(attach.a_date, tr);
@@ -504,8 +506,10 @@ function addAttachment(event) {
         var idChbx = attachmentComment.closest('div').id;
         checkbox = '<label><input type="checkbox" class="checkbox" id="' + idChbx + '" value=""/></label>';
         var today = getToday();
+        var nameDetails = attachmentFile.value.split("\\");
+        var fileName = nameDetails[nameDetails.length - 1];
         createTd(checkbox, tr);
-        createTd(attachmentFile.value, tr);
+        createTd(fileName, tr);
         createTd(today, tr);
         createTd(attachmentComment.value, tr);
         attachmentCheckboxes = [];

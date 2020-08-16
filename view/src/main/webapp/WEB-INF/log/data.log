@@ -808,3 +808,10 @@ java.sql.SQLIntegrityConstraintViolationException: Column 'attachment_path' cann
 16-08 16:03 INFO  domain.service.GetContactsService - User gets contact info: 222
 16-08 16:06 INFO  domain.service.GetContactsService - User gets contact info: 119
 16-08 16:06 INFO  domain.service.GetContactsService - User gets contact info: 114
+16-08 16:54 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 16:56 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 16:56 INFO  web.controller.ContactsController - Contact # 188 was updated
+16-08 16:56 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 16:57 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 16:57 INFO  web.controller.ContactsController - Contact # 188 was updated
+16-08 16:57 INFO  domain.service.GetContactsService - User gets contact info: 188
