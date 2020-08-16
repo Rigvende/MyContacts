@@ -153,7 +153,7 @@ function addAttachmentForm() {
     divAttachment.classList.add('divAttachment');
     divAttachment.setAttribute('id', 'attachment' + ++attachmentCounter);
     divAttachment.innerHTML =  "<label>\n" +
-        "            <input form=\"contactSave\" class=\"field\" id=\"attachmentFile\" name=\"attachments[][file]\" size=\"5000\" type=\"file\"/>\n" +
+        "            <input form=\"contactSave\" class=\"field\" id=\"attachmentFile\" style=\"min-height: 50px\" name=\"attachments[][file]\" size=\"5000\" type=\"file\"/>\n" +
         "        </label>" +
         "        <label>\n" +
         "            <input form=\"contactSave\" type=\"text\" id=\"attachmentId\" name=\"attachments[][attachmentId]\" value=\"\" hidden>\n" +
@@ -787,6 +787,7 @@ function validate() {
     validateData(cityField);
     validateData(addressField);
     validateZip(zipField);
+    validateDate(birthdayField);
 }
 
 //валидация телефона

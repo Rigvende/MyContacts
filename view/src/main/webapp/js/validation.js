@@ -182,3 +182,14 @@ function validateId(id) {
     var regex = /^[\d]+$/;
     return regex.test(id);
 }
+
+//проверка даты
+function validateDate(date) {
+    if (date.value !== null && date.value.trim()) {
+        var regex = /^([\d]){4}-([\d]){1,2}-([\d]){1,2}$/;
+        if (!regex.test(date.value)) {
+            var error = generateError('Неподходящие данные');
+            date.parentElement.insertBefore(error, date);
+        }
+    }
+}

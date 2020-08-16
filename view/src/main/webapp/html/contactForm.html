@@ -26,6 +26,7 @@
     <form id="contactSave" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
         <div class="pagePanel">
             <div class="contactColumn">
+                <h3 style="margin-left: 10px">ОСНОВНЫЕ ДАННЫЕ:</h3>
                 <label for="idField"></label>
                 <input form="contactSave" type="text" class="field" id="idField" name="idContact" hidden/>
                 <div class="pageLabel">
@@ -48,7 +49,7 @@
                 </div>
                 <div>
                     <label>
-                        <input form="contactSave" class="field" id="birthdayField" type="date" name="birthday"/>
+                        <input form="contactSave" class="field" id="birthdayField" style="resize: none;" type="date" name="birthday"/>
                     </label>
                 </div>
                 <div class="pageLabel">
@@ -64,6 +65,7 @@
                 </div>
             </div>
             <div class="contactColumn">
+                <h3 style="margin-left: 10px">ДОПОЛНИТЕЛЬНО:</h3>
                 <div class="pageLabel">
                     <label for="siteField">Веб-сайт</label>
                 </div>
@@ -91,6 +93,7 @@
                        placeholder="Введите гражданство.."/>
             </div>
             <div class="contactColumn">
+                <h3 style="margin-left: 10px">АДРЕС:</h3>
                 <div class="pageLabel">
                     <label for="countryField">Страна</label>
                 </div>
@@ -113,6 +116,7 @@
                        placeholder="Введите почтовый индекс.."/>
             </div>
             <div class="contactColumn">
+                <h3 style="margin-left: 10px">ФОТО:</h3>
                 <label for="idPhoto"></label>
                 <input form="contactSave" type="text" class="field" id="idPhoto" name="idPhoto" hidden/>
                 <label for="statusPhoto"></label>
@@ -176,7 +180,7 @@
         <br>
         <p style="font-size: 18px">Загрузить новое фото:</p>
         <label>
-            <input class="field" form="contactSave" id="photo" name="picture" size="5000" accept="image/*" type="file"/>
+            <input class="field" style="min-height: 50px" form="contactSave" id="photo" name="picture" size="5000" accept="image/*" type="file"/>
         </label>
         <br><br>
         <div class="modalButtons">
