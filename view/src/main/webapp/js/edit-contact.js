@@ -263,12 +263,12 @@ function autofill() {
                                     attachmentPath.value = attach.a_path;
                                     loadDate.value = attach.a_date;
 
-                                    var nameDetails = attach.a_path.split("/");
-                                    var fileName = nameDetails[nameDetails.length - 1];
                                     tr = document.createElement('tr');
                                     attachTable.appendChild(tr);
                                     checkbox = '<label><input type="checkbox" class="checkbox" value="'
                                         + attach.id_attachment + '"/></label>';
+                                    var nameDetails = attach.a_path.split("/");
+                                    var fileName = nameDetails[nameDetails.length - 1];
                                     var pathLink = '<a href="' + attach.a_path +
                                         '" class="buttonLink" id="attachLink"' + ' download>' + fileName + '</a>';
                                     createTd(checkbox, tr);
