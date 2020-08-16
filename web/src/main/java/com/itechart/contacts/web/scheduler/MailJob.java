@@ -26,7 +26,7 @@ public class MailJob implements Job {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final static String LETTER = "Сегодня день рождения у ваших контактов: \n";
-    private final static String MAIL = "zvezdo4ka13@yandex.by"; //fixme задать адрес пользователя приложения
+    private final static String MAIL = "АДРЕС, НА КОТОРЫЙ ПРИХОДЯТ ЕЖЕДНЕВНЫЕ СООБЩЕНИЯ";
     private final static String HEADER = "Дни рождения";
 
     @Override
