@@ -83,7 +83,6 @@ function searchContacts(event) {
                 td.style.fontSize = '18px'
                 tr.appendChild(td);
             }
-            clearFilter();
         }
     };
     var url = "search?" + data;
@@ -92,6 +91,8 @@ function searchContacts(event) {
 }
 
 //очистка фильтра
+document.querySelector('#clearBtn').addEventListener('click', clearFilter);
+
 function clearFilter() {
     var clearFields = document.querySelectorAll('.field');
     clearFields.forEach(field => {

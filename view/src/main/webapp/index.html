@@ -44,7 +44,7 @@
         </ul>
     </div>
     <div class="column content">
-        <table id="contactsList">
+        <table class="table" id="contactsList">
         </table>
         <ul id="pagination">
         </ul>
@@ -103,8 +103,10 @@
     <div class="modalContent searchModal">
         <span class="close closeX">&times;</span>
         <br>
-        <p> ФИЛЬТР ПОИСКА </p>
+        ФИЛЬТР ПОИСКА
         <form id="searchForm" name="searchForm">
+            <div class="pagePanel">
+                <div class="contactColumn" style="width: 50%; font-size: 14px">
             <div class="pageLabel"><label for="nameField">Имя</label></div>
             <input type="text" class="field" id="nameField" name="contactName" placeholder="Введите имя.."/>
             <div class="pageLabel"><label for="surnameField">Фамилия</label></div>
@@ -133,6 +135,8 @@
                     <input name="gender" type="radio" value="unknown" hidden checked>
                 </label>
             </div>
+                </div>
+                <div class="contactColumn" style="width: 50%; font-size: 14px">
             <div class="pageLabel"><label for="statusField">Семейное положение</label></div>
             <input type="text" class="field" id="statusField" name="status" placeholder="Введите статус.."/>
             <div class="pageLabel"><label for="citizenshipField">Гражданство</label></div>
@@ -144,9 +148,11 @@
             <input type="text" class="field" id="cityField" name="city" placeholder="Введите город.."/>
             <div class="pageLabel"><label for="addressField">Улица</label></div>
             <input type="text" class="field" id="addressField" name="address" placeholder="Введите улицу.."/>
-            <br><br>
+                </div>
+            </div>
             <div class="modalButtons">
                 <input type="submit" id="searchBtn" class="pageButton modalBtn small" value="Поиск">
+                <input type="button" class="pageButton modalBtn small" id="clearBtn" value="Очистить">
                 <input type="button" class="close pageButton modalBtn small" value="Отмена">
             </div>
         </form>
