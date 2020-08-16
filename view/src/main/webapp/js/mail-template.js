@@ -35,20 +35,27 @@ function autofill() {
     if (x.length === 2) {
         var id = x[1];
         if (id != null && id.trim()) {
-            var request = new XMLHttpRequest();
-            request.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    var receiver = JSON.parse(this.responseText);
-                    if (receiver.email != null && receiver.email.trim()) {
-                        mail.value = receiver.email;
-                    } else {
-                        mail.value = "Адрес отстутствует. Обновите данные контакта.";
+            if (validateId(id)) {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        var receiver = JSON.parse(this.responseText);
+                        if (receiver.email != null && receiver.email.trim()) {
+                            mail.value = receiver.email;
+                        } else {
+                            mail.value = "Адрес отстутствует. Обновите данные контакта.";
+                        }
+                        templates = receiver.templates;
                     }
-                    templates = receiver.templates;
+                    if (this.status === 404) {
+                        document.location.href = "../html/error.html";
+                    }
                 }
+                request.open("GET", "../mail/" + id, true);
+                request.send();
+            } else {
+                document.location.href = "../html/error.html";
             }
-            request.open("GET", "../mail/" + id, true);
-            request.send();
         }
     }
 }

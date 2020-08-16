@@ -197,92 +197,99 @@ function autofill() {
     if (x.length === 2) {
         var id = x[1];
         if (id != null && id.trim()) {
-            var request = new XMLHttpRequest();
-            request.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    if (this.responseText != null && this.responseText.trim()) {
-                        var person = JSON.parse(this.responseText);
-                        idContact.value = id;
-                        if (person.photo_path != null && person.photo_path.trim()) {
-                            searchImage.src = person.photo_path;
+            if (validateId(id)) {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        if (this.responseText != null && this.responseText.trim()) {
+                            var person = JSON.parse(this.responseText);
+                            idContact.value = id;
+                            if (person.photo_path != null && person.photo_path.trim()) {
+                                searchImage.src = person.photo_path;
+                                idPhoto.value = person.idPhoto;
+                            } else {
+                                searchImage.src = "../image/user_no_photo.png";
+                            }
                             idPhoto.value = person.idPhoto;
-                        } else {
-                            searchImage.src = "../image/user_no_photo.png";
-                        }
-                        idPhoto.value = person.idPhoto;
-                        surnameField.value = person.surname;
-                        nameField.value = person.name;
-                        patronymicField.value = person.patronymic;
-                        birthdayField.value = person.birthday;
-                        var gender = document.querySelector('#' + person.gender);
-                        if (!gender.checked) {
-                            gender.checked = true;
-                        }
-                        statusField.value = person.status;
-                        citizenshipField.value = person.citizenship;
-                        siteField.value = person.website;
-                        emailField.value = person.email;
-                        workField.value = person.work;
-                        countryField.value = person.country;
-                        cityField.value = person.city;
-                        addressField.value = person.address;
-                        zipField.value = person.zipcode;
-
-                        if (person.phones) {
-                            for (var phone of person.phones) {
-                                addPhoneForm();
-                                phoneCountry.value = phone.p_country;
-                                phoneOperator.value = phone.p_operator;
-                                phoneNumber.value = phone.p_number;
-                                phoneType.value = phone.p_type;
-                                phoneComment.value = phone.p_comments;
-                                phoneId.value = phone.id_phone;
-
-                                tr = document.createElement('tr');
-                                phonesTable.appendChild(tr);
-                                checkbox = '<label><input type="checkbox" class="checkbox" value="'
-                                    + phone.id_phone + '"/></label>';
-                                var phoneNum = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
-                                createTd(checkbox, tr);
-                                createTd(phoneNum, tr);
-                                createTd(phone.p_type, tr);
-                                createTd(phone.p_comments, tr);
+                            surnameField.value = person.surname;
+                            nameField.value = person.name;
+                            patronymicField.value = person.patronymic;
+                            birthdayField.value = person.birthday;
+                            var gender = document.querySelector('#' + person.gender);
+                            if (!gender.checked) {
+                                gender.checked = true;
                             }
-                        }
-                        phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
-                        popupPhone.querySelectorAll('.divPhone').forEach(div => {
+                            statusField.value = person.status;
+                            citizenshipField.value = person.citizenship;
+                            siteField.value = person.website;
+                            emailField.value = person.email;
+                            workField.value = person.work;
+                            countryField.value = person.country;
+                            cityField.value = person.city;
+                            addressField.value = person.address;
+                            zipField.value = person.zipcode;
+
+                            if (person.phones) {
+                                for (var phone of person.phones) {
+                                    addPhoneForm();
+                                    phoneCountry.value = phone.p_country;
+                                    phoneOperator.value = phone.p_operator;
+                                    phoneNumber.value = phone.p_number;
+                                    phoneType.value = phone.p_type;
+                                    phoneComment.value = phone.p_comments;
+                                    phoneId.value = phone.id_phone;
+
+                                    tr = document.createElement('tr');
+                                    phonesTable.appendChild(tr);
+                                    checkbox = '<label><input type="checkbox" class="checkbox" value="'
+                                        + phone.id_phone + '"/></label>';
+                                    var phoneNum = phone.p_country + '/' + phone.p_operator + '/' + phone.p_number;
+                                    createTd(checkbox, tr);
+                                    createTd(phoneNum, tr);
+                                    createTd(phone.p_type, tr);
+                                    createTd(phone.p_comments, tr);
+                                }
+                            }
+                            phoneCheckboxes = phonesTable.querySelectorAll('.checkbox');
+                            popupPhone.querySelectorAll('.divPhone').forEach(div => {
                                 div.style.display = 'none';
-                        });
+                            });
 
-                        if (person.attachments) {
-                            for (var attach of person.attachments) {
-                                addAttachmentForm();
-                                attachmentId.value = attach.id_attachment;
-                                attachmentComment.value = attach.a_comments;
-                                attachmentPath.value = attach.a_path;
-                                loadDate.value = attach.a_date;
+                            if (person.attachments) {
+                                for (var attach of person.attachments) {
+                                    addAttachmentForm();
+                                    attachmentId.value = attach.id_attachment;
+                                    attachmentComment.value = attach.a_comments;
+                                    attachmentPath.value = attach.a_path;
+                                    loadDate.value = attach.a_date;
 
-                                tr = document.createElement('tr');
-                                attachTable.appendChild(tr);
-                                checkbox = '<label><input type="checkbox" class="checkbox" value="'
-                                    + attach.id_attachment + '"/></label>';
-                                var pathLink = '<a href="' + attach.a_path +
-                                    '" class="buttonLink" id="attachLink"' + 'download>' + attach.a_path + '</a>';
-                                createTd(checkbox, tr);
-                                createTd(pathLink, tr);
-                                createTd(attach.a_date, tr);
-                                createTd(attach.a_comments, tr);
+                                    tr = document.createElement('tr');
+                                    attachTable.appendChild(tr);
+                                    checkbox = '<label><input type="checkbox" class="checkbox" value="'
+                                        + attach.id_attachment + '"/></label>';
+                                    var pathLink = '<a href="' + attach.a_path +
+                                        '" class="buttonLink" id="attachLink"' + 'download>' + attach.a_path + '</a>';
+                                    createTd(checkbox, tr);
+                                    createTd(pathLink, tr);
+                                    createTd(attach.a_date, tr);
+                                    createTd(attach.a_comments, tr);
+                                }
                             }
+                            attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
+                            popupAttachment.querySelectorAll('.divAttachment').forEach(div => {
+                                div.style.display = 'none';
+                            });
                         }
-                        attachmentCheckboxes = attachTable.querySelectorAll('.checkbox');
-                        popupAttachment.querySelectorAll('.divAttachment').forEach(div => {
-                            div.style.display = 'none';
-                        });
+                    }
+                    if (this.status === 404) {
+                        document.location.href = "../html/error.html";
                     }
                 }
+                request.open('GET', '../contacts/' + id);
+                request.send();
+            } else {
+                document.location.href = "../html/error.html";
             }
-            request.open('GET', '../contacts/' + id);
-            request.send();
         }
     }
 }

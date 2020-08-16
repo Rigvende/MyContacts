@@ -31,6 +31,14 @@ input [type="submit"], input [type="button"], button {
     border-radius: 5px;
 }
 
+.error {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
 .buttonLink {
     text-decoration: none;
     border-radius: 30px;

@@ -41,4 +41,9 @@
     <param-value>/domain/src/main/resources/mail.properties</param-value>
   </context-param>
 
+  <error-page>
+    <error-code>404</error-code>
+    <location>/html/error.html</location>
+  </error-page>
+
 </web-app>

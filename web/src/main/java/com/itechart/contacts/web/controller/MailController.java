@@ -57,10 +57,14 @@ public class MailController extends HttpServlet {
             if (!id.isEmpty() && StringValidator.isValidId(id)) {
                 long contactId = Long.parseLong(id);
                 Contact contact = mailService.service(contactId, connection);
-                Map<String, Object> root = new HashMap<>();
-                root.put(CONTACT, contact);
-                Template temp = cfg.getTemplate(MAIL);
-                temp.process(root, out);
+                if (contact != null) {
+                    Map<String, Object> root = new HashMap<>();
+                    root.put(CONTACT, contact);
+                    Template temp = cfg.getTemplate(MAIL);
+                    temp.process(root, out);
+                } else {
+                    response.sendError(404, "Страница не найдена");
+                }
                 connection.commit();
             }
         } catch (TemplateException | ServiceException | SQLException e) {

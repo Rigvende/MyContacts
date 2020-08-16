@@ -779,3 +779,15 @@ java.sql.SQLIntegrityConstraintViolationException: Column 'attachment_path' cann
 14-08 15:34 INFO  domain.service.GetContactsService - User gets contact info: 219
 14-08 15:35 INFO  web.controller.SearchController - User uses filter for searching contacts
 14-08 15:35 INFO  web.controller.SearchController - User uses filter for searching contacts
+16-08 13:20 INFO  domain.service.GetContactsService - User gets contact info: 1
+16-08 13:45 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 13:46 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 13:47 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 13:47 INFO  domain.service.GetContactsService - User gets contact info: 219
+16-08 13:47 INFO  domain.service.GetContactsService - User gets contact info: 219
+16-08 13:55 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 13:55 INFO  domain.service.GetContactsService - User gets contact info: 219
+16-08 13:55 INFO  domain.service.GetContactsService - User gets contact info: 219
+16-08 13:59 INFO  domain.service.GetContactsService - User gets contact info: 188
+16-08 14:28 INFO  domain.service.GetContactsService - User gets contact info: 110
+16-08 14:28 INFO  domain.service.GetContactsService - User gets contact info: 188

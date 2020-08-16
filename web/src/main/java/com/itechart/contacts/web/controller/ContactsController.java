@@ -85,13 +85,19 @@ public class ContactsController extends HttpServlet {
         response.setContentType(TYPE);
         try (PrintWriter out = response.getWriter()) {
             String json = getContactsService.service(connection, id);
-            out.println(json);
+            if (!json.equals("{}")) {
+                out.println(json);
+            } else {
+                response.sendError(404, "Страница не найдена");
+            }
             connection.commit();
         } catch (ServiceException | SQLException e) {
             DbcpManager.rollBack(connection);
             e.printStackTrace();
             LOGGER.log(Level.ERROR, "Request process of finding contacts failed.");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Что-то пошло не так...");
+        } catch (IOException e) {
+            response.sendError(404, "Страница не найдена");
         } finally {
             DbcpManager.exit(connection);
         }

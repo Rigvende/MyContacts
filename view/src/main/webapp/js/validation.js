@@ -176,3 +176,9 @@ function validateSize(file) {
         file.parentElement.insertBefore(error, file);
     }
 }
+
+//проверка id
+function validateId(id) {
+    var regex = /^[\d]+$/;
+    return regex.test(id);
+}
