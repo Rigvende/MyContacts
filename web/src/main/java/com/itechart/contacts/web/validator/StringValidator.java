@@ -19,7 +19,7 @@ public class StringValidator {
     private final static String CHECK_NAME = "^[A-zА-яЁё]+([\\s-]+[A-zА-яЁё]+)?$";
     private final static String CHECK_PATRONYMIC = "^[A-zА-яЁё]+$";
     private final static String CHECK_DATA = "^[-)\\\\(.,A-zА-яЁё\\d\\s/]+$";
-    private final static String CHECK_EMAIL = "^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
+    private final static String CHECK_EMAIL = "^[-+\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
     private final static String CHECK_WEB = "([-\\w]+\\.)?([-\\w]+)\\.\\w+(?:\\.\\w+)?/?.*";
     private final static String CHECK_ZIP = "^[\\d]+[-]?[\\d]+$";
     private final static String CHECK_CODE = "^([-+\\d]){2,4}$";
@@ -47,11 +47,18 @@ public class StringValidator {
         return patronymic.isEmpty() || (matcher.find() && isValidMiniText(patronymic));
     }
 
-    //citizenship, family_status, work_place, country, city, address
+    //citizenship, family_status, country, city, address
     public static boolean isValidData(String data) {
         Pattern pattern = Pattern.compile(CHECK_DATA);
         Matcher matcher = pattern.matcher(data);
         return data.isEmpty() || (matcher.find() && isValidMiniText(data));
+    }
+
+    //work
+    public static boolean isValidWork(String data) {
+        Pattern pattern = Pattern.compile(CHECK_DATA);
+        Matcher matcher = pattern.matcher(data);
+        return data.isEmpty() || (matcher.find() && data.length() <= 100);
     }
 
     //email

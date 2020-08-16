@@ -92,7 +92,7 @@ function addPhoneForm() {
         "                    Код страны\n" +
         "                </td>\n" +
         "                <td><label>\n" +
-        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneCountry\" type=\"text\" name=\"phones[][countryCode]\" value=\"\"/>\n" +
+        "                    <input form=\"contactSave\" maxlength=\"4\" class=\"field\" id=\"phoneCountry\" type=\"text\" name=\"phones[][countryCode]\" value=\"\"/>\n" +
         "                </label></td>\n" +
         "            </tr>\n" +
         "            <tr>\n" +
@@ -100,7 +100,7 @@ function addPhoneForm() {
         "                    Код оператора\n" +
         "                </td>\n" +
         "                <td><label>\n" +
-        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneOperator\" type=\"text\" name=\"phones[][operatorCode]\" value=\"\"/>\n" +
+        "                    <input form=\"contactSave\" maxlength=\"4\" class=\"field\" id=\"phoneOperator\" type=\"text\" name=\"phones[][operatorCode]\" value=\"\"/>\n" +
         "                </label></td>\n" +
         "            </tr>\n" +
         "            <tr>\n" +
@@ -108,7 +108,7 @@ function addPhoneForm() {
         "                    Номер\n" +
         "                </td>\n" +
         "                <td><label>\n" +
-        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneNumber\" type=\"text\" name=\"phones[][number]\" value=\"\"/>\n" +
+        "                    <input form=\"contactSave\" maxlength=\"10\" class=\"field\" id=\"phoneNumber\" type=\"text\" name=\"phones[][number]\" value=\"\"/>\n" +
         "                </label></td>\n" +
         "            </tr>\n" +
         "            <tr>\n" +
@@ -129,7 +129,7 @@ function addPhoneForm() {
         "                    Комментарий\n" +
         "                </td>\n" +
         "                <td><label>\n" +
-        "                    <input form=\"contactSave\" class=\"field\" id=\"phoneComment\" type=\"text\" name=\"phones[][phoneComment]\" value=\"\"/>\n" +
+        "                    <input form=\"contactSave\" maxlength=\"255\" class=\"field\" id=\"phoneComment\" type=\"text\" name=\"phones[][phoneComment]\" value=\"\"/>\n" +
         "                </label></td>\n" +
         "            </tr>\n" +
         "        </table>\n" +
@@ -164,7 +164,7 @@ function addAttachmentForm() {
         "                    Комментарий\n" +
         "                </td>\n" +
         "                <td><label>\n" +
-        "                    <input form=\"contactSave\" class=\"field\" id=\"attachmentComment\" type=\"text\" name=\"attachments[][attachmentComment]\" value=\"\"/>\n" +
+        "                    <input form=\"contactSave\" maxlength=\"255\" class=\"field\" id=\"attachmentComment\" type=\"text\" name=\"attachments[][attachmentComment]\" value=\"\"/>\n" +
         "                </label></td>\n" +
         "            </tr>\n" +
         "        </table>\n" +
@@ -780,7 +780,7 @@ function validate() {
     validateBirthday(birthdayField);
     validateEmail(emailField);
     validateSite(siteField);
-    validateData(workField);
+    validateWork(workField);
     validateData(statusField);
     validateData(citizenshipField);
     validateData(countryField);
@@ -820,4 +820,5 @@ function validatePhoto() {
         errors[i].remove();
     }
     validateSize(photo);
+    validateExt(photo);
 }

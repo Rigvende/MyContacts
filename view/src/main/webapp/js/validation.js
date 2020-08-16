@@ -92,10 +92,21 @@ function validateSite(site) {
 function validateEmail(mail) {
     validateLength(mail);
     if (mail.value !== null && mail.value.trim()) {
-        var regex = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
+        var regex = /^[-+\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
         if (!regex.test(mail.value) || mail.value.length < 10) {
             var error = generateError('Неподходящие данные для e-mail');
             mail.parentElement.insertBefore(error, mail);
+        }
+    }
+}
+
+//проверка работы
+function validateWork(data) {
+    if (data.value !== null && data.value.trim()) {
+        var regex = /^[-)\\(.,A-Za-zА-Яа-яЁё\d\s\/]+$/;
+        if (!regex.test(data.value) || data.value.length > 100) {
+            var error = generateError('Неподходящие данные');
+            data.parentElement.insertBefore(error, data);
         }
     }
 }
@@ -173,6 +184,16 @@ function validateLengthMail(text) {
 function validateSize(file) {
     if (file.files[0].size > 5000 * 1024) {
         var error = generateError('Размер файла превышает 5 мБ');
+        file.parentElement.insertBefore(error, file);
+    }
+}
+
+//проверка размера файла
+function validateExt(file) {
+    var ext = file.files[0].type.toLowerCase();
+    if (ext !== 'image/jpg' && ext !== 'image/jpeg' && ext !== 'image/png'
+        && ext !== 'image/gif' && ext !== 'image/bmp' && ext !== 'image/svg') {
+        var error = generateError('Изображение имеет неправильное расширение');
         file.parentElement.insertBefore(error, file);
     }
 }

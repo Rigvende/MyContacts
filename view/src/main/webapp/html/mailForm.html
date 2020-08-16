@@ -27,19 +27,19 @@
         </div>
         <div class="pageColumn">
             <form id="mailForm">
-                <div class="pageLabel"><label for="emailField">Кому</label></div>
-                <input type="text" class="field" id="emailField" name="to" placeholder="Введите адрес.."/>
-                <div class="pageLabel"><label for="templateField">Выбор шаблона</label></div>
+                <div class="pageLabel"><label for="emailField">E-mail:</label></div>
+                <input type="text" maxlength="255" class="field" id="emailField" name="to" placeholder="Введите адрес.."/>
+                <div class="pageLabel"><label for="templateField">Выбор шаблона:</label></div>
                 <select id="templateField" class="field" name="template">
                     <option value="unknown" selected="selected">Без шаблона</option>
                     <option value="template1">С днём рожденья</option>
                     <option value="template2">Хочу встретиться</option>
                     <option value="template3">Выражаю благодарность</option>
                 </select>
-                <div class="pageLabel"><label for="headerField">Тема</label></div>
-                <input type="text" class="field" id="headerField" name="subject" placeholder="Введите заголовок.."/>
-                <div class="pageLabel"><label for="messageField">Сообщение</label></div>
-                <textarea id="messageField" class="field" name="body" placeholder="Написать сообщение.."></textarea>
+                <div class="pageLabel"><label for="headerField">Тема:</label></div>
+                <input type="text" maxlength="255" class="field" id="headerField" name="subject" placeholder="Введите заголовок.."/>
+                <div class="pageLabel"><label for="messageField">Сообщение:</label></div>
+                <textarea id="messageField" maxlength="1000" class="field" name="body" placeholder="Написать сообщение.."></textarea>
                 <input type="submit" class="pageButton" id="sendButton" value="Отправить">
                 <input type="button" class="pageButton" id="cancelMail" value="Отмена">
             </form>

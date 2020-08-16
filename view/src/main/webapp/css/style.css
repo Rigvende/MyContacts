@@ -31,7 +31,7 @@ input [type="submit"], input [type="button"], button {
     border-radius: 5px;
 }
 
-.error {
+.errors {
     max-width: 300px;
     margin: 0 auto;
     padding: 20px;

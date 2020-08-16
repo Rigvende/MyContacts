@@ -145,7 +145,7 @@ public class RequestEntityBuilder {
                 && StringValidator.isValidDate(birthday) && StringValidator.isValidGender(gender)
                 && StringValidator.isValidData(citizenship) && StringValidator.isValidData(familyStatus)
                 && StringValidator.isValidWebsite(website) && StringValidator.isValidEmail(email)
-                && StringValidator.isValidData(work) && StringValidator.isValidData(country)
+                && StringValidator.isValidWork(work) && StringValidator.isValidData(country)
                 && StringValidator.isValidData(city) && StringValidator.isValidData(location)
                 && StringValidator.isValidZipcode(zipcode) && StringValidator.isValidId(photoId);
     }
