@@ -2,6 +2,7 @@
 ----------------------------*/
 * {
     box-sizing: border-box;
+    outline: none !important;
 }
 
 .header, .footer {
@@ -43,6 +44,11 @@ input [type="submit"], input [type="button"], button {
     text-decoration: none;
     border-radius: 30px;
     color: #0b82ff;
+    outline: none;
+}
+
+.buttonLink:active, .buttonLink:focus {
+    outline: none;
 }
 
 .buttonLink:hover, .buttonLink:visited {
@@ -64,6 +70,11 @@ input [type="submit"], input [type="button"], button {
     cursor: pointer;
     border-radius: 30px;
     width: 150px;
+    outline: none;
+}
+
+.pageButton:active, .pageButton:focus {
+    outline: none;
 }
 
 .pageButton:hover {
